@@ -1,0 +1,4 @@
+# requirements.txt
+flask
+firebase_admin
+google-cloud-secret-manager==2.0.0
