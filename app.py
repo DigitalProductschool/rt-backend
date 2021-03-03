@@ -5,7 +5,16 @@ import os
 from flask import Flask, request, jsonify
 from firebase_admin import credentials, firestore, initialize_app
 from google.cloud import secretmanager
+from dotenv import load_dotenv
 import json
+
+# IF not defined loads enviornment variable specified in .env file
+if "GOOGLE_APPLICATION_CREDENTIALS" in os.environ: 
+    pass
+else:
+    load_dotenv()
+    GOOGLE_APPLICATION_CREDENTIALS = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+
 
 # retrieve secrets from Google Cloud Secret Manager
 def access_secret_version(secret_id, version_id="latest"):
