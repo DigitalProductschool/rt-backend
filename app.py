@@ -52,3 +52,22 @@ def read():
             return jsonify(all_batches), 200
     except Exception as e:
         return f"An Error Occured: {e}"
+
+
+@app.route('/batches/applicants', methods=['GET'])
+def read_applicants_list():
+    batches = db.collection('batches')
+    participants_details=''
+    try:
+        # Check if ID was passed to URL query
+        batch_id = request.args.get('id')
+        if batch_id:
+            applications = batches.document('batch-'+str(batch_id)).collection('applications')
+            participants_details = [doc.to_dict() for doc in applications.stream()]
+            return jsonify(participants_details), 200
+        else:
+            return "Please specify the batch", 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+     
