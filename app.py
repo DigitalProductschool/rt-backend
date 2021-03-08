@@ -7,6 +7,7 @@ from firebase_admin import credentials, firestore, initialize_app
 from google.cloud import secretmanager
 import json
 
+
 # retrieve secrets from Google Cloud Secret Manager
 def access_secret_version(secret_id, version_id="latest"):
     # Create the Secret Manager client.
@@ -51,9 +52,3 @@ def read():
             return jsonify(all_batches), 200
     except Exception as e:
         return f"An Error Occured: {e}"
-
-
-
-port = int(os.environ.get('PORT', 8080))
-if __name__ == '__main__':
-    app.run(threaded=True, host='0.0.0.0', port=port)
