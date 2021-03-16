@@ -52,3 +52,6 @@ def read():
             return jsonify(all_batches), 200
     except Exception as e:
         return f"An Error Occured: {e}"
+
+if __name__ == '__main__':
+    app.run(port=int(os.environ.get('PORT', 8080)))
