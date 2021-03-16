@@ -71,3 +71,6 @@ def read_applicants_list():
         return f"An Error Occurred: {e}"
 
      
+
+if __name__ == '__main__':
+    app.run(port=int(os.environ.get('PORT', 8080)))
