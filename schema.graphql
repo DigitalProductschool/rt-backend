@@ -5,5 +5,5 @@ type Applicant {
 }
 
 type Query {
-  applicants: [Applicant!]
+  applicants(batch_id: Int!): [Applicant!]
 }
