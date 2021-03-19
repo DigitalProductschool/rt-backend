@@ -1,0 +1,9 @@
+type Applicant {
+  id: String!
+  name: String!
+  surname: String!
+}
+
+type Query {
+  applicants: [Applicant!]
+}
