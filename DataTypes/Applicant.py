@@ -1,9 +1,9 @@
-
-from uuid import uuid4
-class Applicant:
-   def __init__(self, name, surname):
+class Applicant():
+   def __init__(self, name, batch, email):
        self.name = name
-       self.surname = surname
-       self.id = uuid4()
+       self.batch = batch
+       self.email = email
+
+
 
        

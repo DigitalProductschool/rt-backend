@@ -1,7 +1,7 @@
 type Applicant {
-  id: String!
   name: String!
-  surname: String!
+  batch: String!
+  email: String!
 }
 
 type Query {

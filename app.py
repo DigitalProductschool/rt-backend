@@ -3,46 +3,22 @@
 import os
 from flask import Flask, request, jsonify
 from ariadne import graphql_sync, make_executable_schema, gql, load_schema_from_path
-from firebase_admin import credentials, firestore, initialize_app
-from google.cloud import secretmanager
-import json
 from ariadne.constants import PLAYGROUND_HTML
 from models import query
 from flask_cors import CORS
-
-
-# retrieve secrets from Google Cloud Secret Manager
-def access_secret_version(secret_id, version_id="latest"):
-    # Create the Secret Manager client.
-    client = secretmanager.SecretManagerServiceClient()
-
-    # Build the resource name of the secret version.
-    name = f"projects/unternehmertum-recruiting-tool/secrets/{secret_id}/versions/1"
-
-    # Access the secret version.
-    response = client.access_secret_version(name=name)
-
-    # Return the decoded payload.
-    return json.loads(response.payload.data.decode('UTF-8'))
+from database import db
 
 
 # Initialize Flask app
 app = Flask(__name__)
 CORS(app)
 
-# Initialize Firestore DB
-firebase_json = access_secret_version("firebase-staging-serviceaccount")
-cred = credentials.Certificate(firebase_json)
-default_app = initialize_app(cred)
-db = firestore.client()
 details_ref = db.collection('batch-details')
 
 ###################### GRAPHQL API #######################
 
 type_defs = gql(load_schema_from_path("./schema.graphql"))
 schema = make_executable_schema(type_defs, query)
-
-
 
 @app.route("/graphql", methods=["GET"])
 def graphql_playground():
