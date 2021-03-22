@@ -13,7 +13,7 @@ from database import db
 app = Flask(__name__)
 CORS(app)
 
-details_ref = db.collection('batch-details')
+batch_details = db.collection('batch-details')
 
 ###################### GRAPHQL API #######################
 
@@ -51,10 +51,10 @@ def read():
         # Check if ID was passed to URL query
         batch_id = request.args.get('id')
         if batch_id:
-            batch = details_ref.document(batch_id).get()
+            batch = batch_details.document(batch_id).get()
             return jsonify(batch.to_dict()), 200
         else:
-            all_batches = [doc.to_dict() for doc in details_ref.stream()]
+            all_batches = [doc.to_dict() for doc in batch_details.stream()]
             return jsonify(all_batches), 200
     except Exception as e:
         return f"An Error Occured: {e}"
