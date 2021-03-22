@@ -1,7 +1,26 @@
+enum Track {
+  SE
+  AI
+  PM
+  UX
+  AC
+}
+
+type Document {
+  bucket: String!
+  name: String!
+}
+
 type Applicant {
   name: String!
-  batch: String!
+  batch: Int!
+  track: String! 
   email: String!
+  cv: Document!
+  consent: String!
+  scholarship: String
+  coverLetter: String
+  source: String
 }
 
 type Query {
