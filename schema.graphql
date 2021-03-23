@@ -1,0 +1,45 @@
+
+scalar Date
+
+enum Track {
+  SE
+  AI
+  PM
+  UX
+  AC
+}
+
+type Document {
+  bucket: String!
+  name: String!
+}
+
+type Applicant {
+  name: String!
+  batch: Int!
+  track: String! 
+  email: String!
+  cv: Document!
+  consent: String!
+  scholarship: String
+  coverLetter: String
+  source: String
+}
+
+type Batch {
+  batch: Int!
+  startDate: Date!
+  endDate: Date!
+  appStartDate: Date!
+  appEndDate: Date!
+  appEndDateAI: Date!
+  appEndDateIXD: Date!
+  appEndDatePM: Date!
+  appEndDateSE: Date!
+}
+
+
+type Query {
+  applicants(batch_id: Int!): [Applicant!]
+  batches(batch_id: Int): [Batch!]
+}

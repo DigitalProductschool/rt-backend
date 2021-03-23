@@ -15,3 +15,16 @@ Note: It is important to install python-dotenv library - when installed it will 
 python -m flask run
 
 Note: Running the app with the command python app.py will not load the enviornment variables from the .env file.
+
+### usage of graphql API
+run python -m flask run
+go to the server /graphql endpoint 
+insert the query in the following form with desired parameters:
+
+query {
+        applicants (batch_id: 12) {
+          name
+          batch
+          email
+        }
+}
