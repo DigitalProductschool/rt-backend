@@ -1,6 +1,6 @@
 from ariadne import QueryType, ScalarType
 from database import db
-from DataTypes.Applicant import Applicant, Document
+from DataTypes.Applicant import Applicant
 from DataTypes.Batch import Batch
 
 batch_details = db.collection('batch-details')
@@ -22,7 +22,8 @@ def resolve_applicants(_, info, batch_id):
                               application['coverLetter'],
                               application['cv'],
                               application['scholarship'],
-                              application['source']    
+                              application['source'],
+                              application['gender']    
                               )
         Applicants.append(applicant)
     return Applicants

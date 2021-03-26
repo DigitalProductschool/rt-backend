@@ -1,5 +1,4 @@
 #appEndDate - application End Date
-
 class Batch():
     def __init__(self, batch, startDate, endDate, appStartDate, appEndDate, appEndDateAI, appEndDateIXD, appEndDatePM, appEndDateSE):
        self.batch = batch
