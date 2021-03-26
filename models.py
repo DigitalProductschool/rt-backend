@@ -33,7 +33,6 @@ def resolve_batches(_, info, batch_id):
     Batches = []
     if batch_id:
         batch = batch_details.document(str(batch_id)).get().to_dict()
-        # batch = Batch(**batch)
         batch = Batch(batch['batch'],
                       batch['startDate'],
                       batch['endDate'],
@@ -49,7 +48,6 @@ def resolve_batches(_, info, batch_id):
     else:
         all_batches = [doc.to_dict() for doc in batch_details.stream()]
         for batch in all_batches:
-            # batch = Batch(**batch)
             batch = Batch(batch['batch'],
                           batch['startDate'],
                           batch['endDate'],

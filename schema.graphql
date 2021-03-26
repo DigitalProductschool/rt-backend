@@ -10,8 +10,8 @@ enum Track {
 }
 
 type Document {
-  bucket: String!
-  name: String!
+  bucket: String
+  name: String
 }
 
 type Applicant {
@@ -22,7 +22,7 @@ type Applicant {
   cv: Document!
   consent: String!
   scholarship: String
-  coverLetter: String
+  coverLetter: Document
   source: String
 }
 
