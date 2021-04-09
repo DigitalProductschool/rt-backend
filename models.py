@@ -1,6 +1,6 @@
 from ariadne import QueryType, ScalarType
 from database import db
-from DataTypes.Applicant import Applicant, Document
+from DataTypes.Applicant import Applicant
 from DataTypes.Batch import Batch
 
 batch_details = db.collection('batch-details')
@@ -9,7 +9,7 @@ query = QueryType()
 
 @query.field("applicants")
 def resolve_applicants(_, info, batch_id):
-    Applicants = []
+    applicants = []
     applications = batches.document('batch-' + str(batch_id)).collection('applications')
     applications = [doc.to_dict() for doc in applications.stream()]
 
@@ -22,18 +22,18 @@ def resolve_applicants(_, info, batch_id):
                               application['coverLetter'],
                               application['cv'],
                               application['scholarship'],
-                              application['source']    
+                              application['source'],
+                              application['gender']    
                               )
-        Applicants.append(applicant)
-    return Applicants
+        applicants.append(applicant)
+    return applicants
 
 
 @query.field("batches")
 def resolve_batches(_, info, batch_id):
-    Batches = []
+    batches = []
     if batch_id:
         batch = batch_details.document(str(batch_id)).get().to_dict()
-        # batch = Batch(**batch)
         batch = Batch(batch['batch'],
                       batch['startDate'],
                       batch['endDate'],
@@ -44,12 +44,11 @@ def resolve_batches(_, info, batch_id):
                       batch['appEndDate-pm'],
                       batch['appEndDate-se']    
                      )
-        Batches.append(batch)
-        return Batches
+        batches.append(batch)
+        return batches
     else:
         all_batches = [doc.to_dict() for doc in batch_details.stream()]
         for batch in all_batches:
-            # batch = Batch(**batch)
             batch = Batch(batch['batch'],
                           batch['startDate'],
                           batch['endDate'],
@@ -60,5 +59,5 @@ def resolve_batches(_, info, batch_id):
                           batch['appEndDate-pm'],
                           batch['appEndDate-se']
                          )               
-            Batches.append(batch)
-    return Batches
+            batches.append(batch)
+    return batches
