@@ -1,6 +1,6 @@
-from DataTypes.Document import Document
-from DataTypes.Track import Track
-from DataTypes.Gender import Gender
+from Backend.DataTypes.Document import Document
+from Backend.DataTypes.Track import Track
+from Backend.DataTypes.Gender import Gender
 
 class Applicant():
    def __init__(self, name, batch, track, email, consent, coverLetter, cv, scholarship, source, gender):

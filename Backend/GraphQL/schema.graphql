@@ -30,8 +30,6 @@ type Batch {
   appEndDatePM: Date!
   appEndDateSE: Date!
 }
-
-
 type Query {
   applicants(batch_id: Int!): [Applicant!]
   batches(batch_id: Int): [Batch!]

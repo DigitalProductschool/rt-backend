@@ -6,3 +6,4 @@ python-dotenv
 flask-cors
 ariadne
 gunicorn
+Authlib==0.15.3
