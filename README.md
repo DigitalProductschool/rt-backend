@@ -12,12 +12,9 @@
 Note: It is important to install python-dotenv library - when installed it will automatically pull the enviornment variables from the .env file 
 
 ### run the app
-python -m flask run
-
-Note: Running the app with the command python app.py will not load the enviornment variables from the .env file.
+python run.py
 
 ### usage of graphql API
-run python -m flask run
 go to the server /graphql endpoint 
 insert the query in the following form with desired parameters:
 

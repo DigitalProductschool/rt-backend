@@ -1,32 +1,38 @@
-from ariadne import QueryType, ScalarType
-from database import db
-from DataTypes.Applicant import Applicant
-from DataTypes.Batch import Batch
+from ariadne import QueryType
+from Backend.database import db
+from Backend.DataTypes.Applicant import Applicant
+from Backend.DataTypes.Batch import Batch
 
 batch_details = db.collection('batch-details')
 batches = db.collection('batches')
 query = QueryType()
 
+
 @query.field("applicants")
 def resolve_applicants(_, info, batch_id):
-    applicants = []
-    applications = batches.document('batch-' + str(batch_id)).collection('applications')
-    applications = [doc.to_dict() for doc in applications.stream()]
+    try:
+        applicants = []
+        applications = batches.document(
+            'batch-' + str(batch_id)).collection('applications')
+        applications = [doc.to_dict() for doc in applications.stream()]
 
-    for application in applications:
-        applicant = Applicant(application['name'],
-                              application['batch'],
-                              application['track'],
-                              application['email'],
-                              application['consent'],
-                              application['coverLetter'],
-                              application['cv'],
-                              application['scholarship'],
-                              application['source'],
-                              application['gender']    
-                              )
-        applicants.append(applicant)
-    return applicants
+        for application in applications:
+            applicant = Applicant(application['name'],
+                                  application['batch'],
+                                  application['track'],
+                                  application['email'],
+                                  application['consent'],
+                                  application['coverLetter'],
+                                  application['cv'],
+                                  application['scholarship'],
+                                  application['source'],
+                                  application['gender']
+                                  )
+            applicants.append(applicant)
+        return applicants
+    except:
+        print("User does not have permissions")
+        return None
 
 
 @query.field("batches")
@@ -42,8 +48,8 @@ def resolve_batches(_, info, batch_id):
                       batch['appEndDate-ai'],
                       batch['appEndDate-ixd'],
                       batch['appEndDate-pm'],
-                      batch['appEndDate-se']    
-                     )
+                      batch['appEndDate-se']
+                      )
         batches.append(batch)
         return batches
     else:
@@ -58,6 +64,6 @@ def resolve_batches(_, info, batch_id):
                           batch['appEndDate-ixd'],
                           batch['appEndDate-pm'],
                           batch['appEndDate-se']
-                         )               
+                          )
             batches.append(batch)
     return batches

@@ -6,4 +6,4 @@ COPY . /app
 WORKDIR /app
 RUN pip install -r requirements.txt
 
-CMD exec gunicorn --bind :$PORT app:app --workers 3 --threads 8 --timeout 60
+CMD exec gunicorn --bind :$PORT run:app --workers 3 --threads 8 --timeout 60
