@@ -13,7 +13,9 @@ def create_app(config_class=Config):
     cors.init_app(app)
     
     from Backend.GraphQL.routes import graphql
+    from Backend.Authentication.verify_token import authentication
 
     app.register_blueprint(graphql)
-
+    app.register_blueprint(authentication)
+    
     return app

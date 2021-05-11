@@ -2,6 +2,8 @@ from ariadne import QueryType
 from Backend.database import db
 from Backend.DataTypes.Applicant import Applicant
 from Backend.DataTypes.Batch import Batch
+from flask import jsonify
+from Backend.Authentication.verify_token import get_user_context
 
 batch_details = db.collection('batch-details')
 batches = db.collection('batches')
@@ -34,11 +36,12 @@ def resolve_applicants(_, info, batch_id):
         print("User does not have permissions")
         return None
 
-
 @query.field("batches")
 def resolve_batches(_, info, batch_id):
-    batches = []
-    if batch_id:
+    authentication = get_user_context(info)
+    if (authentication):
+      batches = []
+      if batch_id:
         batch = batch_details.document(str(batch_id)).get().to_dict()
         batch = Batch(batch['batch'],
                       batch['startDate'],
@@ -53,17 +56,4 @@ def resolve_batches(_, info, batch_id):
         batches.append(batch)
         return batches
     else:
-        all_batches = [doc.to_dict() for doc in batch_details.stream()]
-        for batch in all_batches:
-            batch = Batch(batch['batch'],
-                          batch['startDate'],
-                          batch['endDate'],
-                          batch['appStartDate'],
-                          batch['appEndDate'],
-                          batch['appEndDate-ai'],
-                          batch['appEndDate-ixd'],
-                          batch['appEndDate-pm'],
-                          batch['appEndDate-se']
-                          )
-            batches.append(batch)
-    return batches
+        print("Error")
