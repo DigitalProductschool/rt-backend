@@ -1,18 +1,24 @@
+from Backend.DataTypes.AuthenticationException import AuthenticationException
 from ariadne import QueryType
+from ariadne import UnionType
 from Backend.database import db
 from Backend.DataTypes.Applicant import Applicant
 from Backend.DataTypes.Batch import Batch
 from flask import jsonify
 from Backend.Authentication.verify_token import get_user_context
+from Backend.DataTypes.ApplicantList import ApplicantList
+from Backend.DataTypes.BatchList import BatchList
 
 batch_details = db.collection('batch-details')
 batches = db.collection('batches')
 query = QueryType()
 
 
+
 @query.field("applicants")
 def resolve_applicants(_, info, batch_id):
-    try:
+    authentication = get_user_context(info)
+    if (authentication):
         applicants = []
         applications = batches.document(
             'batch-' + str(batch_id)).collection('applications')
@@ -20,25 +26,24 @@ def resolve_applicants(_, info, batch_id):
 
         for application in applications:
             applicant = Applicant(application['name'],
-                                  application['batch'],
-                                  application['track'],
-                                  application['email'],
-                                  application['consent'],
-                                  application['coverLetter'],
-                                  application['cv'],
-                                  application['scholarship'],
-                                  application['source'],
-                                  application['gender']
-                                  )
+                                application['batch'],
+                                application['track'],
+                                application['email'],
+                                application['consent'],
+                                application['coverLetter'],
+                                application['cv'],
+                                application['scholarship'],
+                                application['source'],
+                                application['gender']
+                                )
             applicants.append(applicant)
-        return applicants
-    except:
-        print("User does not have permissions")
-        return None
+        return ApplicantList(applicants)
+    else:
+        return AuthenticationException(404, "User does not have permissions")
+
 
 @query.field("batches")
 def resolve_batches(_, info, batch_id):
-    print(info.context)
     authentication = get_user_context(info)
     if (authentication):
       batches = []
@@ -55,6 +60,26 @@ def resolve_batches(_, info, batch_id):
                       batch['appEndDate-se']
                       )
         batches.append(batch)
-        return batches
+        return BatchList(batches)
     else:
-        print("Error")
+        return AuthenticationException(404, "User does not have permissions")
+
+
+ApplicantsQueryResult = UnionType("ApplicantsQueryResult")
+@ApplicantsQueryResult.type_resolver
+def resolve_applicants_query_result(obj, *_):
+    if isinstance(obj, ApplicantList):
+        return "ApplicantList"
+    if isinstance(obj, AuthenticationException):
+        return "AuthenticationException"
+    return None
+
+
+BatchesQueryResult = UnionType("BatchesQueryResult")
+@BatchesQueryResult.type_resolver
+def resolve_batches_query_result(obj, *_):
+    if isinstance(obj, BatchList):
+        return "BatchList"
+    if isinstance(obj, AuthenticationException):
+        return "AuthenticationException"
+    return None

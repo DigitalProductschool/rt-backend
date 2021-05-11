@@ -18,10 +18,17 @@ python run.py
 go to the server /graphql endpoint 
 insert the query in the following form with desired parameters:
 
-query {
-        applicants (batch_id: 12) {
-          name
-          batch
-          email
-        }
-}
+  query {
+    applicants(batch_id: 14) {
+	... on ApplicantList{
+		list {
+      name
+      track
+    }
+	}
+	... on AuthenticationException{
+		message
+	}
+    }
+  }
+
