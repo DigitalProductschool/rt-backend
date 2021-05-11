@@ -38,6 +38,7 @@ def resolve_applicants(_, info, batch_id):
 
 @query.field("batches")
 def resolve_batches(_, info, batch_id):
+    print(info.context)
     authentication = get_user_context(info)
     if (authentication):
       batches = []
