@@ -31,8 +31,7 @@ def graphql_server():
     success, result = graphql_sync(
         schema,
         data,
-        # the token will be passed via frontend, this is just temporary for testing
-        context_value={"token": "123131", "request": request},
+        context_value=request,
         debug=app.debug
     )
     status_code = 200 if success else 400
