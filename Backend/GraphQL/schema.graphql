@@ -30,7 +30,25 @@ type Batch {
   appEndDatePM: Date!
   appEndDateSE: Date!
 }
+
+type AuthenticationException {
+  code: Int
+  message: String
+}
+
+type ApplicantList {
+  list: [Applicant!]
+}
+
+type BatchList {
+  list: [Batch!]
+}
+
+union ApplicantsQueryResult = ApplicantList | AuthenticationException
+union BatchesQueryResult = BatchList | AuthenticationException
+
+
 type Query {
-  applicants(batch_id: Int!): [Applicant!]
-  batches(batch_id: Int): [Batch!]
+  applicants(batch_id: Int!): ApplicantsQueryResult
+  batches(batch_id: Int): BatchesQueryResult
 }
