@@ -45,12 +45,22 @@ def resolve_applicants(_, info, batch_id):
 @query.field("applicantDetails")
 def resolve_applicant_details(_, info, batch_id, applicant_id):
     authentication = get_user_context(info)
-    if (authentication):
+    if ( not authentication):
         applications = batches.document(
             'batch-' + str(batch_id)).collection('applications')
         applicant = applications.document(str(applicant_id))
-        applicant_doc = applicant.get().to_dict()
-        return Applicant(applicant_doc['name'], '12', applicant_doc['track'], 'ddd', 'sdfs', 'sdfsfd', 'sdfsd', 'sdfsd', 'sdfsfd', 'sdfsd') 
+        application = applicant.get().to_dict()
+        return Applicant(application['name'],
+                                application['batch'],
+                                application['track'],
+                                application['email'],
+                                application['consent'],
+                                application['coverLetter'],
+                                application['cv'],
+                                application['scholarship'],
+                                application['source'],
+                                application['gender']
+                                )
     else:
         return AuthenticationException(404, "User does not have permissions")
 
