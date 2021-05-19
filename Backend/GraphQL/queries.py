@@ -4,7 +4,7 @@ from ariadne import UnionType
 from Backend.database import db
 from Backend.DataTypes.Applicant import Applicant
 from Backend.DataTypes.Batch import Batch
-from flask import app, jsonify
+from flask import jsonify
 from Backend.Authentication.verify_token import get_user_context
 from Backend.DataTypes.ApplicantList import ApplicantList
 from Backend.DataTypes.BatchList import BatchList
