@@ -4,7 +4,7 @@ import os
 from flask import Flask, request, jsonify, Blueprint
 from ariadne import graphql_sync, make_executable_schema, gql, load_schema_from_path
 from ariadne.constants import PLAYGROUND_HTML
-from Backend.GraphQL.queries import query, ApplicantsQueryResult, BatchesQueryResult
+from Backend.GraphQL.queries import query, ApplicantsQueryResult, BatchesQueryResult, ApplicantDetailsQueryResult
 from flask_cors import CORS
 from Backend.database import db
 from datetime import timedelta
@@ -16,7 +16,7 @@ batch_details = db.collection('batch-details')
 ###################### GRAPHQL API #######################
 
 type_defs = gql(load_schema_from_path("Backend/GraphQL/schema.graphql"))
-schema = make_executable_schema(type_defs, [query, ApplicantsQueryResult, BatchesQueryResult])
+schema = make_executable_schema(type_defs, [query, ApplicantsQueryResult, BatchesQueryResult, ApplicantDetailsQueryResult])
 
 
 @graphql.route("/graphql", methods=["GET"])

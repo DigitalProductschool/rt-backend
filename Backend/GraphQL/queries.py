@@ -4,7 +4,7 @@ from ariadne import UnionType
 from Backend.database import db
 from Backend.DataTypes.Applicant import Applicant
 from Backend.DataTypes.Batch import Batch
-from flask import jsonify
+from flask import app, jsonify
 from Backend.Authentication.verify_token import get_user_context
 from Backend.DataTypes.ApplicantList import ApplicantList
 from Backend.DataTypes.BatchList import BatchList
@@ -14,7 +14,7 @@ batches = db.collection('batches')
 query = QueryType()
 
 
-
+# TODO This method has to change to query only the information that will be displayed on the applicants List
 @query.field("applicants")
 def resolve_applicants(_, info, batch_id):
     authentication = get_user_context(info)
@@ -42,6 +42,19 @@ def resolve_applicants(_, info, batch_id):
         return AuthenticationException(404, "User does not have permissions")
 
 
+@query.field("applicantDetails")
+def resolve_applicant_details(_, info, batch_id, applicant_id):
+    authentication = get_user_context(info)
+    if (authentication):
+        applications = batches.document(
+            'batch-' + str(batch_id)).collection('applications')
+        applicant = applications.document(str(applicant_id))
+        applicant_doc = applicant.get().to_dict()
+        return Applicant(applicant_doc['name'], '12', applicant_doc['track'], 'ddd', 'sdfs', 'sdfsfd', 'sdfsd', 'sdfsd', 'sdfsfd', 'sdfsd') 
+    else:
+        return AuthenticationException(404, "User does not have permissions")
+
+
 @query.field("batches")
 def resolve_batches(_, info, batch_id):
     authentication = get_user_context(info)
@@ -63,6 +76,18 @@ def resolve_batches(_, info, batch_id):
         return BatchList(batches)
     else:
         return AuthenticationException(404, "User does not have permissions")
+
+
+
+
+ApplicantDetailsQueryResult = UnionType("ApplicantDetailsQueryResult")
+@ApplicantDetailsQueryResult.type_resolver
+def resolve_applicant_details_query_result(obj, *_):
+    if isinstance(obj, Applicant):
+        return "Applicant"
+    if isinstance(obj, AuthenticationException):
+        return "AuthenticationException"
+    return None
 
 
 ApplicantsQueryResult = UnionType("ApplicantsQueryResult")
