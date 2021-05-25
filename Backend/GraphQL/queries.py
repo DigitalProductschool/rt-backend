@@ -14,7 +14,7 @@ batches = db.collection('batches')
 query = QueryType()
 
 
-
+# TODO This method has to change to query only the information that will be displayed on the applicants List
 @query.field("applicants")
 def resolve_applicants(_, info, batch_id):
     authentication = get_user_context(info)
@@ -42,6 +42,29 @@ def resolve_applicants(_, info, batch_id):
         return AuthenticationException(404, "User does not have permissions")
 
 
+@query.field("applicantDetails")
+def resolve_applicant_details(_, info, batch_id, applicant_id):
+    authentication = get_user_context(info)
+    if ( not authentication):
+        applications = batches.document(
+            'batch-' + str(batch_id)).collection('applications')
+        applicant = applications.document(str(applicant_id))
+        application = applicant.get().to_dict()
+        return Applicant(application['name'],
+                                application['batch'],
+                                application['track'],
+                                application['email'],
+                                application['consent'],
+                                application['coverLetter'],
+                                application['cv'],
+                                application['scholarship'],
+                                application['source'],
+                                application['gender']
+                                )
+    else:
+        return AuthenticationException(404, "User does not have permissions")
+
+
 @query.field("batches")
 def resolve_batches(_, info, batch_id):
     authentication = get_user_context(info)
@@ -63,6 +86,18 @@ def resolve_batches(_, info, batch_id):
         return BatchList(batches)
     else:
         return AuthenticationException(404, "User does not have permissions")
+
+
+
+
+ApplicantDetailsQueryResult = UnionType("ApplicantDetailsQueryResult")
+@ApplicantDetailsQueryResult.type_resolver
+def resolve_applicant_details_query_result(obj, *_):
+    if isinstance(obj, Applicant):
+        return "Applicant"
+    if isinstance(obj, AuthenticationException):
+        return "AuthenticationException"
+    return None
 
 
 ApplicantsQueryResult = UnionType("ApplicantsQueryResult")
