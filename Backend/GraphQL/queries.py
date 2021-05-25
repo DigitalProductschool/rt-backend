@@ -46,7 +46,7 @@ def resolve_applicants(_, info, batch_id):
 @query.field("applicantDetails")
 def resolve_applicant_details(_, info, batch_id, applicant_id):
     authentication = get_user_context(info)
-    if ( not authentication):
+    if (authentication):
         applications = batches.document(
             'batch-' + str(batch_id)).collection('applications')
         applicant = applications.document(str(applicant_id))
