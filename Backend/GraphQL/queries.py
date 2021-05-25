@@ -51,7 +51,8 @@ def resolve_applicant_details(_, info, batch_id, applicant_id):
             'batch-' + str(batch_id)).collection('applications')
         applicant = applications.document(str(applicant_id))
         application = applicant.get().to_dict()
-        return Applicant(application['name'],
+        return Applicant(application['id'],
+                                application['name'],
                                 application['batch'],
                                 application['track'],
                                 application['email'],

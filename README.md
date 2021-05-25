@@ -18,8 +18,8 @@ python run.py
 go to the server /graphql endpoint 
 insert the query in the following form with desired parameters:
 
-  query {
-    applicants(batch_id: 14) {
+query {
+  applicants(batch_id: 14) {
 	... on ApplicantList{
 		list {
       name
@@ -32,3 +32,18 @@ insert the query in the following form with desired parameters:
     }
   }
 
+query {
+  applicantDetails(batch_id: 14, applicant_id: "zK7RVAcrNOeEiFWGnmUL") {
+    ... on Applicant{
+      name
+      email
+      batch
+      track
+      scholarship
+      gender
+    }
+    ... on AuthenticationException{
+        message
+    }
+    }
+  }
