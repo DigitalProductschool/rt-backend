@@ -25,7 +25,8 @@ def resolve_applicants(_, info, batch_id):
         applications = [doc.to_dict() for doc in applications.stream()]
 
         for application in applications:
-            applicant = Applicant(application['name'],
+            applicant = Applicant(application['id'],
+                                application['name'],
                                 application['batch'],
                                 application['track'],
                                 application['email'],
