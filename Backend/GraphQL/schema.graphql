@@ -45,9 +45,17 @@ type BatchList {
   list: [Batch!]
 }
 
+type Status {
+  code: Int
+  message: String
+}
+
+
 union ApplicantsQueryResult = ApplicantList | AuthenticationException
 union ApplicantDetailsQueryResult = Applicant | AuthenticationException
 union BatchesQueryResult = BatchList | AuthenticationException
+union RateMutationResult = Status | AuthenticationException
+
 
 
 
@@ -58,5 +66,5 @@ type Query {
 }
 
 type Mutation {
-  rate(batch_id: Int!, applicant_id: String!, score: Int!): Boolean!
+  rate(batch_id: Int!, applicant_id: String!, score: Int!): RateMutationResult
 }
