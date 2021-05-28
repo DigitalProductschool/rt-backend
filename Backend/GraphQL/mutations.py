@@ -12,7 +12,7 @@ mutation = MutationType()
 @mutation.field("rate")
 def resolve_rate(_, info, batch_id, applicant_id, score):
     current_user = get_user_context(info)
-    current_user = User(12345226755,"Magda", "ntmagda93@gmail.com", "photo")
+    # current_user = User(12345226755,"Magda", "ntmagda93@gmail.com", "photo")
     if(current_user):
         applications = batches.document(
             'batch-' + str(batch_id)).collection('applications')
