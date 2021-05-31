@@ -13,6 +13,11 @@ batch_details = db.collection('batch-details')
 batches = db.collection('batches')
 query = QueryType()
 
+@query.field("user")
+def resolve_current_user(_, info):
+     authentication = get_user_context(info)
+     return authentication
+   
 
 # TODO This method has to change to query only the information that will be displayed on the applicants List
 @query.field("applicants")
