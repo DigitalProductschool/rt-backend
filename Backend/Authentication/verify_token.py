@@ -55,7 +55,7 @@ def get_user_context(info):
       if(uid): 
             current_user = get_user_data(uid)
             saved = save_users(current_user)
-            return True
+            return current_user
     except: 
         return None
 

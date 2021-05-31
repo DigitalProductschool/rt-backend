@@ -17,8 +17,8 @@ query = QueryType()
 # TODO This method has to change to query only the information that will be displayed on the applicants List
 @query.field("applicants")
 def resolve_applicants(_, info, batch_id):
-    authentication = get_user_context(info)
-    if (authentication):
+    current_user = get_user_context(info)
+    if (current_user):
         applicants = []
         applications = batches.document(
             'batch-' + str(batch_id)).collection('applications')
@@ -45,8 +45,8 @@ def resolve_applicants(_, info, batch_id):
 
 @query.field("applicantDetails")
 def resolve_applicant_details(_, info, batch_id, applicant_id):
-    authentication = get_user_context(info)
-    if (authentication):
+    current_user = get_user_context(info)
+    if (current_user):
         applications = batches.document(
             'batch-' + str(batch_id)).collection('applications')
         applicant = applications.document(str(applicant_id))
@@ -69,8 +69,8 @@ def resolve_applicant_details(_, info, batch_id, applicant_id):
 
 @query.field("batches")
 def resolve_batches(_, info, batch_id):
-    authentication = get_user_context(info)
-    if (authentication):
+    current_user = get_user_context(info)
+    if (current_user):
       batches = []
       if batch_id:
         batch = batch_details.document(str(batch_id)).get().to_dict()
