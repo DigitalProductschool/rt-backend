@@ -29,7 +29,7 @@ def resolve_rate(_, info, batch_id, applicant_id, score):
         ratings = applicant.get().to_dict()['ratings']
         ratings[str(current_user.uid)] = score
         applicant.update({"ratings": ratings})
-        return setUserStatus(ratings)
+        return setApplicantStatus(ratings)
     else:
         return AuthenticationException(404, "User does not have permissions")
 
@@ -44,7 +44,7 @@ def resolve_rate_mutatation_result(obj, *_):
     return None
 
 
-def setUserStatus(ratings):
+def setApplicantStatus(ratings):
     if ( len(ratings) > requiredVotesNo ):
         filtered_vals = [v for _, v in ratings.items()]
         average = sum(filtered_vals) / len(filtered_vals)
