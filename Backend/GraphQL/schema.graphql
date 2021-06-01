@@ -1,6 +1,7 @@
 
 scalar Date
 
+
 type Document {
   bucket: String
   name: String
@@ -53,8 +54,9 @@ type BatchList {
   list: [Batch!]
 }
 
+
 type Status {
-  code: Int
+  code: String
   message: String
 }
 
