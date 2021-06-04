@@ -41,7 +41,7 @@ type Batch {
   appEndDateSE: Date!
 }
 
-type AuthenticationException {
+type Exception {
   code: Int
   message: String
 }
@@ -61,10 +61,10 @@ type Status {
 }
 
 
-union ApplicantsQueryResult = ApplicantList | AuthenticationException
-union ApplicantDetailsQueryResult = Applicant | AuthenticationException
-union BatchesQueryResult = BatchList | AuthenticationException
-union RateMutationResult = Status | AuthenticationException
+union ApplicantsQueryResult = ApplicantList | Exception
+union ApplicantDetailsQueryResult = Applicant | Exception
+union BatchesQueryResult = BatchList | Exception
+union RateMutationResult = Status | Exception
 
 
 
