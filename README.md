@@ -65,3 +65,18 @@ query {
     }
     }
   }
+
+
+The mutation example to rate an applicant:
+
+  mutation {
+  rate(batch_id: 13, applicant_id: "jru16lzWvqxHiuakWN0q", score: 4) {
+     ... on Status {
+      code
+      message
+    }
+    ... on Exception{
+        message
+    }
+}
+}
