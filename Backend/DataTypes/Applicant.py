@@ -1,5 +1,4 @@
 from Backend.DataTypes.Document import Document
-from Backend.DataTypes.Track import Track
 from Backend.DataTypes.Gender import Gender
 
 class Applicant():
@@ -7,7 +6,7 @@ class Applicant():
        self.id = id
        self.name = name
        self.batch = batch
-       self.track = Track.from_str(track)
+       self.track = track
        self.email = email
        self.consent = consent
        self.coverLetter = Document(coverLetter)
