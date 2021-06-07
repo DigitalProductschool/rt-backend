@@ -19,21 +19,23 @@ go to the server /graphql endpoint
 insert the query in the following form with desired parameters:
 
 query {
-  applicants(batch_id: 14) {
+  applicants(batch_id: 13) {
 	... on ApplicantList{
 		list {
       name
       track
     }
 	}
-	... on AuthenticationException{
+	... on Exception{
 		message
 	}
     }
   }
 
+
+  
 query {
-  applicantDetails(batch_id: 14, applicant_id: "zK7RVAcrNOeEiFWGnmUL") {
+  applicantDetails(batch_id: 13, applicant_id: "jru16lzWvqxHiuakWN0q") {
     ... on Applicant{
       name
       email
@@ -42,8 +44,39 @@ query {
       scholarship
       gender
     }
-    ... on AuthenticationException{
+    ... on Exception{
         message
     }
     }
   }
+
+
+To get information about the batch with batch_id: ( if batch_id == null all batches will be listed)
+
+query {
+  batches(batch_id: null) {
+    ... on BatchList{
+				list {
+          startDate
+        }
+    }
+    ... on Exception{
+        message
+    }
+    }
+  }
+
+
+The mutation example to rate an applicant:
+
+  mutation {
+  rate(batch_id: 13, applicant_id: "jru16lzWvqxHiuakWN0q", score: 4) {
+     ... on Status {
+      code
+      message
+    }
+    ... on Exception{
+        message
+    }
+}
+}
