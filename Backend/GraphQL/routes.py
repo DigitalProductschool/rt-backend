@@ -4,7 +4,8 @@ import os
 from flask import Flask, request, jsonify, Blueprint
 from ariadne import graphql_sync, make_executable_schema, gql, load_schema_from_path
 from ariadne.constants import PLAYGROUND_HTML
-from Backend.GraphQL.queries import query, ApplicantsQueryResult, BatchesQueryResult, ApplicantDetailsQueryResult
+from Backend.GraphQL.queries import query
+from Backend.GraphQL.unionResolvers import ApplicantsQueryResult, BatchesQueryResult, ApplicantDetailsQueryResult
 from Backend.GraphQL.mutations import mutation, RateMutationResult
 
 from flask_cors import CORS

@@ -1,7 +1,6 @@
 from Backend.DataTypes.Exceptions.IncorrectParameterException import IncorrectParameterException
 from Backend.DataTypes.Exceptions.AuthenticationException import AuthenticationException
 from ariadne import QueryType
-from ariadne import UnionType
 from Backend.database import db
 from Backend.DataTypes.Applicant import Applicant
 from Backend.DataTypes.Batch import Batch
@@ -123,39 +122,34 @@ def resolve_batches(_, info, batch_id):
         return AuthenticationException()
 
 
+@query.field("applicantsFromTrack")
+def resolve_applicant_from_track(_, info, batch_id, track):
+    current_user = get_user_context(info)
+    applicants = []
 
-ApplicantDetailsQueryResult = UnionType("ApplicantDetailsQueryResult")
-@ApplicantDetailsQueryResult.type_resolver
-def resolve_applicant_details_query_result(obj, *_):
-    if isinstance(obj, Applicant):
-        return "Applicant"
-    if isinstance(obj, AuthenticationException):
-        return "Exception"
-    if isinstance(obj, IncorrectParameterException):
-        return "Exception"
-    return None
+    if (current_user):
+        batch_doc = batches.document('batch-' + str(batch_id))
+        if not batch_doc.get().exists:
+            return IncorrectParameterException(errorMessage='Incorrect batch_id parameter')
 
+        applicationsFromTrack = batch_doc.collection('applications').where('track', '==', track).stream()
 
-ApplicantsQueryResult = UnionType("ApplicantsQueryResult")
-@ApplicantsQueryResult.type_resolver
-def resolve_applicants_query_result(obj, *_):
-    if isinstance(obj, ApplicantList):
-        return "ApplicantList"
-    if isinstance(obj, AuthenticationException):
-        return "Exception"
-    if isinstance(obj, IncorrectParameterException):
-        return "Exception"
-    return None
+        for doc in applicationsFromTrack:
+            application = doc.to_dict()
+            applicants.append(Applicant(application['id'],
+                                        application['name'],
+                                        application['batch'],
+                                        application['track'],
+                                        application['email'],
+                                        application['consent'],
+                                        application['coverLetter'],
+                                        application['cv'],
+                                        application['scholarship'],
+                                        application['source'],
+                                        application['gender']
+                                        ))
+        return ApplicantList(applicants)
+    else:
+        return AuthenticationException(404, "User does not have permissions")
 
-
-BatchesQueryResult = UnionType("BatchesQueryResult")
-@BatchesQueryResult.type_resolver
-def resolve_batches_query_result(obj, *_):
-    if isinstance(obj, BatchList):
-        return "BatchList"
-    if isinstance(obj, AuthenticationException):
-        return "Exception"
-    if isinstance(obj, IncorrectParameterException):
-        return "Exception"
-    return None
 

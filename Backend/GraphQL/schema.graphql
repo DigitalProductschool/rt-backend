@@ -2,6 +2,16 @@
 scalar Date
 
 
+enum Track {
+  se
+  ai
+  pm
+  ixd
+  ac
+  pmc
+}
+
+
 type Document {
   bucket: String
   name: String
@@ -73,6 +83,7 @@ type Query {
   applicants(batch_id: Int!): ApplicantsQueryResult
   applicantDetails(batch_id: Int!, applicant_id: String!): ApplicantDetailsQueryResult
   batches(batch_id: Int): BatchesQueryResult
+  applicantsFromTrack(batch_id: Int!, track: Track!): ApplicantsQueryResult
   user: User
 }
 
