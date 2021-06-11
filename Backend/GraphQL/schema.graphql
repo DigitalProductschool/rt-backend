@@ -75,8 +75,6 @@ union ApplicantsQueryResult = ApplicantList | Exception
 union ApplicantDetailsQueryResult = Applicant | Exception
 union BatchesQueryResult = BatchList | Exception
 union RateMutationResult = Status | Exception
-union MoveTrelloCardResult = Status | Exception
-
 
 
 type Query {
