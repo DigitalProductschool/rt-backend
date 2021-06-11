@@ -9,6 +9,9 @@ from Backend.Authentication.verify_token import get_user_context
 from Backend.DataTypes.Exceptions.AuthenticationException import AuthenticationException
 from Backend.DataTypes.Exceptions.IncorrectParameterException import IncorrectParameterException
 
+from trello import TrelloClient, Board, Card, List
+import os
+
 
 
 batch_details = db.collection('batch-details')
@@ -41,6 +44,34 @@ def resolve_rate(_, info, batch_id, applicant_id, score):
         return setApplicantStatus(ratings)
     else:
         return AuthenticationException()
+
+
+@mutation.field("moveTrelloCard")
+def resolve_move_trello_card(_, info, source_list_name, dest_list_name, card_name):
+    current_user = get_user_context(info)
+    # current_user = User(1232499,"Magda", "ntmagda393@gmail.com", "photo")
+    if(current_user):
+        client = TrelloClient(
+            api_key=os.getenv('TRELLO_API_KEY'),
+            api_secret=os.getenv('TRELLO_API_SECRET'),
+        )
+
+        hiring_tool_board = Board(client=client, board_id=os.getenv('TRELLO_BOARD_ID'), name='Hiring Tool Test Board')
+
+
+        hiring_tool_lists = hiring_tool_board.list_lists()
+        try:
+            destList = [list for list in hiring_tool_lists if list.name == dest_list_name][0]
+            srcList = [list for list in hiring_tool_lists if list.name == source_list_name][0]
+
+            card_to_be_moved = [card for card in srcList.list_cards() if card.name == card_name][0]
+            card_to_be_moved.change_list(destList.id)
+        except IndexError:
+            return IncorrectParameterException()
+        return Status(0,'Card was succesfully moved')
+    else:
+        return AuthenticationException()
+
 
 
 
