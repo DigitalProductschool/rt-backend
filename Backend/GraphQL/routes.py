@@ -1,7 +1,7 @@
 # app.py
 # Required imports
 import os
-from flask import Flask, request, redirect, jsonify, Blueprint
+from flask import Flask, request, jsonify, Blueprint
 from ariadne import graphql_sync, make_executable_schema, gql, load_schema_from_path
 from ariadne.constants import PLAYGROUND_HTML
 from Backend.GraphQL.queries import query
@@ -12,10 +12,6 @@ from flask_cors import CORS
 from Backend.database import db
 from datetime import timedelta
 from flask import current_app as app
-
-import json
-import requests
-
 
 graphql = Blueprint('graphql', __name__)
 batch_details = db.collection('batch-details')

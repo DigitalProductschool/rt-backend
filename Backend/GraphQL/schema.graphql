@@ -29,6 +29,7 @@ type Applicant {
   coverLetter: Document
   source: String
   gender: String
+  status: String!
 }
 
 type User {

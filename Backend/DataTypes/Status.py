@@ -8,12 +8,8 @@ import enum
 
 
 
-class StatusType(enum.Enum):
-    NEW = 0
-    NEUTRAL = 1
-    PRETTY_COOL = 2
 
 class Status():
-    def __init__(self, statusType, message):
-        self.code = statusType
+    def __init__(self, statusCode, message):
+        self.code = statusCode
         self.message = message
