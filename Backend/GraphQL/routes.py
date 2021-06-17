@@ -22,6 +22,8 @@ type_defs = gql(load_schema_from_path("Backend/GraphQL/schema.graphql"))
 schema = make_executable_schema(type_defs, [query, mutation,  ApplicantsQueryResult, BatchesQueryResult, ApplicantDetailsQueryResult, RateMutationResult])
 
 
+
+
 @graphql.route("/graphql", methods=["GET"])
 def graphql_playground():
     return PLAYGROUND_HTML, 200

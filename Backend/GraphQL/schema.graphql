@@ -29,6 +29,7 @@ type Applicant {
   coverLetter: Document
   source: String
   gender: String
+  status: String!
 }
 
 type User {
@@ -77,8 +78,6 @@ union BatchesQueryResult = BatchList | Exception
 union RateMutationResult = Status | Exception
 
 
-
-
 type Query {
   applicants(batch_id: Int!): ApplicantsQueryResult
   applicantDetails(batch_id: Int!, applicant_id: String!): ApplicantDetailsQueryResult
@@ -89,4 +88,6 @@ type Query {
 
 type Mutation {
   rate(batch_id: Int!, applicant_id: String!, score: Int!): RateMutationResult
+  moveTrelloCard(source_list_name: String!, dest_list_name: String!, card_name: String!): RateMutationResult
+
 }
