@@ -11,6 +11,7 @@ from Backend.DataTypes.Exceptions.IncorrectParameterException import IncorrectPa
 
 from trello import TrelloClient, Board, Card, List
 import os
+from Backend.config import Config
 
 
 
@@ -58,16 +59,13 @@ def resolve_rate(_, info, batch_id, applicant_id, score):
 @mutation.field("moveTrelloCard")
 def resolve_move_trello_card(_, info, source_list_name, dest_list_name, card_name):
     current_user = get_user_context(info)
-    # current_user = User(1232499,"Magda", "ntmagda393@gmail.com", "photo")
     if(current_user):
         client = TrelloClient(
-            api_key=os.getenv('TRELLO_API_KEY'),
-            api_secret=os.getenv('TRELLO_API_SECRET'),
+            api_key= Config.TRELLO_API_KEY,
+            api_secret= Config.TRELLO_API_SECRET,
         )
 
-        hiring_tool_board = Board(client=client, board_id=os.getenv('TRELLO_BOARD_ID'), name='Hiring Tool Test Board')
-
-
+        hiring_tool_board = Board(client=client, board_id=Config.TRELLO_BOARD_ID, name=Config.TRELLO_NAME)
         hiring_tool_lists = hiring_tool_board.list_lists()
         try:
             destList = [list for list in hiring_tool_lists if list.name == dest_list_name][0]
