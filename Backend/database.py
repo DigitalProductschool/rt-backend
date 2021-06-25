@@ -15,12 +15,12 @@ def access_secret_version(secret_id, version_id="latest"):
     response = client.access_secret_version(name=name)
 
     # Return the decoded payload.
-    return json.loads(response.payload.data.decode('UTF-8'))
+    return response.payload.data.decode('UTF-8')
 
 
 # Initialize Firestore DB
 
-firebase_json = access_secret_version("firebase-staging-serviceaccount")
+firebase_json = json.loads(access_secret_version("firebase-staging-serviceaccount"))
 cred = credentials.Certificate(firebase_json)
 default_app = initialize_app(cred)
 db = firestore.client() 
