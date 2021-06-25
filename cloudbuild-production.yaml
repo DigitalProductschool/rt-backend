@@ -7,7 +7,7 @@ steps:
     args:
       - 'build'
       - '--tag'
-      - 'gcr.io/$PROJECT_ID/rt-backend:latest'
+      - 'gcr.io/$PROJECT_ID/rt-backend-production:latest'
       - '.'
 
   # This step pushes the image to Container Registry
@@ -17,7 +17,7 @@ steps:
     id: Push
     args:
       - 'push'
-      - 'gcr.io/$PROJECT_ID/rt-backend:latest'
+      - 'gcr.io/$PROJECT_ID/rt-backend-production:latest'
   # Deploy container image to Cloud Run
   - name: "gcr.io/cloud-builders/gcloud"
-    args: ['run', 'deploy', 'rt-backend', '--image', 'gcr.io/$PROJECT_ID/rt-backend:latest', '--region', 'europe-west3', '--no-allow-unauthenticated', '--platform', 'managed']
+    args: ['run', 'deploy', 'rt-backend-production', '--image', 'gcr.io/$PROJECT_ID/rt-backend-production:latest', '--region', 'europe-west3', '--no-allow-unauthenticated', '--platform', 'managed']
