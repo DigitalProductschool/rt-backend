@@ -11,7 +11,7 @@ from Backend.DataTypes.Exceptions.IncorrectParameterException import IncorrectPa
 
 from trello import TrelloClient, Board, Card, List
 import os
-from Backend.config import Config
+from Backend.config import Config, config
 
 
 
@@ -65,7 +65,7 @@ def resolve_move_trello_card(_, info, source_list_name, dest_list_name, card_nam
             api_secret= Config.TRELLO_API_SECRET,
         )
 
-        hiring_tool_board = Board(client=client, board_id=Config.TRELLO_BOARD_ID, name=Config.TRELLO_NAME)
+        hiring_tool_board = Board(client=client, board_id=config.TRELLO_BOARD_ID, name=config.TRELLO_NAME)
         hiring_tool_lists = hiring_tool_board.list_lists()
         try:
             destList = [list for list in hiring_tool_lists if list.name == dest_list_name][0]
