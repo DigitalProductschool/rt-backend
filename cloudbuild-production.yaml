@@ -1,4 +1,4 @@
-# cloudbuild.yaml
+# cloudbuild-production.yaml
 steps:
   # build & push the container image
   # This step builds the container image.
@@ -9,7 +9,6 @@ steps:
       - '--tag'
       - 'gcr.io/$PROJECT_ID/rt-backend-production:latest'
       - '.'
-
   # This step pushes the image to Container Registry
   # The PROJECT_ID and SHORT_SHA variables are automatically
   # replaced by Cloud Build.
@@ -20,4 +19,5 @@ steps:
       - 'gcr.io/$PROJECT_ID/rt-backend-production:latest'
   # Deploy container image to Cloud Run
   - name: "gcr.io/cloud-builders/gcloud"
-    args: ['run', 'deploy', 'rt-backend-production', '--image', 'gcr.io/$PROJECT_ID/rt-backend-production:latest', '--region', 'europe-west3', '--no-allow-unauthenticated', '--platform', 'managed']
+    args: ['run', 'deploy', 'rt-backend-production', "--set-env-vars", 'FLASK_ENV=production','--image', 'gcr.io/$PROJECT_ID/rt-backend-production:latest', '--region', 'europe-west3', '--allow-unauthenticated', '--platform', 'managed']
+   
