@@ -1,7 +1,7 @@
 import json
 from google.cloud import secretmanager
 from firebase_admin import credentials, firestore, initialize_app
-
+import os
 
 # retrieve secrets from Google Cloud Secret Manager
 def access_secret_version(secret_id, version_id="latest"):
@@ -19,8 +19,8 @@ def access_secret_version(secret_id, version_id="latest"):
 
 
 # Initialize Firestore DB
-
-firebase_json = json.loads(access_secret_version("firebase-staging-serviceaccount"))
+database_config = os.environ.get('SERVICE_ACCOUNT', 'firebase-staging-serviceaccount')
+firebase_json = json.loads(access_secret_version(database_config))
 cred = credentials.Certificate(firebase_json)
 default_app = initialize_app(cred)
 db = firestore.client() 
