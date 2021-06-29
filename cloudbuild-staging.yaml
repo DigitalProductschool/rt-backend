@@ -9,7 +9,6 @@ steps:
       - '--tag'
       - 'gcr.io/$PROJECT_ID/rt-backend-staging:latest'
       - '.'
-
   # This step pushes the image to Container Registry
   # The PROJECT_ID and SHORT_SHA variables are automatically
   # replaced by Cloud Build.
@@ -20,4 +19,5 @@ steps:
       - 'gcr.io/$PROJECT_ID/rt-backend-staging:latest'
   # Deploy container image to Cloud Run
   - name: "gcr.io/cloud-builders/gcloud"
-    args: ['run', 'deploy', 'rt-backend-staging', , "--set-env-vars", 'FLASK_ENV=staging','--image', 'gcr.io/$PROJECT_ID/rt-backend-staging:latest', '--region', 'europe-west3', '--no-allow-unauthenticated', '--platform', 'managed']
+    args: ['run', 'deploy', 'rt-backend-staging', "--set-env-vars", 'FLASK_ENV=staging','--image', 'gcr.io/$PROJECT_ID/rt-backend-staging:latest', '--region', 'europe-west3', '--allow-unauthenticated', '--platform', 'managed']
+   
