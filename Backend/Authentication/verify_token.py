@@ -18,7 +18,7 @@ def verify_token(id_token):
 def get_user_data(uid):
     try:
         user = auth.get_user(uid)
-        current_user = User(user.uid,
+        current_user = User(
                       user.display_name,
                       user.email,
                       user.photo_url
@@ -35,7 +35,6 @@ def save_users(current_user):
           return None
        else: 
            data = {
-           u'uid': current_user.uid,
            u'name': current_user.name,
            u'email': current_user.email,
            u'photo': current_user.photo,

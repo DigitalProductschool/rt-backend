@@ -1,7 +1,7 @@
 from ariadne import MutationType
 from ariadne import UnionType
 
-from Backend.database import db
+from Backend.database import access_secret_version, db
 from Backend.DataTypes.Status import Status
 from Backend.DataTypes.User import User
 
@@ -12,7 +12,9 @@ from Backend.DataTypes.Exceptions.IncorrectParameterException import IncorrectPa
 from trello import TrelloClient, Board, Card, List
 import os
 from Backend.config import Config, config
-
+import smtplib
+from email.message import EmailMessage
+from Backend.emails import Emails
 
 
 batch_details = db.collection('batch-details')
@@ -81,8 +83,6 @@ def resolve_move_trello_card(_, info, source_list_name, dest_list_name, card_nam
 
 
 
-
-
 def setApplicantStatus(ratings):
     if ( len(ratings) >= requiredVotesNo ):
         filtered_vals = [v for _, v in ratings.items()]
@@ -108,3 +108,7 @@ def resolve_rate_mutatation_result(obj, *_):
         return "Exception"
     return None
 
+
+@mutation.field("sendEmail")
+def mutation_email(_, info, email_type, track):
+    Emails(email_type, "Bela", "b.sinoimeri@hotmail.com", track, "challenge").send_email()
