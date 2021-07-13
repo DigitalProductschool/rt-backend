@@ -3,7 +3,7 @@ from functools import wraps
 from firebase_admin import auth
 from flask import Blueprint
 from Backend.database import db
-from Backend.DataTypes.User import User
+from Backend.DataTypes.User import user
 
 authentication = Blueprint('authentication', __name__)
 
@@ -15,9 +15,15 @@ def verify_token(id_token):
     except:
         return None
 
+def verify_email(email):
+    white_list = ["bela.sinoimeri@unternehmertum.de", "bela.sinoimeri@dpschool.io", "magda.nowak-trzos@unternehmertum.de","bedo@unternehmertum.de"]
+    if email not in white_list: 
+        return None
+
 def get_user_data(uid):
     try:
         user = auth.get_user(uid)
+        verify_email(user.email)
         current_user = User(
                       user.display_name,
                       user.email,
