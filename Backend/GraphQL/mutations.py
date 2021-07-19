@@ -110,5 +110,9 @@ def resolve_rate_mutatation_result(obj, *_):
 
 
 @mutation.field("sendEmail")
-def mutation_email(_, info, email_type, track):
-    Emails(email_type, "Bela", "b.sinoimeri@hotmail.com", track, "challenge").send_email()
+def mutation_email(_, info, email_type, applicant_name, applicant_email, track, batch_id):
+    Emails(email_type, applicant_name, applicant_email, track, batch_id).send_email()
+
+@mutation.field("sendEmailDocuments")
+def mutation_email(_, info, applicant_name, applicant_email, track, batch_id):
+    Emails("sendDocuments", applicant_name, applicant_email, track, batch_id).send_email_with_attach()

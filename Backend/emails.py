@@ -1,15 +1,18 @@
 
 from Backend.database import access_secret_version
 import smtplib
-from email.message import EmailMessage
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.application import MIMEApplication
 import random
-from Backend.tracks import se
+from Backend.tracks import SE
+from flask import render_template
+import os 
+import pdfkit
 
 class Emails:
-    footer = "<br><br></p> --<br>\nDigital Product School<br>\nby UnternehmerTUM GmbH<br>\nLichtenbergstr. 6<br>\n85748 Garching bei München<br>\n+49 89-18 94 69-0<br>\n<a href=\"https://www.unternehmertum.de/\">www.unternehmertum.de</a><br>\n<a href=\"https://digitalproductschool.io/\">www.digitalproductschool.io</a><br>\n<a href = \"mailto:hello@dpschool.io\">hello@dpschool.io</a><br><br>\n<a href=\"https://www.facebook.com/digitalproductschool/\"> Facebook </a>|<a href=\"https://twitter.com/dpschool_io\"> Twitter  </a>|<a href=\"https://www.linkedin.com/company/digital-product-school/\"> LinkedIn </a>|<a href=\"https://www.instagram.com/digitalproductschool/\"> Instagram </a>|<a href=\"https://leaks.digitalproductschool.io/\"> Medium </a><br><br>\nManaging Directors:<br>\nProf. Dr. Helmut Schönenberger (CEO), Claudia Frey,<br>\nStefan Drüssler, Thomas Zeller, Dr. Andreas Liebl<br>\nChairwoman of the supervisory board: Susanne Klatten<br>\nRegister Court, Munich: HRB 141703<br>\nVAT: DE 252 789 694"
-
-    def __init__(self, config, applicantName, applicantEmail, applicantTrack, acceptanceLink):
-        self.intro = "<p>Hello " + applicantName + ", < br > <br >\n\n"
+    def __init__(self, config, applicantName, applicantEmail, applicantTrack, batchNumber):
+        self.applicantName = applicantName
         self.dps_email = access_secret_version('dps-email')
         self.dps_password = access_secret_version('dps-email-pass')
         self.config = config
@@ -17,57 +20,110 @@ class Emails:
         self.applicantTrack = applicantTrack
         self.challengeLink = random.choice(SE.challengeLink)
         coreTeam = random.choice(SE.coreTeam)
-        self.coreTeamCalendly = coreTeam["calendly"]
+        self.coreTeamLink = coreTeam["calendly"]
         self.coreTeamName = coreTeam["name"]
-        self.acceptanceLink = acceptanceLink
-        self.batchNumber = 14
+        self.acceptanceLink = "acceptanceLink"
+        self.batchNumber = batchNumber
+        self.qaLink = SE.qaLink
         
     def config_email(self):
         all_emails = {
-            'sendChallenge': self.send_challenge()
+            'sendChallenge': self.send_challenge(),
+            'sendQ&A': self.send_qa(),
+            'sendInvitation': self.invite_to_interview(),
+            'sendRejection': self.reject(),
+            'sendAcceptance': self.send_acceptance(),
+            'sendDocuments': self.send_documents(),
         }
         email = all_emails[self.config]
         return email
 
     def send_challenge(self):
         subject = "DPS Challenge Assessment"
-        body = self.intro + "Thank you for your interest in Digital Product School! <br> <br>\n\nWe are very happy to inform you that we decided to proceed further with your application for the " + self.applicantTrack + " track!<br><br>\n\nThe next step is to complete our technical challenge. You can find more details about the challenge in the following link: <br>\n " + \
-            self.challengeLink + "<br><br>\n\nGood Luck! <br><br>\n\n\nYour DPS Team"
-        return {"subject": subject, "body": body}
+        body = render_template('SendChallengeEmail.html', applicantName=self.applicantName, applicantTrack=self.applicantTrack, challengeLink= self.challengeLink)        
+        footer = render_template('Footer.html')
+        return {"subject": subject, "body": body + footer}
+
+    def send_qa(self):
+        subject = "Invitation to Q&A"
+        body = render_template('SendQ&AEmail.html', applicantName=self.applicantName, applicantTrack=self.applicantTrack, qaLink= self.qaLink)        
+        footer = render_template('Footer.html')
+        return {"subject": subject, "body": body + footer}
 
     def invite_to_interview(self):
         subject = "Invitation to Interview"
-        body = self.intro + "I’m very happy to inform you that you made it to the last interview step for the " + self.applicantTrack + " track!<br><br>\n\nI would like to invite you for a 30 minute talk and have the opportunity to get to know you better. Please use the following calendly link to schedule a meeting at a convenient time:<br>\n" + \
-            self.coreTeamCalendly + "<br><br>\n\nLooking forward to hearing from you! <br><br>\n\n\nCheers,<br>\n" + \
-            self.coreTeamName
-        return {"subject": subject, "body": body}
+        body = render_template('SendInvitationEmail.html', applicantName=self.applicantName, applicantTrack=self.applicantTrack, coreTeamLink= self.coreTeamLink, coreTeamName=self.coreTeamName)        
+        footer = render_template('Footer.html')
+        return {"subject": subject, "body": body + footer}
 
     def reject(self):
-        subject = "Your application for Digital Product School",
-        body = self.intro + "Thank you for your application to the Digital Product School in Munich.\nUnfortunately we cannot move forward with your application for the " + self.applicantTrack + " Track.<br><br>\n\nWhat does that mean?<br>\nWe have a limited number of places and we had a lot of strong applications for this batch, so we have to decline many promising talents. We appreciate the time you’ve invested and we’d like to thank you for giving us the opportunity to learn about your skills and accomplishments. We encourage you to continue building your skills and if you’re still interested in the DPS program, we invite you to apply for our future batches.<br><br>\n\nWe want to draw your attention to <b>another wonderful opportunity</b>:<br><br>\n\nAre you looking for an exciting and startup project?<br>\nDo you have time capacities in the next weeks?<br>\nAre you interested in boosting a startup project as a temporary team member - with the possibility to continue working together after the project period?<br>\nWith UnternehmerTUM’s pre-Incubation Program XPLORE, you have a great possibility to team up with a tech-driven early stage startup for the duration of 8-weeks. During the program, you develop together a valid business model, test market chances and prepare first financing. While doing so, the project teams will be supported through experts and professional coaching sessions.<br><br>\n\nLink to XPLORE: https://www.unternehmertum.de/xplore.html?lang=en <br><br>\n\nThank you and good luck with your future professional endeavors,<br>\nYour DPS team"
-        return {"subject": subject, "body": body}
+        subject = "Your application for Digital Product School"
+        body = render_template('SendRejectionEmail.html', applicantName=self.applicantName, applicantTrack=self.applicantTrack)
+        footer = render_template('Footer.html')
+        return {"subject": subject, "body": body + footer}
 
     def send_acceptance(self):
-        subject = "You are accepted! :relaxed:",
-        body = self.intro + "Thanks for the nice conversation we had! <br><br>\n\nI’m happy to inform you that we have decided to offer you a spot at Digital Product School as a " + self.applicantTrack + "! <br>\nI would be excited if you join us for 3 months of fun and learning.<br><br>\n\nPlease let me know <b>within one week</b>, whether you take part at DPS by <b>clicking this link</b>: <br><br> \n<a href=\" " + \
-            self.acceptanceLink + "\"> I accept to be part of DPS</a> <br><br>\n\n</b> Afterwards I will guide you through the next steps.<br><br>\n\nIf you have any questions, please write to support@digitalproductschool.atlassian.net and we’ll get back to you as soon as possible! <br><br>\n\nCheers, <br>\n" + \
-            self.coreTeamName
-        return {"subject": subject, "body": body}
+        subject = "You are accepted!"
+        body = render_template('SendAcceptanceEmail.html', applicantName=self.applicantName, applicantTrack=self.applicantTrack, acceptanceForm="https://www.w3schools.com/charsets/tryit.asp?deci=128522")
+        footer = render_template('Footer.html')
+        return {"subject": subject, "body": body + footer}
 
     def send_documents(self):
-        subject = "Confirmation & Important Documents",
-        body = self.intro + "Great to see you at Digital Product School Batch# " + self.batchNumber + "!<br><br>\n\nEnclosed you can find some important information:<br>\n<ul>\n<li>Offer Letter: The official confirmation that you will participate in Digital Product School. If you need to apply for a visa, this is the confirmation that you take part in our training program.</li>\n<li>Track Description: This document describes the content of your specific track at DPS. It is mainly for the visa office at the German embassy to provide them further information about our program.</li>\n<li>Visa FAQs: Further information for you with our experiences in the visa process. This should help you to have a smooth process to your visa and may answer a lot of questions you have.</li>\n<li>Scholarship Options: DPS and the scholarships are supported by the Bavarian government. Due to regulations on how to use these grants there are different types regarding the amount. You can find some information and explanation about the different types in this document.</li>\n</ul><br>\n\nIf you have any further questions regarding the documents, please write to support@digitalproductschool.atlassian.net and we’ll get back to you as soon as possible! <br><br>\n\nWe will reach out to you with further information before your batch starts.<br>\n\nCheers,<br>\n" + \
-            self.coreTeamName
-        return {"subject": subject, "body": body}
+        subject = "Confirmation & Important Documents"
+        body = render_template('SendDocumentsEmail.html', applicantName=self.applicantName, batchNumber= self.batchNumber)
+        footer = render_template('Footer.html')
+        return {"subject": subject, "body": body + footer}
 
     def send_email(self):
-        msg = EmailMessage()
+        msg = MIMEMultipart()
         msg_template = self.config_email()
-        print(msg_template)
         msg['Subject'] = msg_template["subject"]
         msg['From'] = f"DPS Applications{self.dps_email}"
         msg['To'] = self.applicantEmail
-        msg.set_content(msg_template["body"], subtype='html')
+        body = MIMEText(msg_template["body"], 'html')
+        msg.attach(body)
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+            smtp.login(self.dps_email, self.dps_password)
+            smtp.send_message(msg)
+
+    def read_file_path(self, filelocation): 
+        root = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(root, filelocation)
+        return file_path
+
+    def attach_pdf(self, filelocation, filename, msg):
+        pdf_path = self.read_file_path(filelocation)
+        pdf = MIMEApplication(open(pdf_path,"rb").read())
+        pdf.add_header('Content-Disposition', 'attachment', filename=filename)
+        msg.attach(pdf)
+        return pdf
+
+    def generate_offer_letter(self):
+        options = {
+         "enable-local-file-access": None }
+        css_file = self.read_file_path('static/styles.css')
+        dps_logo = self.read_file_path('static/dps.png')
+        utum_logo = self.read_file_path('static/utum.png')
+        signature = self.read_file_path('static/thomas-signature.png')
+        document = render_template('OfferLetter.html', applicantName=self.applicantName, batchNumber=self.batchNumber, batchTime="Nov", dpsLogo=dps_logo, utumLogo=utum_logo, signature=signature)
+        css=[css_file]
+        pdf = pdfkit.from_string(document,"Output.pdf", options, css=css)
+
+    def send_email_with_attach(self): 
+        msg = MIMEMultipart()
+        msg_template = self.config_email()
+        msg['Subject'] = msg_template["subject"]
+        msg['From'] = f"DPS Applications{self.dps_email}"
+        msg['To'] = self.applicantEmail
+        body = MIMEText(msg_template["body"], 'html')
+        msg.attach(body)
+        visa_faq = self.attach_pdf('static/VisaFAQ.pdf',"VisaFAQ.pdf", msg)
+        scholarship_options = self.attach_pdf('static/ScholarshipOptions.pdf',"ScholarshipOptions.pdf", msg)
+        track_description = self.attach_pdf('static/SETrackDescription.pdf',"TrackDescription.pdf", msg)
+        self.generate_offer_letter()
+        pdf = MIMEApplication(open("Output.pdf","rb").read())
+        pdf.add_header('Content-Disposition', 'attachment', filename="OfferLetter.pdf")
+        msg.attach(pdf)
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
             smtp.login(self.dps_email, self.dps_password)
             smtp.send_message(msg)
