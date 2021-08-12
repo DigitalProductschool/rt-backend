@@ -51,6 +51,25 @@ query {
   }
 
 
+There is a possibility to query applicants across multiple batches and multiple tracks:
+
+query {
+  applicantsFromTrack(batch_id_list: [14, 13], track_list: [se, pm]) {
+	... on ApplicantList{
+		list {
+      name
+      track
+      batch
+    }
+	}
+	... on Exception{
+		message
+	}
+    }
+  }
+
+
+
 To get information about the batch with batch_id: ( if batch_id == null all batches will be listed)
 
 query {

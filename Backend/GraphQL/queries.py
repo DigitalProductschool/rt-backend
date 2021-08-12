@@ -59,7 +59,7 @@ def resolve_applicants(_, info, batch_id):
 @query.field("applicantDetails")
 def resolve_applicant_details(_, info, batch_id, applicant_id):
     current_user = get_user_context(info)
-    # current_user = User(1232499,"Magda", "ntmagda393@gmail.com", "photo")
+    # current_user = User("Magda", "ntmagda393@gmail.com", "photo")
 
     if (current_user):
         batch_doc = batches.document('batch-' + str(batch_id))
@@ -140,37 +140,39 @@ def resolve_batches(_, info, batch_id):
 
 
 @query.field("applicantsFromTrack")
-def resolve_applicant_from_track(_, info, batch_id, track):
+def resolve_applicant_from_track(_, info, batch_id_list, track_list):
     current_user = get_user_context(info)
-    # current_user = User(1232499,"Magda", "ntmagda393@gmail.com", "photo")
+    # current_user = User("Magda", "ntmagda393@gmail.com", "photo")
 
     applicants = []
 
     if (current_user):
-        batch_doc = batches.document('batch-' + str(batch_id))
-        if not batch_doc.get().exists:
-            return IncorrectParameterException(errorMessage='Incorrect batch_id parameter')
+        for batch_id in batch_id_list: 
+            for track in track_list: 
+                batch_doc = batches.document('batch-' + str(batch_id))
+                if not batch_doc.get().exists:
+                    return IncorrectParameterException(errorMessage='Incorrect batch_id parameter')
 
-        applicationsFromTrack = batch_doc.collection('applications').where('track', '==', track).stream()
+                applicationsFromTrack = batch_doc.collection('applications').where('track', '==', track).stream()
 
-        for doc in applicationsFromTrack:
-            application = doc.to_dict()
-            try:
-                applicants.append(Applicant(application['id'],
-                                            application['name'],
-                                            application['batch'],
-                                            application['track'],
-                                            application['email'],
-                                            application['consent'],
-                                            application['coverLetter'],
-                                            application['cv'],
-                                            application['scholarship'],
-                                            application['source'],
-                                            application['gender'],
-                                            application['status']
-                                            ))
-            except KeyError as err:
-                return IncorrectParameterException(1, "The field" + str(err) + "does not exists in the database document" )
+                for doc in applicationsFromTrack:
+                    application = doc.to_dict()
+                    try:
+                        applicants.append(Applicant(application['id'],
+                                                    application['name'],
+                                                    application['batch'],
+                                                    application['track'],
+                                                    application['email'],
+                                                    application['consent'],
+                                                    application['coverLetter'],
+                                                    application['cv'],
+                                                    application['scholarship'],
+                                                    application['source'],
+                                                    application['gender'],
+                                                    application['status']
+                                                    ))
+                    except KeyError as err:
+                        return IncorrectParameterException(1, "The field" + str(err) + "does not exists in the database document" )
 
         return ApplicantList(applicants)
     else:
