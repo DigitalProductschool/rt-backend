@@ -18,12 +18,14 @@ python run.py
 go to the server /graphql endpoint 
 insert the query in the following form with desired parameters:
 
+    
 query {
-  applicants(batch_id: 13) {
+  applicants(batch_id_list: [13] ) {
 	... on ApplicantList{
 		list {
       name
       track
+      batch
     }
 	}
 	... on Exception{
@@ -31,7 +33,6 @@ query {
 	}
     }
   }
-
   
 query {
   applicantDetails(batch_id: 13, applicant_id: "jru16lzWvqxHiuakWN0q") {
