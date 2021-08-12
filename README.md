@@ -68,6 +68,24 @@ query {
     }
   }
 
+There is a possibility to query applicants across multiple batches and multiple tracks and also filter via Status:
+
+query {
+  applicantsByStatus(batch_id_list: [13,14], track_list: [se, pm], status_list: ["PRETTY COOL", "NEUTRAL"]) {
+	... on ApplicantList{
+		list {
+      name
+      track
+      batch
+      status
+    }
+	}
+	... on Exception{
+		message
+	}
+    }
+  }
+
 
 
 To get information about the batch with batch_id: ( if batch_id == null all batches will be listed)

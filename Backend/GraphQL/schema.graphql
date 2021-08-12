@@ -20,16 +20,16 @@ type Document {
 type Applicant {
   id: String!
   name: String!
-  batch: Int!
+  batch: Int! 
   track: String! 
   email: String!
-  cv: Document!
+  cv: Document! 
   consent: String!
   scholarship: String
   coverLetter: Document
   source: String
   gender: String
-  status: String!
+  status: String! 
 }
 
 type User {
@@ -71,6 +71,7 @@ type Status {
 }
 
 
+
 union ApplicantsQueryResult = ApplicantList | Exception
 union ApplicantDetailsQueryResult = Applicant | Exception
 union BatchesQueryResult = BatchList | Exception
@@ -79,6 +80,7 @@ union EmailMutationResult = Status | Exception
 
 type Query {
   applicants(batch_id_list: [Int!]): ApplicantsQueryResult
+  applicantsByStatus(batch_id_list: [Int!], track_list: [Track!], status_list: [String!]): ApplicantsQueryResult
   applicantDetails(batch_id: Int!, applicant_id: String!): ApplicantDetailsQueryResult
   batches(batch_id: Int): BatchesQueryResult
   applicantsFromTrack(batch_id_list: [Int!], track_list: [Track!]): ApplicantsQueryResult

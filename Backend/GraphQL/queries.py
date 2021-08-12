@@ -1,3 +1,4 @@
+from firebase_admin import App
 from Backend.DataTypes.Exceptions.IncorrectParameterException import IncorrectParameterException
 from Backend.DataTypes.Exceptions.AuthenticationException import AuthenticationException
 from ariadne import QueryType
@@ -181,3 +182,12 @@ def resolve_applicant_from_track(_, info, batch_id_list, track_list):
         return AuthenticationException(404, "User does not have permissions")
 
 
+@query.field("applicantsByStatus")
+def resolve_applicants_by_status(_, info, batch_id_list, track_list, status_list):
+    result = resolve_applicant_from_track(_, info, batch_id_list, track_list)
+    if isinstance(result, ApplicantList):
+        applicants = result.list
+        applicants_by_status = [applicant for applicant in applicants if applicant.status in status_list]
+        return ApplicantList(applicants_by_status)
+    else: 
+        return resolve_applicant_from_track(_, info, batch_id_list, track_list)
