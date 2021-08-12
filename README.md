@@ -32,7 +32,6 @@ query {
     }
   }
 
-
   
 query {
   applicantDetails(batch_id: 13, applicant_id: "jru16lzWvqxHiuakWN0q") {

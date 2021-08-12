@@ -23,34 +23,36 @@ def resolve_current_user(_, info):
 
 # TODO This method has to change to query only the information that will be displayed on the applicants List
 @query.field("applicants")
-def resolve_applicants(_, info, batch_id):
+def resolve_applicants(_, info, batch_id_list):
     current_user = get_user_context(info)
-    # current_user = User(1232499,"Magda", "ntmagda393@gmail.com", "photo")
-    if (current_user):
-        applicants = []
-        batch_doc = batches.document('batch-' + str(batch_id))
-        if not batch_doc.get().exists:
-            return IncorrectParameterException(errorMessage='Incorrect batch_id parameter')
-        applications = batch_doc.collection('applications')
-        applications = [doc.to_dict()  for doc in applications.stream()]
+    # current_user = User("Magda", "ntmagda393@gmail.com", "photo")
+    applicants = []
 
-        for application in applications:
-            try:
-                applicants.append(Applicant(application['id'],
-                                    application['name'],
-                                    application['batch'],
-                                    application['track'],
-                                    application['email'],
-                                    application['consent'],
-                                    application['coverLetter'],
-                                    application['cv'],
-                                    application['scholarship'],
-                                    application['source'],
-                                    application['gender'],
-                                    application['status']
-                                    ))
-            except KeyError as err:
-                return IncorrectParameterException(1, "The field" + str(err) + "does not exists in the database document" )
+    if (current_user):
+        for batch_id in batch_id_list:
+            batch_doc = batches.document('batch-' + str(batch_id))
+            if not batch_doc.get().exists:
+                return IncorrectParameterException(errorMessage='Incorrect batch_id parameter')
+            applications = batch_doc.collection('applications')
+            applications = [doc.to_dict()  for doc in applications.stream()]
+
+            for application in applications:
+                try:
+                    applicants.append(Applicant(application['id'],
+                                        application['name'],
+                                        application['batch'],
+                                        application['track'],
+                                        application['email'],
+                                        application['consent'],
+                                        application['coverLetter'],
+                                        application['cv'],
+                                        application['scholarship'],
+                                        application['source'],
+                                        application['gender'],
+                                        application['status']
+                                        ))
+                except KeyError as err:
+                    return IncorrectParameterException(1, "The field" + str(err) + "does not exists in the database document" )
         return ApplicantList(applicants)
     else:
         return AuthenticationException()
