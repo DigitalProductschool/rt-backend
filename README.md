@@ -88,13 +88,14 @@ query {
 
 
 
-To get information about the batch with batch_id: ( if batch_id == null all batches will be listed)
+To get information about the batch with batch_id.
 
 query {
-  batches(batch_id: null) {
+  batches(batch_id_list: [15]) {
     ... on BatchList{
 				list {
           startDate
+          batch
         }
     }
     ... on Exception{
@@ -102,8 +103,6 @@ query {
     }
     }
   }
-
-
 The mutation example to rate an applicant:
 
   mutation {
