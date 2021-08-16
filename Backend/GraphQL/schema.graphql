@@ -82,7 +82,7 @@ type Query {
   applicants(batch_id_list: [Int!]): ApplicantsQueryResult
   applicantsByStatus(batch_id_list: [Int!], track_list: [Track!], status_list: [String!]): ApplicantsQueryResult
   applicantDetails(batch_id: Int!, applicant_id: String!): ApplicantDetailsQueryResult
-  batches(batch_id: Int): BatchesQueryResult
+  batches(batch_id_list: [Int!]): BatchesQueryResult
   applicantsFromTrack(batch_id_list: [Int!], track_list: [Track!]): ApplicantsQueryResult
   user: User
 }
