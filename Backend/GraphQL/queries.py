@@ -101,32 +101,14 @@ def resolve_batches(_, info, batch_id_list):
     # current_user = User("Magda", "ntmagda393@gmail.com", "photo")
     batches = []
     if (current_user):
-        if batch_id_list:
-            for batch_id in batch_id_list:
-                batch_details_doc = batches_details.document(str(batch_id))
-                if not batch_details_doc.get().exists:
-                    return IncorrectParameterException(errorMessage='Incorrect batch_id')
+        for batch_id in batch_id_list:
+            batch_details_doc = batches_details.document(str(batch_id))
+            if not batch_details_doc.get().exists:
+                return IncorrectParameterException(errorMessage='Incorrect batch_id')
 
-                batch_details = batch_details_doc.get().to_dict()
-                try:
-                    batches.append(Batch(batch_details['batch'],
-                                        batch_details['startDate'],
-                                        batch_details['endDate'],
-                                        batch_details['appStartDate'],
-                                        batch_details['appEndDate'],
-                                        batch_details['appEndDate-ai'],
-                                        batch_details['appEndDate-ixd'],
-                                        batch_details['appEndDate-pm'],
-                                        batch_details['appEndDate-se']
-                                        ))
-                except KeyError as err:
-                        return IncorrectParameterException(1, "The field" + str(err) + "does not exists in the database document" )
-            return BatchList(batches)
-        else:
-            batches_collection = [doc.to_dict() for doc in batches_details.stream()]
-            for batch_details in batches_collection:
-                try:
-                    batches.append(Batch(batch_details['batch'],
+            batch_details = batch_details_doc.get().to_dict()
+            try:
+                batches.append(Batch(batch_details['batch'],
                                     batch_details['startDate'],
                                     batch_details['endDate'],
                                     batch_details['appStartDate'],
@@ -136,9 +118,9 @@ def resolve_batches(_, info, batch_id_list):
                                     batch_details['appEndDate-pm'],
                                     batch_details['appEndDate-se']
                                     ))
-                except KeyError as err:
+            except KeyError as err:
                     return IncorrectParameterException(1, "The field" + str(err) + "does not exists in the database document" )
-            return BatchList(batches)
+        return BatchList(batches)
     else:
         return AuthenticationException()
 
