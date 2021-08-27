@@ -33,6 +33,7 @@ type Applicant {
 }
 
 type User {
+ uid: String!
  name: String! 
  email: String!
  photo: String!

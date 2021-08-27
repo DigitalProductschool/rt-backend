@@ -26,7 +26,7 @@ def resolve_current_user(_, info):
 @query.field("applicants")
 def resolve_applicants(_, info, batch_id_list):
     current_user = get_user_context(info)
-    # current_user = User("Magda", "ntmagda393@gmail.com", "photo")
+    # current_user = User(1233, "Magda", "ntmagda393@gmail.com", "photo")
     applicants = []
 
     if (current_user):
