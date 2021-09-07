@@ -11,8 +11,9 @@ import os
 import pdfkit
 
 class Emails:
-    def __init__(self, config, applicantName, applicantEmail, applicantTrack, batchNumber):
+    def __init__(self, config, applicantId, applicantName, applicantEmail, applicantTrack, batchNumber):
         self.applicantName = applicantName
+        self.applicantId = applicantId
         self.dps_email = access_secret_version('dps-email')
         self.dps_password = access_secret_version('dps-email-pass')
         self.config = config
@@ -64,7 +65,7 @@ class Emails:
 
     def send_acceptance(self):
         subject = "You are accepted!"
-        body = render_template('SendAcceptanceEmail.html', applicantName=self.applicantName, applicantTrack=self.applicantTrack, acceptanceForm="https://www.w3schools.com/charsets/tryit.asp?deci=128522")
+        body = render_template('SendAcceptanceEmail.html', applicantName=self.applicantName, applicantTrack=self.applicantTrack, acceptanceForm="https://rt-frontend-production-t6aaxdrofq-ey.a.run.app/"+ self.applicantName + "/" + self.batchNumber + "/" + self.applicantId )
         footer = render_template('Footer.html')
         return {"subject": subject, "body": body + footer}
 

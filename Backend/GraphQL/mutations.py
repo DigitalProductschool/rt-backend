@@ -142,7 +142,7 @@ def mutation_email(_, info, applicant_id, email_type, applicant_name, applicant_
     if(application):
       status = config_status(email_type)      
       application.update({'status': status})
-      Emails(email_type, applicant_name, applicant_email, track, batch_id).send_email() 
+      Emails(email_type, applicant_id, applicant_name, applicant_email, track, batch_id).send_email() 
 
 
 @mutation.field("sendEmailDocuments")
@@ -152,4 +152,4 @@ def mutation_email(_, info,  applicant_id, applicant_name, applicant_email, trac
     if(application):
       status = "DocumentSent"     
       application.update({'status': status})
-      Emails("sendDocuments", applicant_name, applicant_email, track, batch_id).send_email_with_attach()
+      Emails("sendDocuments", applicant_id, applicant_name, applicant_email, track, batch_id).send_email_with_attach()
