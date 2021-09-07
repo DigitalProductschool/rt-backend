@@ -80,3 +80,32 @@ The mutation example to rate an applicant:
     }
 }
 }
+
+The mutation to send email:
+
+ mutation {
+  sendEmail(email_type: "sendChallenge", applicant_name: "Bela", applicant_email: "belasinoimeri@gmail.com", track: se, batch_id: 15, applicant_id:"IX12MMJC2ZRghqyuw1uS") {
+     ... on Status {
+      code
+      message
+    }
+    ... on Exception{
+        message
+    }
+}
+}
+
+
+The mutation to send email with documents attached:
+
+ mutation {
+  sendEmailDocuments(applicant_name: "Bela", applicant_email: "belasinoimeri@gmail.com", track: se, batch_id: 15, applicant_id:"IX12MMJC2ZRghqyuw1uS") {
+     ... on Status {
+      code
+      message
+    }
+    ... on Exception{
+        message
+    }
+}
+}

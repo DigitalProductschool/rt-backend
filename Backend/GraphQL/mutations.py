@@ -24,10 +24,25 @@ mutation = MutationType()
 coolnessThreshold = 3.5 # threshold that if exceeded changed an applicant status to PRETTY_COOL
 requiredVotesNo = 2 # required number of votes for the threshold to be changed
 
+def get_applicant_document(info, batch_id, applicant_id): 
+    current_user = get_user_context(info)
+    if(current_user):
+        batch_doc = batches.document('batch-' + str(batch_id))
+        if not batch_doc.get().exists:
+            return IncorrectParameterException(errorMessage='Invalid batch_id')
+            
+        applications = batch_doc.collection('applications')  
+        application = applications.document(str(applicant_id)) 
+        if not application.get().exists:
+            return IncorrectParameterException(errorMessage='Invalid applicant_id')
+
+        application_details = application.get().to_dict()
+        return application, application_details
 
 @mutation.field("rate")
 def resolve_rate(_, info, batch_id, applicant_id, score):
     current_user = get_user_context(info)
+    # to be refactored
     # current_user = User(123323549339,"Magda", "ntmagda393@gmail.com", "photo")
     if(current_user):
         batch_doc = batches.document('batch-' + str(batch_id))
@@ -109,10 +124,32 @@ def resolve_rate_mutatation_result(obj, *_):
     return None
 
 
+def config_status(email_type):
+        all_emails = {
+            'sendChallenge': 'ChallengeSent',
+            'sendQ&A': 'Q&ASent',
+            'sendInvitation': 'InvitationSent',
+            'sendRejection': 'Rejected',
+            'sendAcceptance': 'Accepted',
+        }
+        status = all_emails[email_type]
+        return status
+
 @mutation.field("sendEmail")
-def mutation_email(_, info, email_type, applicant_name, applicant_email, track, batch_id):
-    Emails(email_type, applicant_name, applicant_email, track, batch_id).send_email()
+def mutation_email(_, info, applicant_id, email_type, applicant_name, applicant_email, track, batch_id):
+   # to include the resolver
+    application, application_details = get_applicant_document(info, batch_id, applicant_id)
+    if(application):
+      status = config_status(email_type)      
+      application.update({'status': status})
+      Emails(email_type, applicant_name, applicant_email, track, batch_id).send_email() 
+
 
 @mutation.field("sendEmailDocuments")
-def mutation_email(_, info, applicant_name, applicant_email, track, batch_id):
-    Emails("sendDocuments", applicant_name, applicant_email, track, batch_id).send_email_with_attach()
+def mutation_email(_, info,  applicant_id, applicant_name, applicant_email, track, batch_id):
+    # to include the resolver
+    application, application_details = get_applicant_document(info, batch_id, applicant_id)
+    if(application):
+      status = "DocumentSent"     
+      application.update({'status': status})
+      Emails("sendDocuments", applicant_name, applicant_email, track, batch_id).send_email_with_attach()
