@@ -9,11 +9,9 @@ from Backend.Authentication.verify_token import get_user_context
 from Backend.DataTypes.Exceptions.AuthenticationException import AuthenticationException
 from Backend.DataTypes.Exceptions.IncorrectParameterException import IncorrectParameterException
 
-from trello import TrelloClient, Board, Card, List
-import os
+from trello import TrelloClient, Board
 from Backend.config import Config, config
-import smtplib
-from email.message import EmailMessage
+
 from Backend.emails import Emails
 
 
@@ -30,7 +28,10 @@ requiredVotesNo = 2 # required number of votes for the threshold to be changed
 def resolve_rate(_, info, batch_id, applicant_id, score):
     current_user = get_user_context(info)
     if(current_user):
-        application, application_details = get_applicant_document(info, batch_id, applicant_id)
+        try:
+            application, application_details = get_applicant_document(info, batch_id, applicant_id)
+        except Exception as err:
+            return IncorrectParameterException(errorMessage=err.__str__())
         try:
             ratings = application_details['ratings']
             ratings[str(current_user.uid)] = score
@@ -72,25 +73,17 @@ def resolve_move_trello_card(_, info, source_list_name, dest_list_name, card_nam
         return AuthenticationException()
 
 
-RateMutationResult = UnionType("RateMutationResult")
-@RateMutationResult.type_resolver
-def resolve_rate_mutatation_result(obj, *_):
-    if isinstance(obj, Status):
-        return "Status"
-    if isinstance(obj, AuthenticationException):
-        return "Exception"
-    if isinstance(obj, IncorrectParameterException):
-        return "Exception"
-    return None
-
-
 
 @mutation.field("sendEmail")
 def mutation_email(_, info, applicant_id, email_type, applicant_name, applicant_email, track, batch_id):
     current_user = get_user_context(info)
+    # current_user = User(123663, "Magda", "ntmagda393@gmail.com", "photo")
     if(current_user):
-        application, application_details = get_applicant_document(info, batch_id, applicant_id)
-        # to include the resolver
+        try:
+            application, application_details = get_applicant_document(info, batch_id, applicant_id)
+        except Exception as err:
+            return IncorrectParameterException(errorMessage=err.__str__())
+
         if(application):
             status = config_status(email_type)      
             application.update({'status': status})
@@ -98,10 +91,41 @@ def mutation_email(_, info, applicant_id, email_type, applicant_name, applicant_
                 Emails(email_type, applicant_id, applicant_name, applicant_email, track, batch_id).send_email_with_attach()
             else:
                 Emails(email_type, applicant_id, applicant_name, applicant_email, track, batch_id).send_email()
+            return Status(0,'Email was succesfuly sent')
+
     else:
         return AuthenticationException()
 
 
+
+
+
+
+@mutation.field("saveForm")
+def save_form(_, info,  applicant_id, batch_id, location, streetNumber, addressSuffix, postcode, city, country, accountHolder, bankName, iban, bic, shirtSize, shirtStyle, foodIntolerances):
+    try:
+        application, application_details = get_applicant_document(info, batch_id, applicant_id)
+    except Exception as err:
+        return IncorrectParameterException(errorMessage=err.__str__())
+
+    if(application):
+      acceptanceFormData = { 
+                'location': location,
+                'streetNumber': streetNumber,
+                'addressSuffix': addressSuffix,
+                'postcode':  postcode,
+                'city': city,
+                'country': country,
+                'accountHolder': accountHolder,
+                'bankName': bankName,
+                'iban': iban,
+                'bic': bic,
+                'shirtSize': shirtSize,
+                'shirtStyle': shirtStyle,
+                'foodIntolerances': foodIntolerances
+      }
+      application.set({"acceptanceFormData": acceptanceFormData}, merge=True)   
+    
 
 def config_status(email_type):
         all_emails = {
@@ -133,38 +157,11 @@ def setApplicantStatus(ratings):
 def get_applicant_document(info, batch_id, applicant_id): 
     batch_doc = batches.document('batch-' + str(batch_id))
     if not batch_doc.get().exists:
-        return IncorrectParameterException(errorMessage='Invalid batch_id')
-        
+        raise Exception("Invalid Batch_id") 
     applications = batch_doc.collection('applications')  
     application = applications.document(str(applicant_id)) 
     if not application.get().exists:
-        return IncorrectParameterException(errorMessage='Invalid applicant_id')
-
+        raise Exception("Invalid applicant_id")
+        
     application_details = application.get().to_dict()
     return application, application_details
-
-
-@mutation.field("saveForm")
-def save_form(_, info,  applicant_id, batch_id, location, streetNumber, addressSuffix, postcode, city, country, accountHolder, bankName, iban, bic, shirtSize, shirtStyle, foodIntolerances):
-    # to include the resolver
-    application, application_details = get_applicant_document(info, batch_id, applicant_id)
-    if(application):
-      status = "DocumentSent"  
-      acceptanceFormData = { 
-      'location': location,
-      'streetNumber': streetNumber,
-      'addressSuffix': addressSuffix,
-      'postcode':  postcode,
-      'city': city,
-      'country': country,
-      'accountHolder': accountHolder,
-      'bankName': bankName,
-      'iban': iban,
-      'bic': bic,
-      'shirtSize': shirtSize,
-      'shirtStyle': shirtStyle,
-      'foodIntolerances': foodIntolerances
-      }
-      application.set({"acceptanceFormData": acceptanceFormData}, merge=True)   
-    
-

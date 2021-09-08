@@ -24,7 +24,7 @@ class Emails:
         self.coreTeamLink = coreTeam["calendly"]
         self.coreTeamName = coreTeam["name"]
         self.acceptanceLink = "acceptanceLink"
-        self.batchNumber = batchNumber
+        self.batchNumber = str(batchNumber)
         self.qaLink = SE.qaLink
         
     def config_email(self):

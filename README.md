@@ -18,6 +18,14 @@ python run.py
 go to the server /graphql endpoint 
 insert the query in the following form with desired parameters:
 
+
+### dependencies 
+all python packages listed in requirements.txt should be installed.
+In addition the library wkhtmltopdf is required. 
+can be installed with brew. 
+Or if project is fired up with the docker-compose the wkhtmltopdf will be installes in the docker image itself. 
+
+
     
 query {
   applicants(batch_id_list: [13] ) {
@@ -117,31 +125,18 @@ The mutation example to rate an applicant:
 }
 }
 
-The mutation to send email:
-
- mutation {
-  sendEmail(email_type: "sendChallenge", applicant_name: "Bela", applicant_email: "belasinoimeri@gmail.com", track: se, batch_id: 15, applicant_id:"IX12MMJC2ZRghqyuw1uS") {
+The mutation to send email (with or without documents dependent on the email_type):
+mutation {
+  sendEmail(applicant_id: "jru16lzWvqxHiuakWN0q", email_type: "sendDocuments", applicant_name:"Magda", applicant_email: "ntmagda93@gmail.com", track:se, batch_id:13) {
      ... on Status {
       code
       message
     }
     ... on Exception{
-        message
-    }
-}
-}
-
-
-The mutation to send email with documents attached:
-
- mutation {
-  sendEmailDocuments(applicant_name: "Bela", applicant_email: "belasinoimeri@gmail.com", track: se, batch_id: 15, applicant_id:"IX12MMJC2ZRghqyuw1uS") {
-     ... on Status {
       code
       message
+        
     }
-    ... on Exception{
-        message
-    }
+}
 }
 }
