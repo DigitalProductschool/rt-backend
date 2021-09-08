@@ -87,7 +87,7 @@ def mutation_email(_, info, applicant_id, email_type, applicant_name, applicant_
         if(application):
             status = config_status(email_type)      
             application.update({'status': status})
-            if status == 'DocumentsSent':
+            if status == 'Documents Sent':
                 Emails(email_type, applicant_id, applicant_name, applicant_email, track, batch_id).send_email_with_attach()
             else:
                 Emails(email_type, applicant_id, applicant_name, applicant_email, track, batch_id).send_email()
@@ -138,10 +138,10 @@ def save_form(_, info,  applicant_id, batch_id, location, streetNumber, addressS
 
 def config_status(email_type):
         all_emails = {
-            'sendDocuments': 'DocumentsSent',
-            'sendChallenge': 'ChallengeSent',
-            'sendQ&A': 'Q&ASent',
-            'sendInvitation': 'InvitationSent',
+            'sendDocuments': 'Documents Sent',
+            'sendChallenge': 'Challenge Sent',
+            'sendQ&A': 'Q&A Sent',
+            'sendInvitation': 'Invitation Sent',
             'sendRejection': 'Rejected',
             'sendAcceptance': 'Accepted',
         }

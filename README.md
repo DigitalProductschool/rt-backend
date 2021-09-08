@@ -77,7 +77,7 @@ query {
   }
 
   query {
-  applicantsFromStatus(batch_id_list: [15], status_list: ["DocumentsSent"]) {
+  applicantsFromStatus(batch_id_list: [15], status_list: ["Documents Sent"]) {
 	... on ApplicantList{
 	  list {
       name
