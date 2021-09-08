@@ -128,6 +128,7 @@ query {
 
 
 To get information about the batch with batch_id.
+If list is empty - all batches will be returned. If wrong batch number provided - no infomation will be returned. 
 
 query {
   batches(batch_id_list: [15]) {
