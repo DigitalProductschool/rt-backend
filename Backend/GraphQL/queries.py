@@ -50,6 +50,7 @@ def resolve_applicants(_, info, batch_id_list):
                                         application['scholarship'],
                                         application['source'],
                                         application['gender'],
+                                        None
                                         application['status']
                                         ))
                 except KeyError as err:
@@ -87,6 +88,7 @@ def resolve_applicant_details(_, info, batch_id, applicant_id):
                                     applicant['scholarship'],
                                     applicant['source'],
                                     applicant['gender'],
+                                    None
                                     applicant['status']
                                     )
         except KeyError as err:
@@ -155,6 +157,7 @@ def resolve_applicant_from_track(_, info, batch_id_list, track_list):
                                                     application['scholarship'],
                                                     application['source'],
                                                     application['gender'],
+                                                    None,
                                                     application['status']
                                                     ))
                     except KeyError as err:
@@ -164,6 +167,47 @@ def resolve_applicant_from_track(_, info, batch_id_list, track_list):
     else:
         return AuthenticationException(404, "User does not have permissions")
 
+
+@query.field("applicantsFromStatus")
+def resolve_applicant_from_status(_, info, batch_id_list, status_list):
+    current_user = get_user_context(info)
+    # current_user = User("Magda", "ntmagda393@gmail.com", "photo")
+    # to be refactored
+    applicants = []
+
+    if (current_user):
+        for batch_id in batch_id_list: 
+            for status in status_list: 
+                batch_doc = batches.document('batch-' + str(batch_id))
+                if not batch_doc.get().exists:
+                    return IncorrectParameterException(errorMessage='Incorrect batch_id parameter')
+
+                applicationsFromStatus = batch_doc.collection('applications').where('status', '==', status).stream()
+
+                for doc in applicationsFromStatus:
+                    application = doc.to_dict()
+                    print(application['acceptanceFormData'])
+                    try:
+                        applicants.append(Applicant(application['id'],
+                                                    application['name'],
+                                                    application['batch'],
+                                                    application['track'],
+                                                    application['email'],
+                                                    application['consent'],
+                                                    application['coverLetter'],
+                                                    application['cv'],
+                                                    application['scholarship'],
+                                                    application['source'],
+                                                    application['gender'],
+                                                    application['acceptanceFormData'],
+                                                    application['status']
+                                                    ))
+                    except KeyError as err:
+                        return IncorrectParameterException(1, "The field" + str(err) + "does not exists in the database document" )
+
+        return ApplicantList(applicants)
+    else:
+        return AuthenticationException(404, "User does not have permissions")
 
 @query.field("applicantsByStatus")
 def resolve_applicants_by_status(_, info, batch_id_list, track_list, status_list):

@@ -17,6 +17,23 @@ type Document {
   name: String
 }
 
+type Form {
+  location: String
+  streetNumber: String
+  addressSuffix: String
+  postcode: String
+  city: String
+  country: String
+  accountHolder: String
+  bankName: String
+  iban: String
+  bic: String
+  shirtSize: String
+  shirtStyle: String
+  foodIntolerances: String
+}
+
+
 type Applicant {
   id: String!
   name: String!
@@ -30,6 +47,7 @@ type Applicant {
   source: String
   gender: String
   status: String! 
+  acceptanceFormData: Form
 }
 
 type User {
@@ -86,6 +104,7 @@ type Query {
   applicantDetails(batch_id: Int!, applicant_id: String!): ApplicantDetailsQueryResult
   batches(batch_id_list: [Int!]): BatchesQueryResult
   applicantsFromTrack(batch_id_list: [Int!], track_list: [Track!]): ApplicantsQueryResult
+  applicantsFromStatus(batch_id_list: [Int!], status_list: [String!]): ApplicantsQueryResult
   user: User
 }
 
@@ -94,5 +113,4 @@ type Mutation {
   moveTrelloCard(source_list_name: String!, dest_list_name: String!, card_name: String!): RateMutationResult
   sendEmail(email_type:String!, applicant_id: String!, applicant_name: String!, applicant_email: String!, track: Track!, batch_id: Int): SendEmailMutationResult
   saveForm(applicant_id: String!, batch_id: Int, location: String!, streetNumber: String!, addressSuffix: String!, postcode: String!, city: String!, country: String!, accountHolder: String!, bankName: String!, iban: String!, bic: String!, shirtSize: String!, shirtStyle: String!, foodIntolerances: String!): SaveFormMutationResult
-   
 }

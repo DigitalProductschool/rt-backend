@@ -76,6 +76,37 @@ query {
     }
   }
 
+  query {
+  applicantsFromStatus(batch_id_list: [15], status_list: ["DocumentsSent"]) {
+	... on ApplicantList{
+	  list {
+      name
+      track
+      batch
+      acceptanceFormData {
+          location
+          streetNumber
+          addressSuffix
+          postcode
+          city
+          country
+          accountHolder
+          bankName
+          iban
+          bic
+          shirtSize
+          shirtStyle
+          foodIntolerances
+      }
+    }
+	}
+	... on Exception{
+		message
+	}
+    }
+  }
+
+
 There is a possibility to query applicants across multiple batches and multiple tracks and also filter via Status:
 
 query {
