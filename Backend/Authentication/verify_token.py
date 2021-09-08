@@ -25,6 +25,7 @@ def get_user_data(uid):
         user = auth.get_user(uid)
         verify_email(user.email)
         current_user = User(
+                      user.uid,
                       user.display_name,
                       user.email,
                       user.photo_url
