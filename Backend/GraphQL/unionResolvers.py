@@ -5,6 +5,8 @@ from Backend.DataTypes.Exceptions.AuthenticationException import AuthenticationE
 from Backend.DataTypes.Applicant import Applicant
 from Backend.DataTypes.ApplicantList import ApplicantList
 from Backend.DataTypes.BatchList import BatchList
+from Backend.DataTypes.Status import Status
+
 
 
 ApplicantDetailsQueryResult = UnionType("ApplicantDetailsQueryResult")
@@ -42,3 +44,43 @@ def resolve_batches_query_result(obj, *_):
         return "Exception"
     return None
 
+
+
+
+RateMutationResult = UnionType("RateMutationResult")
+@RateMutationResult.type_resolver
+def resolve_rate_mutatation_result(obj, *_):
+    if isinstance(obj, Status):
+        return "Status"
+    if isinstance(obj, AuthenticationException):
+        return "Exception"
+    if isinstance(obj, IncorrectParameterException):
+        return "Exception"
+    return None
+
+
+
+
+SendEmailMutationResult = UnionType("SendEmailMutationResult")
+@SendEmailMutationResult.type_resolver
+def resolve_sendEmail_mutatation_result(obj, *_):
+    if isinstance(obj, Status):
+        return "Status"
+    if isinstance(obj, AuthenticationException):
+        return "Exception"
+    if isinstance(obj, IncorrectParameterException):
+        return "Exception"
+    return None
+
+
+
+SaveFormMutationResult = UnionType("SaveFormMutationResult")
+@SaveFormMutationResult.type_resolver
+def resolve_saveForm_mutatation_result(obj, *_):
+    if isinstance(obj, Status):
+        return "Status"
+    if isinstance(obj, AuthenticationException):
+        return "Exception"
+    if isinstance(obj, IncorrectParameterException):
+        return "Exception"
+    return None
