@@ -153,3 +153,28 @@ def mutation_email(_, info,  applicant_id, applicant_name, applicant_email, trac
       status = "DocumentSent"     
       application.update({'status': status})
       Emails("sendDocuments", applicant_id, applicant_name, applicant_email, track, batch_id).send_email_with_attach()
+
+@mutation.field("saveForm")
+def save_form(_, info,  applicant_id, batch_id, location, streetNumber, addressSuffix, postcode, city, country, accountHolder, bankName, iban, bic, shirtSize, shirtStyle, foodIntolerances):
+    # to include the resolver
+    application, application_details = get_applicant_document(info, batch_id, applicant_id)
+    if(application):
+      status = "DocumentSent"  
+      acceptanceFormData = { 
+      'location': location,
+      'streetNumber': streetNumber,
+      'addressSuffix': addressSuffix,
+      'postcode':  postcode,
+      'city': city,
+      'country': country,
+      'accountHolder': accountHolder,
+      'bankName': bankName,
+      'iban': iban,
+      'bic': bic,
+      'shirtSize': shirtSize,
+      'shirtStyle': shirtStyle,
+      'foodIntolerances': foodIntolerances
+      }
+      application.set({"acceptanceFormData": acceptanceFormData}, merge=True)   
+    
+
