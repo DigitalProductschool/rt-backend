@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify, Blueprint
 from ariadne import graphql_sync, make_executable_schema, gql, load_schema_from_path
 from ariadne.constants import PLAYGROUND_HTML
 from Backend.GraphQL.queries import query
-from Backend.GraphQL.unionResolvers import ApplicantsQueryResult, BatchesQueryResult, ApplicantDetailsQueryResult, RateMutationResult, SendEmailMutationResult
+from Backend.GraphQL.unionResolvers import ApplicantsQueryResult, BatchesQueryResult, ApplicantDetailsQueryResult, RateMutationResult, SendEmailMutationResult, SaveFormMutationResult
 from Backend.GraphQL.mutations import mutation
 
 from flask_cors import CORS
@@ -25,7 +25,8 @@ schema = make_executable_schema(type_defs, [query,
                                             BatchesQueryResult, 
                                             ApplicantDetailsQueryResult, 
                                             RateMutationResult,
-                                            SendEmailMutationResult])
+                                            SendEmailMutationResult,
+                                            SaveFormMutationResult])
 
 
 
