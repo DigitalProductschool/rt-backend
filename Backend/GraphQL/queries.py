@@ -98,15 +98,14 @@ def resolve_applicant_details(_, info, batch_id, applicant_id):
 @query.field("batches")
 def resolve_batches(_, info, batch_id_list):
     current_user = get_user_context(info)
-    # current_user = User("Magda", "ntmagda393@gmail.com", "photo")
+    # current_user = User(1121,"Magda", "ntmagda393@gmail.com", "photo")
     batches = []
     if (current_user):
-        for batch_id in batch_id_list:
-            batch_details_doc = batches_details.document(str(batch_id))
-            if not batch_details_doc.get().exists:
-                return IncorrectParameterException(errorMessage='Incorrect batch_id')
-
-            batch_details = batch_details_doc.get().to_dict()
+        if len(batch_id_list) > 0: 
+            batches_collection = [doc.to_dict() for doc in batches_details.stream() if doc.to_dict()['batch'] in batch_id_list]
+        else: 
+            batches_collection = [doc.to_dict() for doc in batches_details.stream()]
+        for batch_details in batches_collection:
             try:
                 batches.append(Batch(batch_details['batch'],
                                     batch_details['startDate'],
