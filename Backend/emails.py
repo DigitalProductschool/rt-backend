@@ -65,7 +65,7 @@ class Emails:
 
     def send_acceptance(self):
         subject = "You are accepted!"
-        body = render_template('SendAcceptanceEmail.html', applicantName=self.applicantName, applicantTrack=self.applicantTrack, acceptanceForm="https://rt-frontend-production-t6aaxdrofq-ey.a.run.app/"+ self.applicantName + "/" + self.batchNumber + "/" + self.applicantId )
+        body = render_template('SendAcceptanceEmail.html', applicantName=self.applicantName, applicantTrack=self.applicantTrack, acceptanceForm="https://rt-frontend-production-t6aaxdrofq-ey.a.run.app/"+ str(self.applicantName) + "/" + str(self.batchNumber) + "/" + str(self.applicantId) )
         footer = render_template('Footer.html')
         return {"subject": subject, "body": body + footer}
 
