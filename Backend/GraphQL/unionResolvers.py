@@ -72,3 +72,15 @@ def resolve_sendEmail_mutatation_result(obj, *_):
         return "Exception"
     return None
 
+
+
+SaveFormMutationResult = UnionType("SaveFormMutationResult")
+@SaveFormMutationResult.type_resolver
+def resolve_saveForm_mutatation_result(obj, *_):
+    if isinstance(obj, Status):
+        return "Status"
+    if isinstance(obj, AuthenticationException):
+        return "Exception"
+    if isinstance(obj, IncorrectParameterException):
+        return "Exception"
+    return None

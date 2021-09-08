@@ -99,32 +99,41 @@ def mutation_email(_, info, applicant_id, email_type, applicant_name, applicant_
 
 
 
-
-
 @mutation.field("saveForm")
 def save_form(_, info,  applicant_id, batch_id, location, streetNumber, addressSuffix, postcode, city, country, accountHolder, bankName, iban, bic, shirtSize, shirtStyle, foodIntolerances):
-    try:
-        application, application_details = get_applicant_document(info, batch_id, applicant_id)
-    except Exception as err:
-        return IncorrectParameterException(errorMessage=err.__str__())
+    current_user = get_user_context(info)
+    # current_user = User(123663, "Magda", "ntmagda393@gmail.com", "photo")
 
-    if(application):
-      acceptanceFormData = { 
-                'location': location,
-                'streetNumber': streetNumber,
-                'addressSuffix': addressSuffix,
-                'postcode':  postcode,
-                'city': city,
-                'country': country,
-                'accountHolder': accountHolder,
-                'bankName': bankName,
-                'iban': iban,
-                'bic': bic,
-                'shirtSize': shirtSize,
-                'shirtStyle': shirtStyle,
-                'foodIntolerances': foodIntolerances
-      }
-      application.set({"acceptanceFormData": acceptanceFormData}, merge=True)   
+    if(current_user):
+        try:
+            application, application_details = get_applicant_document(info, batch_id, applicant_id)
+        except Exception as err:
+            return IncorrectParameterException(errorMessage=err.__str__())
+
+        if(application):
+            acceptanceFormData = { 
+                        'location': location,
+                        'streetNumber': streetNumber,
+                        'addressSuffix': addressSuffix,
+                        'postcode':  postcode,
+                        'city': city,
+                        'country': country,
+                        'accountHolder': accountHolder,
+                        'bankName': bankName,
+                        'iban': iban,
+                        'bic': bic,
+                        'shirtSize': shirtSize,
+                        'shirtStyle': shirtStyle,
+                        'foodIntolerances': foodIntolerances
+            }
+            application.set({"acceptanceFormData": acceptanceFormData}, merge=True)
+            return Status(0,'Form was succesfully saved')
+
+    else:
+        return AuthenticationException()
+
+
+######## HELPER FUNCTIONS #############
     
 
 def config_status(email_type):
@@ -161,7 +170,7 @@ def get_applicant_document(info, batch_id, applicant_id):
     applications = batch_doc.collection('applications')  
     application = applications.document(str(applicant_id)) 
     if not application.get().exists:
-        raise Exception("Invalid applicant_id")
+        raise Exception("Invalid applicant_id or there is no applicant with this Id in specified batch")
         
     application_details = application.get().to_dict()
     return application, application_details
