@@ -45,8 +45,6 @@ def resolve_batches_query_result(obj, *_):
     return None
 
 
-
-
 RateMutationResult = UnionType("RateMutationResult")
 @RateMutationResult.type_resolver
 def resolve_rate_mutatation_result(obj, *_):
@@ -58,9 +56,6 @@ def resolve_rate_mutatation_result(obj, *_):
         return "Exception"
     return None
 
-
-
-
 SendEmailMutationResult = UnionType("SendEmailMutationResult")
 @SendEmailMutationResult.type_resolver
 def resolve_sendEmail_mutatation_result(obj, *_):
@@ -71,8 +66,6 @@ def resolve_sendEmail_mutatation_result(obj, *_):
     if isinstance(obj, IncorrectParameterException):
         return "Exception"
     return None
-
-
 
 SaveFormMutationResult = UnionType("SaveFormMutationResult")
 @SaveFormMutationResult.type_resolver

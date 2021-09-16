@@ -1,13 +1,19 @@
-# app.py
-# Required imports
 import os
 from flask import Flask, request, jsonify, Blueprint
 from ariadne import graphql_sync, make_executable_schema, gql, load_schema_from_path
 from ariadne.constants import PLAYGROUND_HTML
-from Backend.GraphQL.queries import query
+from Backend.GraphQL.mutations.commentMutation import mutation
+from Backend.GraphQL.mutations.emailMutation import mutation
+from Backend.GraphQL.mutations.formMutation import mutation
+from Backend.GraphQL.mutations.rateMutation import mutation
+from Backend.GraphQL.queries.applicantDetails import query
+from Backend.GraphQL.queries.applicants import query
+from Backend.GraphQL.queries.batches import query
+from Backend.GraphQL.queries.applicantsFromTrack import query
+from Backend.GraphQL.queries.applicantsFromStatus import query
+from Backend.GraphQL.queries.applicants import query
 from Backend.GraphQL.unionResolvers import ApplicantsQueryResult, BatchesQueryResult, ApplicantDetailsQueryResult, RateMutationResult, SendEmailMutationResult, SaveFormMutationResult
-from Backend.GraphQL.mutations import mutation
-
+from Backend.GraphQL.shared import query
 from flask_cors import CORS
 from Backend.database import db
 from datetime import timedelta

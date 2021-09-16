@@ -97,6 +97,7 @@ union BatchesQueryResult = BatchList | Exception
 union RateMutationResult = Status | Exception
 union SendEmailMutationResult = Status | Exception
 union SaveFormMutationResult = Status | Exception
+union CreateCommentMutationResult = Status | Exception
 
 type Query {
   applicants(batch_id_list: [Int!]): ApplicantsQueryResult
@@ -113,4 +114,7 @@ type Mutation {
   moveTrelloCard(source_list_name: String!, dest_list_name: String!, card_name: String!): RateMutationResult
   sendEmail(email_type:String!, applicant_id: String!, applicant_name: String!, applicant_email: String!, track: Track!, batch_id: Int): SendEmailMutationResult
   saveForm(applicant_id: String!, batch_id: Int, location: String!, streetNumber: String!, addressSuffix: String!, postcode: String!, city: String!, country: String!, accountHolder: String!, bankName: String!, iban: String!, bic: String!, shirtSize: String!, shirtStyle: String!, foodIntolerances: String!): SaveFormMutationResult
+  createComment( batch_id: Int!, applicant_id: String!, comment_body: String!): SaveFormMutationResult
+  editComment( batch_id: Int!, applicant_id: String!, comment_body: String!, comment_id:String! ): SaveFormMutationResult
+  deleteComment( batch_id: Int!, applicant_id: String!, comment_id: String!): SaveFormMutationResult
 }
