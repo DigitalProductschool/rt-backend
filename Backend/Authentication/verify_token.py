@@ -19,18 +19,20 @@ def verify_email(email):
     white_list = ["bela.sinoimeri@unternehmertum.de", "bela.sinoimeri@dpschool.io", "magda.nowak-trzos@unternehmertum.de","bedo@unternehmertum.de"]
     if email not in white_list: 
         return None
+    else: 
+        return True
 
 def get_user_data(uid):
     try:
         user = auth.get_user(uid)
-        verify_email(user.email)
-        current_user = User(
+        if verify_email(user.email): 
+            current_user = User(
                       user.uid,
                       user.display_name,
                       user.email,
                       user.photo_url
                       )
-        return current_user
+            return current_user
     except:
         return None
 
