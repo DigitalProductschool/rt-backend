@@ -26,6 +26,19 @@ python run.py
 * In addition the library wkhtmltopdf is required. Can be installed with brew or if project is fired up with the docker-compose the wkhtmltopdf will be installed in the docker image itself. 
 
 ## Queries
+
+### Current User
+```
+query {
+    user {
+      uid
+      name
+      email
+      photo
+    }
+  }
+```
+
 ### Applicants from Batch 
 ```
 query {
