@@ -31,7 +31,7 @@ def resolve_applicant_details(_, info, batch_id, applicant_id):
                                     applicant['scholarship'],
                                     applicant['source'],
                                     applicant['gender'],
-                                    application['acceptanceFormData'] if 'acceptanceFormData' in application else None,
+                                    None,
                                     applicant['status']
                                     )
         except KeyError as err:
