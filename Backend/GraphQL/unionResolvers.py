@@ -5,6 +5,7 @@ from Backend.DataTypes.Exceptions.AuthenticationException import AuthenticationE
 from Backend.DataTypes.Applicant import Applicant
 from Backend.DataTypes.ApplicantList import ApplicantList
 from Backend.DataTypes.BatchList import BatchList
+from Backend.DataTypes.CommentList import CommentList
 from Backend.DataTypes.Status import Status
 
 
@@ -32,6 +33,16 @@ def resolve_applicants_query_result(obj, *_):
         return "Exception"
     return None
 
+CommentsQueryResult = UnionType("CommentsQueryResult")
+@CommentsQueryResult.type_resolver
+def resolve_comments_query_result(obj, *_):
+    if isinstance(obj, CommentList):
+        return "CommentList"
+    if isinstance(obj, AuthenticationException):
+        return "Exception"
+    if isinstance(obj, IncorrectParameterException):
+        return "Exception"
+    return None
 
 BatchesQueryResult = UnionType("BatchesQueryResult")
 @BatchesQueryResult.type_resolver

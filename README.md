@@ -76,6 +76,30 @@ query {
   }
 ```
 
+### Applicant comments 
+```
+query {
+  applicantComments(batch_id: 15, applicant_id: "4KHMCajcFloiX2sSOUPE") {
+    ... on CommentList{
+        list{
+       body
+       createdAt
+       updatedAt
+       user {
+        name
+        photo
+        email
+        uid
+    }
+        }
+    }
+    ... on Exception{
+        message
+    }
+    }
+  }
+```
+
 ### Applicants from Track
 Query applicants across multiple batches and multiple tracks
 ```

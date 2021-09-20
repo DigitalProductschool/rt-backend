@@ -13,7 +13,8 @@ from Backend.GraphQL.queries.applicantsFromTrack import query
 from Backend.GraphQL.queries.applicantsFromStatus import query
 from Backend.GraphQL.queries.applicants import query
 from Backend.GraphQL.queries.currentUser import query
-from Backend.GraphQL.unionResolvers import ApplicantsQueryResult, BatchesQueryResult, ApplicantDetailsQueryResult, RateMutationResult, SendEmailMutationResult, SaveFormMutationResult
+from Backend.GraphQL.queries.applicantComments import query
+from Backend.GraphQL.unionResolvers import ApplicantsQueryResult, BatchesQueryResult, ApplicantDetailsQueryResult, RateMutationResult, SendEmailMutationResult, SaveFormMutationResult, CommentsQueryResult
 from Backend.GraphQL.shared import query
 from flask_cors import CORS
 from Backend.database import db
@@ -33,7 +34,7 @@ schema = make_executable_schema(type_defs, [query,
                                             ApplicantDetailsQueryResult, 
                                             RateMutationResult,
                                             SendEmailMutationResult,
-                                            SaveFormMutationResult])
+                                            SaveFormMutationResult, CommentsQueryResult])
 
 
 

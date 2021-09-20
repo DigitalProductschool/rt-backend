@@ -33,7 +33,6 @@ type Form {
   foodIntolerances: String
 }
 
-
 type Applicant {
   id: String!
   name: String!
@@ -48,6 +47,13 @@ type Applicant {
   gender: String
   status: String! 
   acceptanceFormData: Form
+}
+
+type Comment {
+createdAt: Date!
+updatedAt: Date
+body: String!
+user: User!
 }
 
 type User {
@@ -79,6 +85,10 @@ type ApplicantList {
   list: [Applicant!]
 }
 
+type CommentList {
+  list: [Comment!]
+}
+
 type BatchList {
   list: [Batch!]
 }
@@ -92,6 +102,7 @@ type Status {
 
 
 union ApplicantsQueryResult = ApplicantList | Exception
+union CommentsQueryResult = CommentList | Exception
 union ApplicantDetailsQueryResult = Applicant | Exception
 union BatchesQueryResult = BatchList | Exception
 union RateMutationResult = Status | Exception
@@ -101,6 +112,7 @@ union CreateCommentMutationResult = Status | Exception
 
 type Query {
   applicants(batch_id_list: [Int!]): ApplicantsQueryResult
+  applicantComments(batch_id: Int!, applicant_id: String!): CommentsQueryResult
   applicantsByStatus(batch_id_list: [Int!], track_list: [Track!], status_list: [String!]): ApplicantsQueryResult
   applicantDetails(batch_id: Int!, applicant_id: String!): ApplicantDetailsQueryResult
   batches(batch_id_list: [Int!]): BatchesQueryResult
