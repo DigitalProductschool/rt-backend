@@ -1,5 +1,5 @@
 
-scalar Date
+scalar Datetime
 
 
 enum Track {
@@ -50,8 +50,8 @@ type Applicant {
 }
 
 type Comment {
-createdAt: Date!
-updatedAt: Date
+createdAt: Datetime!
+updatedAt: Datetime
 body: String!
 user: User!
 }
@@ -66,14 +66,14 @@ type User {
 
 type Batch {
   batch: Int!
-  startDate: Date!
-  endDate: Date!
-  appStartDate: Date!
-  appEndDate: Date!
-  appEndDateAI: Date!
-  appEndDateIXD: Date!
-  appEndDatePM: Date!
-  appEndDateSE: Date!
+  startDate: Datetime!
+  endDate: Datetime!
+  appStartDate: Datetime!
+  appEndDate: Datetime!
+  appEndDateAI: Datetime!
+  appEndDateIXD: Datetime!
+  appEndDatePM: Datetime!
+  appEndDateSE: Datetime!
 }
 
 type Exception {
@@ -98,8 +98,6 @@ type Status {
   code: String
   message: String
 }
-
-
 
 union ApplicantsQueryResult = ApplicantList | Exception
 union CommentsQueryResult = CommentList | Exception

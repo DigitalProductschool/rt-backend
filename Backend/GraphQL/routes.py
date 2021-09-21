@@ -16,6 +16,7 @@ from Backend.GraphQL.queries.currentUser import query
 from Backend.GraphQL.queries.applicantComments import query
 from Backend.GraphQL.unionResolvers import ApplicantsQueryResult, BatchesQueryResult, ApplicantDetailsQueryResult, RateMutationResult, SendEmailMutationResult, SaveFormMutationResult, CommentsQueryResult
 from Backend.GraphQL.shared import query
+from Backend.GraphQL.scalarType import datetime_scalar
 from flask_cors import CORS
 from Backend.database import db
 from datetime import timedelta
@@ -29,6 +30,7 @@ batch_details = db.collection('batch-details')
 type_defs = gql(load_schema_from_path("Backend/GraphQL/schema.graphql"))
 schema = make_executable_schema(type_defs, [query, 
                                             mutation,
+                                            datetime_scalar,
                                             ApplicantsQueryResult,
                                             BatchesQueryResult, 
                                             ApplicantDetailsQueryResult, 
