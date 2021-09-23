@@ -82,6 +82,7 @@ query {
   applicantComments(batch_id: 15, applicant_id: "4KHMCajcFloiX2sSOUPE") {
     ... on CommentList{
         list{
+       id
        body
        createdAt
        updatedAt

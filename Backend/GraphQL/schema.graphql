@@ -50,6 +50,7 @@ type Applicant {
 }
 
 type Comment {
+id: String!
 createdAt: Datetime!
 updatedAt: Datetime
 body: String!

@@ -21,17 +21,19 @@ def resolve_applicant_details(_, info, batch_id, applicant_id):
             return IncorrectParameterException(errorMessage='Incorrect applicant_id')
         
         commentsCollection = application.collection('comments')
-        comments = [doc.to_dict()  for doc in commentsCollection.stream()]
-
+        comments = [doc for doc in commentsCollection.stream()]
         for comment in comments:
+            comment_dict = comment.to_dict()
             try:
-                comments_array.append(Comment(comment['createdAt'],
-                                        comment['updatedAt'] if 'updatedAt' in comment else None,
-                                        comment['body'],
-                                        comment['user']
+                comments_array.append(Comment(
+                                        comment.id,
+                                        comment_dict['createdAt'],
+                                        comment_dict['updatedAt'] if 'updatedAt' in comment_dict else None,
+                                        comment_dict['body'],
+                                        comment_dict['user']
                                         ))
             except KeyError as err:
                     return IncorrectParameterException(1, "The field" + str(err) + "does not exists in the database document" )
-        return CommentList(comments_array)
+        return CommentList(comments_array)   
     else:
         return AuthenticationException()
