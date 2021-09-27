@@ -33,7 +33,7 @@ def resolve_applicant_from_status(_, info, batch_id_list, status_list):
                                                     application['scholarship'],
                                                     application['source'],
                                                     application['gender'],
-                                                    application['acceptanceFormData'],
+                                                    application['acceptanceFormData'] if 'acceptanceFormData' in application else None,
                                                     application['status']
                                                     ))
                     except KeyError as err:

@@ -19,7 +19,8 @@ def resolve_create_comment(_, info, batch_id, applicant_id, comment_body):
         comment_user = {
             'uid': current_user.uid,
             'name': current_user.name,
-            'photo': current_user.photo
+            'photo': current_user.photo, 
+            'email': current_user.email, 
         }
         comment_date = firestore.SERVER_TIMESTAMP
         comment_doc.set({'body': comment_body, 'user': comment_user, 'createdAt': comment_date})

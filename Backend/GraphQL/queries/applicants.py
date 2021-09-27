@@ -31,8 +31,8 @@ def resolve_applicants(_, info, batch_id_list):
                                         application['cv'],
                                         application['scholarship'],
                                         application['source'],
-                                        application['gender'],
-                                        None,
+                                        application['gender'], 
+                                        application['acceptanceFormData'] if 'acceptanceFormData' in application else None,
                                         application['status']
                                         ))
                 except KeyError as err:

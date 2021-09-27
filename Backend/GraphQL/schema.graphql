@@ -1,5 +1,5 @@
 
-scalar Date
+scalar Datetime
 
 
 enum Track {
@@ -33,7 +33,6 @@ type Form {
   foodIntolerances: String
 }
 
-
 type Applicant {
   id: String!
   name: String!
@@ -50,6 +49,14 @@ type Applicant {
   acceptanceFormData: Form
 }
 
+type Comment {
+id: String!
+createdAt: Datetime!
+updatedAt: Datetime
+body: String!
+user: User!
+}
+
 type User {
  uid: String!
  name: String! 
@@ -60,14 +67,14 @@ type User {
 
 type Batch {
   batch: Int!
-  startDate: Date!
-  endDate: Date!
-  appStartDate: Date!
-  appEndDate: Date!
-  appEndDateAI: Date!
-  appEndDateIXD: Date!
-  appEndDatePM: Date!
-  appEndDateSE: Date!
+  startDate: Datetime!
+  endDate: Datetime!
+  appStartDate: Datetime!
+  appEndDate: Datetime!
+  appEndDateAI: Datetime!
+  appEndDateIXD: Datetime!
+  appEndDatePM: Datetime!
+  appEndDateSE: Datetime!
 }
 
 type Exception {
@@ -77,6 +84,10 @@ type Exception {
 
 type ApplicantList {
   list: [Applicant!]
+}
+
+type CommentList {
+  list: [Comment!]
 }
 
 type BatchList {
@@ -89,9 +100,8 @@ type Status {
   message: String
 }
 
-
-
 union ApplicantsQueryResult = ApplicantList | Exception
+union CommentsQueryResult = CommentList | Exception
 union ApplicantDetailsQueryResult = Applicant | Exception
 union BatchesQueryResult = BatchList | Exception
 union RateMutationResult = Status | Exception
@@ -101,6 +111,7 @@ union CreateCommentMutationResult = Status | Exception
 
 type Query {
   applicants(batch_id_list: [Int!]): ApplicantsQueryResult
+  applicantComments(batch_id: Int!, applicant_id: String!): CommentsQueryResult
   applicantsByStatus(batch_id_list: [Int!], track_list: [Track!], status_list: [String!]): ApplicantsQueryResult
   applicantDetails(batch_id: Int!, applicant_id: String!): ApplicantDetailsQueryResult
   batches(batch_id_list: [Int!]): BatchesQueryResult
