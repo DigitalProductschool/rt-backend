@@ -18,7 +18,7 @@ class Emails:
         self.config = config
         self.email = applicantEmail
         self.track = applicantTrack.name
-        self.challengeLink = random.choice(applicantTrack.challengeLink) 
+        self.challengeLink = random.choice(applicantTrack.challengeLink)  if applicantTrack.challengeLink else None
         coreTeam = random.choice(applicantTrack.coreTeam)
         self.coreTeamLink = coreTeam["calendly"]
         self.coreTeamName = coreTeam["name"]
