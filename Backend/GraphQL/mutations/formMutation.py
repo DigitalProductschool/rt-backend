@@ -11,8 +11,6 @@ from Backend.GraphQL.shared import  mutation, get_applicant_document
 
 @mutation.field("saveForm")
 def save_form(_, info,  applicant_id, batch_id, location, streetNumber, addressSuffix, postcode, city, country, accountHolder, bankName, iban, bic, shirtSize, shirtStyle, foodIntolerances):
-    current_user = get_user_context(info)
-    if(current_user):
         try:
             application, application_details = get_applicant_document(info, batch_id, applicant_id)
         except Exception as err:
@@ -36,6 +34,3 @@ def save_form(_, info,  applicant_id, batch_id, location, streetNumber, addressS
             }
             application.set({"acceptanceFormData": acceptanceFormData}, merge=True)
             return Status(0,'Form was succesfully saved')
-
-    else:
-        return AuthenticationException()

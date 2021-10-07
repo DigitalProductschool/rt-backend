@@ -8,6 +8,7 @@ import random
 from flask import render_template
 import os 
 import pdfkit
+from Backend.config import config
 
 class Emails:
     def __init__(self, config, applicantId, applicantName, applicantEmail, applicantTrack, batchNumber):
@@ -64,7 +65,7 @@ class Emails:
 
     def send_acceptance(self):
         subject = "You are accepted!"
-        body = render_template('SendAcceptanceEmail.html', applicantName=self.name, applicantTrack=self.track, acceptanceForm="https://rt-frontend-production-t6aaxdrofq-ey.a.run.app/form/"+ str(self.name) + "/" + str(self.batchNumber) + "/" + str(self.id) )
+        body = render_template('SendAcceptanceEmail.html', applicantName=self.name, applicantTrack=self.track, acceptanceForm=config.ACCEPTANCE_FORM + str(self.name) + "/" + str(self.batchNumber) + "/" + str(self.id) )
         footer = render_template('Footer.html')
         return {"subject": subject, "body": body + footer}
 
