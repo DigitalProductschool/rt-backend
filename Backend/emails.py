@@ -5,28 +5,27 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 import random
-from Backend.tracks import SE
 from flask import render_template
 import os 
 import pdfkit
 
 class Emails:
     def __init__(self, config, applicantId, applicantName, applicantEmail, applicantTrack, batchNumber):
-        self.applicantName = applicantName
-        self.applicantId = applicantId
+        self.name = applicantName
+        self.id = applicantId
         self.dps_email = access_secret_version('dps-email')
         self.dps_password = access_secret_version('dps-email-pass')
         self.config = config
-        self.applicantEmail = applicantEmail
-        self.applicantTrack = applicantTrack
-        self.challengeLink = random.choice(SE.challengeLink)
-        coreTeam = random.choice(SE.coreTeam)
+        self.email = applicantEmail
+        self.track = applicantTrack.name
+        self.challengeLink = random.choice(applicantTrack.challengeLink) 
+        coreTeam = random.choice(applicantTrack.coreTeam)
         self.coreTeamLink = coreTeam["calendly"]
         self.coreTeamName = coreTeam["name"]
         self.acceptanceLink = "acceptanceLink"
         self.batchNumber = str(batchNumber)
-        self.qaLink = SE.qaLink
-        
+        self.qaLink = applicantTrack.qaLink
+    
     def config_email(self):
         all_emails = {
             'sendChallenge': self.send_challenge(),
@@ -41,37 +40,37 @@ class Emails:
 
     def send_challenge(self):
         subject = "DPS Challenge Assessment"
-        body = render_template('SendChallengeEmail.html', applicantName=self.applicantName, applicantTrack=self.applicantTrack, challengeLink= self.challengeLink)        
+        body = render_template('SendChallengeEmail.html', applicantName=self.name, applicantTrack=self.track, challengeLink=self.challengeLink)        
         footer = render_template('Footer.html')
         return {"subject": subject, "body": body + footer}
 
     def send_qa(self):
         subject = "Invitation to Q&A"
-        body = render_template('SendQ&AEmail.html', applicantName=self.applicantName, applicantTrack=self.applicantTrack, qaLink= self.qaLink)        
+        body = render_template('SendQ&AEmail.html', applicantName=self.name, applicantTrack=self.track, qaLink= self.qaLink)        
         footer = render_template('Footer.html')
         return {"subject": subject, "body": body + footer}
 
     def invite_to_interview(self):
         subject = "Invitation to Interview"
-        body = render_template('SendInvitationEmail.html', applicantName=self.applicantName, applicantTrack=self.applicantTrack, coreTeamLink= self.coreTeamLink, coreTeamName=self.coreTeamName)        
+        body = render_template('SendInvitationEmail.html', applicantName=self.name, applicantTrack=self.track, coreTeamLink= self.coreTeamLink, coreTeamName=self.coreTeamName)        
         footer = render_template('Footer.html')
         return {"subject": subject, "body": body + footer}
 
     def reject(self):
         subject = "Your application for Digital Product School"
-        body = render_template('SendRejectionEmail.html', applicantName=self.applicantName, applicantTrack=self.applicantTrack)
+        body = render_template('SendRejectionEmail.html', applicantName=self.name, applicantTrack=self.track)
         footer = render_template('Footer.html')
         return {"subject": subject, "body": body + footer}
 
     def send_acceptance(self):
         subject = "You are accepted!"
-        body = render_template('SendAcceptanceEmail.html', applicantName=self.applicantName, applicantTrack=self.applicantTrack, acceptanceForm="https://rt-frontend-production-t6aaxdrofq-ey.a.run.app/form/"+ str(self.applicantName) + "/" + str(self.batchNumber) + "/" + str(self.applicantId) )
+        body = render_template('SendAcceptanceEmail.html', applicantName=self.name, applicantTrack=self.track, acceptanceForm="https://rt-frontend-production-t6aaxdrofq-ey.a.run.app/form/"+ str(self.name) + "/" + str(self.batchNumber) + "/" + str(self.id) )
         footer = render_template('Footer.html')
         return {"subject": subject, "body": body + footer}
 
     def send_documents(self):
         subject = "Confirmation & Important Documents"
-        body = render_template('SendDocumentsEmail.html', applicantName=self.applicantName, batchNumber= self.batchNumber)
+        body = render_template('SendDocumentsEmail.html', applicantName=self.name, batchNumber= self.track)
         footer = render_template('Footer.html')
         return {"subject": subject, "body": body + footer}
 
@@ -80,7 +79,7 @@ class Emails:
         msg_template = self.config_email()
         msg['Subject'] = msg_template["subject"]
         msg['From'] = f"DPS Applications{self.dps_email}"
-        msg['To'] = self.applicantEmail
+        msg['To'] = self.email
         body = MIMEText(msg_template["body"], 'html')
         msg.attach(body)
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
@@ -106,7 +105,7 @@ class Emails:
         dps_logo = self.read_file_path('static/dps.png')
         utum_logo = self.read_file_path('static/utum.png')
         signature = self.read_file_path('static/thomas-signature.png')
-        document = render_template('OfferLetter.html', applicantName=self.applicantName, batchNumber=self.batchNumber, batchTime="Nov", dpsLogo=dps_logo, utumLogo=utum_logo, signature=signature)
+        document = render_template('OfferLetter.html', applicantName=self.name, batchNumber=self.batchNumber, batchTime="Nov", dpsLogo=dps_logo, utumLogo=utum_logo, signature=signature)
         css=[css_file]
         pdf = pdfkit.from_string(document,"Output.pdf", options, css=css)
 
@@ -115,7 +114,7 @@ class Emails:
         msg_template = self.config_email()
         msg['Subject'] = msg_template["subject"]
         msg['From'] = f"DPS Applications{self.dps_email}"
-        msg['To'] = self.applicantEmail
+        msg['To'] = self.email
         body = MIMEText(msg_template["body"], 'html')
         msg.attach(body)
         visa_faq = self.attach_pdf('static/VisaFAQ.pdf',"VisaFAQ.pdf", msg)
