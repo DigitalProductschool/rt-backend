@@ -70,7 +70,7 @@ class Emails:
 
     def send_documents(self):
         subject = "Confirmation & Important Documents"
-        body = render_template('SendDocumentsEmail.html', applicantName=self.name, batchNumber= self.track)
+        body = render_template('SendDocumentsEmail.html', applicantName=self.name, batchNumber=self.batchNumber)
         footer = render_template('Footer.html')
         return {"subject": subject, "body": body + footer}
 
