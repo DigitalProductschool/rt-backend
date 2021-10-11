@@ -35,7 +35,7 @@ class AI:
     coreTeam = [{"name": "Afsaneh", "calendly": "https://calendly.com/asaei/interview-dps-ai-track"}]
     challengeLink = ["https://dps-challenge-front.netlify.app/opendataportal",
                      "https://dps-challenge-front.netlify.app/vertexAI"]
-    qaLink = "https://calendly.com/digital-product-school-team/q-a"
+    qaLink = "https://calendly.com/asaei/group-interview-and-q-a-dps-ai-track"
 
 class AC:
     handle ="AC"
