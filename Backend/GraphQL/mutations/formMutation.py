@@ -5,10 +5,10 @@
 from Backend.Authentication.verify_token import get_user_context
 from Backend.DataTypes.Exceptions.AuthenticationException import AuthenticationException
 from Backend.DataTypes.Exceptions.IncorrectParameterException import IncorrectParameterException
-
+from Backend.emails import Emails
 from Backend.DataTypes.Status import Status
 from Backend.GraphQL.shared import  mutation, get_applicant_document
-
+from Backend.GraphQL.mutations.emailMutation import config_track
 @mutation.field("saveForm")
 def save_form(_, info,  applicant_id, batch_id, location, streetNumber, addressSuffix, postcode, city, country, accountHolder, bankName, iban, bic, shirtSize, shirtStyle, foodIntolerances):
         try:
@@ -33,4 +33,7 @@ def save_form(_, info,  applicant_id, batch_id, location, streetNumber, addressS
                         'foodIntolerances': foodIntolerances
             }
             application.set({"acceptanceFormData": acceptanceFormData}, merge=True)
+            track_class = config_track(application_details['track'])
+            Emails('sendFormConfirmation', applicant_id, application_details['name'], application_details['email'], track_class, batch_id, acceptanceFormData).send_email()
+            Emails('sendDocuments', applicant_id, application_details['name'], application_details['email'], track_class, batch_id, acceptanceFormData).send_email_with_attach()
             return Status(0,'Form was succesfully saved')

@@ -15,6 +15,7 @@ def config_status(email_type):
             'sendInvitation': 'Invitation Sent',
             'sendRejection': 'Rejected',
             'sendAcceptance': 'Accepted',
+            'sendFormConfirmation' : 'Form Filled'
         }
         status = all_emails[email_type]
         return status
@@ -47,9 +48,10 @@ def mutation_email(_, info, applicant_id, email_type, applicant_name, applicant_
             application.update({'status': status})
             track_class = config_track(track)
             if status == 'Documents Sent':
-                Emails(email_type, applicant_id, applicant_name, applicant_email, track_class, batch_id).send_email_with_attach()
+                # to be refarctored to get Applicant class
+                Emails(email_type, applicant_id, applicant_name, applicant_email, track_class, batch_id, None).send_email_with_attach()
             else:
-                Emails(email_type, applicant_id, applicant_name, applicant_email, track_class, batch_id).send_email()
+                Emails(email_type, applicant_id, applicant_name, applicant_email, track_class, batch_id, None).send_email()
             return Status(0,'Email was succesfuly sent')
 
     else:
