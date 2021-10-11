@@ -27,7 +27,7 @@ class Emails:
         self.acceptanceLink = "acceptanceLink"
         self.batchNumber = str(batchNumber)
         self.qaLink = applicantTrack.qaLink
-        self.acceptanceFormData = acceptanceFormData
+        self.acceptanceFormData = acceptanceFormData if acceptanceFormData else None
 
     def config_email(self):
         all_emails = {
@@ -44,9 +44,9 @@ class Emails:
 
     def config_scholarship(self): 
             oecd_country = ["Australia", "Austria", "Belgium", "Canada", "Chile", "Colombia", "Costa Rica", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Israel", "Italy", "Japan", "Korea", "Latvia", "Lithuania", "Luxembourg", "Mexico", "Netherlands", "New Zealand", "Norway", "Poland", "Portugal", "Slovak Republic", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "United Kingdom", "United Stated" ]
-            if self.acceptanceFormData["location"] == "Munich": 
+            if self.acceptanceFormData["location"] == "Munich" if self.acceptanceFormData else None: 
                 scholarship_option = "You will also receive a monthly scholarship of 750€."
-            elif self.acceptanceFormData["country"] in oecd_country: 
+            elif self.acceptanceFormData["country"] in oecd_country if self.acceptanceFormData else None: 
                 scholarship_option = "You will also receive a monthly scholarship of 500€."
             else: 
                 scholarship_option = "You will also receive a monthly scholarship of 300.00€  (incl. 50.00€ internet grant)."
@@ -84,7 +84,7 @@ class Emails:
 
     def send_form_confirmation(self):
         subject = "Confirmation!"
-        body = render_template('SendFormConfirmation.html', applicantName=self.name, applicantTrack=self.track, acceptanceForm=config.ACCEPTANCE_FORM + str(self.name) + "/" + str(self.batchNumber) + "/" + str(self.id), batchNumber = self.batchNumber, location=self.acceptanceFormData['location'], streetNumber = self.acceptanceFormData['streetNumber'], addressSuffix = self.acceptanceFormData['addressSuffix'], postcode= self.acceptanceFormData['postcode'], city=self.acceptanceFormData['city'] , country=self.acceptanceFormData['country'], accountHolder=self.acceptanceFormData['accountHolder'], bankName=self.acceptanceFormData['bankName'], iban=self.acceptanceFormData['iban'], bic=self.acceptanceFormData['bic'], foodIntolerances=self.acceptanceFormData['foodIntolerances'], shirt=self.acceptanceFormData['shirtSize']+ " & " + self.acceptanceFormData['shirtStyle'] )
+        body = render_template('SendFormConfirmation.html', applicantName=self.name, applicantTrack=self.track, acceptanceForm=config.ACCEPTANCE_FORM + str(self.name) + "/" + str(self.batchNumber) + "/" + str(self.id), batchNumber = self.batchNumber, location=self.acceptanceFormData['location'] if self.acceptanceFormData else None, streetNumber = self.acceptanceFormData['streetNumber'] if self.acceptanceFormData else None, addressSuffix = self.acceptanceFormData['addressSuffix'] if self.acceptanceFormData else None, postcode= self.acceptanceFormData['postcode'] if self.acceptanceFormData else None, city=self.acceptanceFormData['city'] if self.acceptanceFormData else None, country=self.acceptanceFormData['country'] if self.acceptanceFormData else None, accountHolder=self.acceptanceFormData['accountHolder'] if self.acceptanceFormData else None, bankName=self.acceptanceFormData['bankName'] if self.acceptanceFormData else None, iban=self.acceptanceFormData['iban'] if self.acceptanceFormData else None, bic=self.acceptanceFormData['bic'] if self.acceptanceFormData else None, foodIntolerances=self.acceptanceFormData['foodIntolerances'] if self.acceptanceFormData else None, shirt=self.acceptanceFormData['shirtSize'] if self.acceptanceFormData else None+ " & " + self.acceptanceFormData['shirtStyle'] if self.acceptanceFormData else None )
         footer = render_template('Footer.html')
         return {"subject": subject, "body": body + footer}
 
@@ -136,7 +136,7 @@ class Emails:
         dps_logo = self.read_file_path('static/dps.png')
         utum_logo = self.read_file_path('static/utum.png')
         signature = self.read_file_path('static/thomas-signature.png')
-        document = render_template('Scholarship.html', applicantName=self.name, dpsLogo=dps_logo, utumLogo=utum_logo, streetNumber = self.acceptanceFormData['streetNumber'], postcode= self.acceptanceFormData['postcode'], city=self.acceptanceFormData['city'] , country=self.acceptanceFormData['country'], accountHolder=self.acceptanceFormData['accountHolder'], bankName=self.acceptanceFormData['bankName'], iban=self.acceptanceFormData['iban'], bic=self.acceptanceFormData['bic'])
+        document = render_template('Scholarship.html', applicantName=self.name, dpsLogo=dps_logo, utumLogo=utum_logo, streetNumber = self.acceptanceFormData['streetNumber'] if self.acceptanceFormData else None, postcode= self.acceptanceFormData['postcode'] if self.acceptanceFormData else None, city=self.acceptanceFormData['city'] if self.acceptanceFormData else None, country=self.acceptanceFormData['country'] if self.acceptanceFormData else None, accountHolder=self.acceptanceFormData['accountHolder'] if self.acceptanceFormData else None, bankName=self.acceptanceFormData['bankName'] if self.acceptanceFormData else None, iban=self.acceptanceFormData['iban'] if self.acceptanceFormData else None, bic=self.acceptanceFormData['bic'] if self.acceptanceFormData else None)
         css=[css_file]
         pdf = pdfkit.from_string(document,"Scholarship.pdf", options, css=css)
 
