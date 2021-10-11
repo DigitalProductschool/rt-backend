@@ -61,7 +61,7 @@ def mutation_email(_, info, applicant_id, email_type, applicant_name, applicant_
             status = config_status(email_type)      
             application.update({'status': status})
             track_class = config_track(track)
-            if status == 'Accepted':
+            if status == 'Form Filled':
                 convert_applicant_to_participant(info, batch_id, applicant_id)
                 additional_info += ", applicant was marked as a participant"
             if status == 'Documents Sent':
