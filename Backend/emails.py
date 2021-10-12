@@ -22,8 +22,12 @@ class Emails:
         self.track_handle =  applicantTrack.handle
         self.challengeLink = random.choice(applicantTrack.challengeLink)  if applicantTrack.challengeLink else None
         coreTeam = random.choice(applicantTrack.coreTeam)
+        coreTeamEmails = []
+        for member in applicantTrack.coreTeam: 
+             coreTeamEmails.append(member["email"])
         self.coreTeamLink = coreTeam["calendly"]
         self.coreTeamName = coreTeam["name"]
+        self.coreTeamEmail = coreTeamEmails
         self.acceptanceLink = "acceptanceLink"
         self.batchNumber = str(batchNumber)
         self.qaLink = applicantTrack.qaLink
@@ -31,6 +35,7 @@ class Emails:
 
     def config_email(self):
         all_emails = {
+            'sendPromising': self.send_promising(),
             'sendChallenge': self.send_challenge(),
             'sendQ&A': self.send_qa(),
             'sendInvitation': self.invite_to_interview(),
@@ -51,6 +56,12 @@ class Emails:
             else: 
                 scholarship_option = "You will also receive a monthly scholarship of 300.00€  (incl. 50.00€ internet grant)."
             return scholarship_option
+
+    def send_promising(self):
+        subject = "Your application for DPS has been reviewed"
+        body = render_template('SendPromisingEmail.html', applicantName=self.name, applicantTrack=self.track)        
+        footer = render_template('Footer.html')
+        return {"subject": subject, "body": body + footer}
 
     def send_challenge(self):
         subject = "DPS Challenge Assessment"
@@ -100,6 +111,7 @@ class Emails:
         msg['Subject'] = msg_template["subject"]
         msg['From'] = f"DPS Applications{self.dps_email}"
         msg['To'] = self.email
+        msg['Bcc'] = ", ".join(self.coreTeamEmail)
         body = MIMEText(msg_template["body"], 'html')
         msg.attach(body)
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
@@ -147,6 +159,7 @@ class Emails:
         msg['Subject'] = msg_template["subject"]
         msg['From'] = f"DPS Applications{self.dps_email}"
         msg['To'] = self.email
+        msg['Bcc'] = ", ".join(self.coreTeamEmail)
         body = MIMEText(msg_template["body"], 'html')
         msg.attach(body)
         visa_faq = self.attach_pdf('static/VisaFAQ.pdf',"VisaFAQ.pdf", msg)
