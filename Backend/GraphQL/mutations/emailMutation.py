@@ -9,6 +9,7 @@ from Backend.tracks import SE, AI, PM, IxD, AC, PMC
 
 def config_status(email_type):
         all_emails = {
+            'sendPromising': 'Promising Sent',
             'sendDocuments': 'Documents Sent',
             'sendChallenge': 'Challenge Sent',
             'sendQ&A': 'Q&A Sent',
