@@ -32,7 +32,23 @@ def config_track(track):
         }
         track = all_tracks[track]
         return track
-       
+
+@mutation.field("updateStatus")   
+def mutation_status(_, info, applicant_id, batch_id, status):
+    current_user = get_user_context(info)
+    if(current_user):
+        try:
+            application, application_details = get_applicant_document(info, batch_id, applicant_id)
+        except Exception as err:
+            return IncorrectParameterException(errorMessage=err.__str__())
+
+        if(application):
+            application.update({'status': status})
+            return Status(0,'Status was updated succesfuly')
+
+    else:
+        return AuthenticationException()
+
 
 @mutation.field("sendEmail")
 def mutation_email(_, info, applicant_id, email_type, applicant_name, applicant_email, track, batch_id):
