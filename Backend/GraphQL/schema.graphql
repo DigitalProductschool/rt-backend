@@ -47,6 +47,8 @@ type Applicant {
   gender: String
   status: String! 
   acceptanceFormData: Form
+  project: String
+  strengths: String
 }
 
 type Comment {

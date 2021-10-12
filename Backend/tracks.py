@@ -25,7 +25,9 @@ class PM:
 class PMC:
     handle ="PMC"
     name = "Product Marketing & Communications Manager"
-    coreTeam = [{"name": "Bastian", "calendly": "https://calendly.com/bastian-rieder/interview-pmc", "email": "rieder@unternehmertum.de"}]
+    coreTeam = [{"name": "Bastian", "calendly": "https://calendly.com/bastian-rieder/interview-pmc", "email": "rieder@unternehmertum.de"}, 
+                #{"name": "Samreen", "calendly": "https://calendly.com/bastian-rieder/interview-pmc", "email": "samreen.azam@unternehmertum.de"}
+                ]
     challengeLink = None
     qaLink = None
 
