@@ -16,7 +16,7 @@ def verify_token(id_token):
         return None
 
 def verify_email(email):
-    white_list = ["marcus.paeschke@unternehmertum.de", "bela.sinoimeri@unternehmertum.de", "bela.sinoimeri@dpschool.io", "magda.nowak-trzos@unternehmertum.de","bedo@unternehmertum.de", "asaei@unternehmertum.de", "tobias.kalkowsky@unternehmertum.de"]
+    white_list = ["marcus.paeschke@unternehmertum.de", "bela.sinoimeri@unternehmertum.de", "bela.sinoimeri@dpschool.io", "rieder@unternehmertum.de", "magda.nowak-trzos@unternehmertum.de","bedo@unternehmertum.de", "asaei@unternehmertum.de", "tobias.kalkowsky@unternehmertum.de"]
     if email not in white_list: 
         return None
     else: 
