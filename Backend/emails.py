@@ -10,24 +10,28 @@ import os
 import pdfkit
 from Backend.config import config
 
+
+
 class Emails:
-    def __init__(self, config, applicantId, applicantName, applicantEmail, applicantTrack, batchNumber, acceptanceFormData):
-        self.name = applicantName
-        self.id = applicantId
+    def __init__(self, config, applicant, batch_id, acceptance_form_data):
+        self.name = applicant.name
+        self.id = applicant.id
+        self.email = applicant.email
+        self.qaLink = applicant.track.qaLink
+        self.track = applicant.track.name
+        self.track_handle =  applicant.track.handle
         self.dps_email = access_secret_version('dps-email')
         self.dps_password = access_secret_version('dps-email-pass')
         self.config = config
-        self.email = applicantEmail
-        self.track = applicantTrack.name
-        self.track_handle =  applicantTrack.handle
-        self.challengeLink = random.choice(applicantTrack.challengeLink)  if applicantTrack.challengeLink else None
-        coreTeam = random.choice(applicantTrack.coreTeam)
+        self.challengeLink = random.choice(applicant.track.challengeLink)  if applicant.track.challengeLink else None
+
+        coreTeam = random.choice(applicant.track.coreTeam)
         self.coreTeamLink = coreTeam["calendly"]
         self.coreTeamName = coreTeam["name"]
         self.acceptanceLink = "acceptanceLink"
-        self.batchNumber = str(batchNumber)
-        self.qaLink = applicantTrack.qaLink
-        self.acceptanceFormData = acceptanceFormData if acceptanceFormData else None
+        self.batchNumber = str(batch_id)
+        self.acceptanceFormData = acceptance_form_data if acceptance_form_data else None
+
 
     def config_email(self):
         all_emails = {
