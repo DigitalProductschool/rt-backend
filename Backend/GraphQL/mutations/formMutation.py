@@ -8,7 +8,6 @@ from Backend.DataTypes.Exceptions.IncorrectParameterException import IncorrectPa
 from Backend.emails import Emails
 from Backend.DataTypes.Status import Status
 from Backend.GraphQL.shared import  mutation, get_applicant_document
-from Backend.tracks import SE, AI, PM, IxD, AC, PMC
 from Backend.DataTypes.Applicant import Applicant
 
 
