@@ -46,7 +46,9 @@ query {
 	... on ApplicantList{
 		list {
       name
-      track
+      track {
+        handle
+      }
       batch
     }
 	}
@@ -65,7 +67,9 @@ query {
       name
       email
       batch
-      track
+      track {
+        name
+      }
       scholarship
       gender
     }
@@ -75,6 +79,31 @@ query {
     }
   }
 ```
+```
+query {
+  applicantDetails(batch_id: 13, applicant_id: "jru16lzWvqxHiuakWN0q") {
+    ... on Applicant{
+      name
+      email
+      batch
+      track {
+        handle
+        name
+        coreTeam {
+          name
+          calendly
+        }
+        qaLink
+      }
+      scholarship
+      gender
+    }
+    ... on Exception{
+        message
+    }
+    }
+  }
+  ```
 
 ### Applicant comments 
 ```
@@ -105,11 +134,13 @@ query {
 Query applicants across multiple batches and multiple tracks
 ```
 query {
-  applicantsFromTrack(batch_id_list: [15], track_list: [se, pmc]) {
+  applicantsFromTrack(batch_id_list: [15], track_list: [se, pmc, pm]) {
 	... on ApplicantList{
 		list {
       name
-      track
+      track {
+        handle
+      }
       batch
       status
     }
@@ -125,11 +156,13 @@ query {
 Query applicants across multiple batches and multiple statuses
 ```
  query {
-  applicantsFromStatus(batch_id_list: [15], status_list: ["Documents Sent"]) {
+  applicantsFromStatus(batch_id_list: [15], status_list: ["Form Filled"]) {
 	... on ApplicantList{
 	  list {
       name
-      track
+      track {
+        handle
+      }
       batch
       acceptanceFormData {
           location
@@ -195,7 +228,7 @@ query {
 
 ```
 mutation {
-  sendEmail(applicant_id: "jru16lzWvqxHiuakWN0q", email_type: "sendDocuments", applicant_name:"Magda", applicant_email: "ntmagda93@gmail.com", track:se, batch_id:13) {
+  sendEmail(applicant_id: "4KHMCajcFloiX2sSOUPE", email_type: "sendFormConfirmation", batch_id:15) {
      ... on Status {
       code
       message

@@ -2,13 +2,18 @@
 scalar Datetime
 
 
-enum Track {
+enum TrackHandle {
   se
   ai
   pm
   ixd
   ac
   pmc
+}
+
+type CoreTeamMember {
+  name: String!
+  calendly: String!
 }
 
 
@@ -37,7 +42,7 @@ type Applicant {
   id: String!
   name: String!
   batch: Int! 
-  track: String! 
+  track: Track! 
   email: String!
   cv: Document! 
   consent: String!
@@ -51,12 +56,20 @@ type Applicant {
   strengths: String
 }
 
+type Track {
+  handle: String!
+  name: String!
+  coreTeam: [CoreTeamMember!]
+  challengeLink: [String]
+  qaLink: String
+}
+
 type Comment {
-id: String!
-createdAt: Datetime!
-updatedAt: Datetime
-body: String!
-user: User!
+  id: String!
+  createdAt: Datetime!
+  updatedAt: Datetime
+  body: String!
+  user: User!
 }
 
 type User {
@@ -114,10 +127,10 @@ union CreateCommentMutationResult = Status | Exception
 type Query {
   applicants(batch_id_list: [Int!]): ApplicantsQueryResult
   applicantComments(batch_id: Int!, applicant_id: String!): CommentsQueryResult
-  applicantsByStatus(batch_id_list: [Int!], track_list: [Track!], status_list: [String!]): ApplicantsQueryResult
+  applicantsByStatus(batch_id_list: [Int!], track_list: [TrackHandle!], status_list: [String!]): ApplicantsQueryResult
   applicantDetails(batch_id: Int!, applicant_id: String!): ApplicantDetailsQueryResult
   batches(batch_id_list: [Int!]): BatchesQueryResult
-  applicantsFromTrack(batch_id_list: [Int!], track_list: [Track!]): ApplicantsQueryResult
+  applicantsFromTrack(batch_id_list: [Int!], track_list: [TrackHandle!]): ApplicantsQueryResult
   applicantsFromStatus(batch_id_list: [Int!], status_list: [String!]): ApplicantsQueryResult
   user: User
 }
@@ -125,7 +138,7 @@ type Query {
 type Mutation {
   rate(batch_id: Int!, applicant_id: String!, score: Int!): RateMutationResult
   moveTrelloCard(source_list_name: String!, dest_list_name: String!, card_name: String!): RateMutationResult
-  sendEmail(email_type:String!, applicant_id: String!, applicant_name: String!, applicant_email: String!, track: Track!, batch_id: Int): SendEmailMutationResult
+  sendEmail(email_type:String!, applicant_id: String!, batch_id: Int): SendEmailMutationResult
   saveForm(applicant_id: String!, batch_id: Int, location: String!, streetNumber: String!, addressSuffix: String!, postcode: String!, city: String!, country: String!, accountHolder: String!, bankName: String!, iban: String!, bic: String!, shirtSize: String!, shirtStyle: String!, foodIntolerances: String!): SaveFormMutationResult
   createComment( batch_id: Int!, applicant_id: String!, comment_body: String!): SaveFormMutationResult
   editComment( batch_id: Int!, applicant_id: String!, comment_body: String!, comment_id:String! ): SaveFormMutationResult

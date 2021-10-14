@@ -2,12 +2,14 @@ from Backend.DataTypes.Document import Document
 from Backend.DataTypes.Gender import Gender
 from Backend.DataTypes.Form import Form
 
+from Backend.DataTypes.Track import Track, TrackDetails
+
 class Applicant():
-   def __init__(self, id, name, batch, track, email, consent, coverLetter, cv, scholarship, source, gender, acceptanceFormData, status="NEW"):
+   def __init__(self, id, name, batch, track, email, consent=None, coverLetter=None, cv=None, scholarship=None, source=None, gender=None, acceptanceFormData=None, status="NEW"):
        self.id = id
        self.name = name
        self.batch = batch
-       self.track = track
+       self.track = TrackDetails(Track[track])
        self.email = email
        self.consent = consent
        self.coverLetter = Document(coverLetter)
