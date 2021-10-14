@@ -20,3 +20,8 @@ class Applicant():
        self.acceptanceFormData = Form(acceptanceFormData)
        self.status  = status
 
+class PMCApplicant(Applicant):
+    def __init__(self, id, name, batch, track, email, consent, coverLetter, cv, scholarship, source, gender, acceptanceFormData, project, strengths, status="NEW"):
+         super().__init__(id, name, batch, track, email, consent, coverLetter, cv, scholarship, source, gender, acceptanceFormData, status="NEW")
+         self.project = project
+         self.strengths = strengths

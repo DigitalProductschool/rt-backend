@@ -9,6 +9,7 @@ from Backend.emails import Emails
 
 def config_status(email_type):
         all_emails = {
+            'sendPromising': 'Promising Sent',
             'sendDocuments': 'Documents Sent',
             'sendChallenge': 'Challenge Sent',
             'sendQ&A': 'Q&A Sent',
@@ -31,6 +32,21 @@ def convert_applicant_to_participant(info, batch_id, applicant_id):
     participants_doc.set(application_details)
 
 
+@mutation.field("updateStatus")   
+def mutation_status(_, info, applicant_id, batch_id, status):
+    current_user = get_user_context(info)
+    if(current_user):
+        try:
+            application, _ = get_applicant_document(info, batch_id, applicant_id)
+        except Exception as err:
+            return IncorrectParameterException(errorMessage=err.__str__())
+
+        if(application):
+            application.update({'status': status})
+            return Status(0,'Status was updated succesfuly')
+
+    else:
+        return AuthenticationException()
 
 
 @mutation.field("sendEmail")

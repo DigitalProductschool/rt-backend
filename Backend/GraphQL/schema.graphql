@@ -52,6 +52,8 @@ type Applicant {
   gender: String
   status: String! 
   acceptanceFormData: Form
+  project: String
+  strengths: String
 }
 
 type Track {
@@ -141,4 +143,5 @@ type Mutation {
   createComment( batch_id: Int!, applicant_id: String!, comment_body: String!): SaveFormMutationResult
   editComment( batch_id: Int!, applicant_id: String!, comment_body: String!, comment_id:String! ): SaveFormMutationResult
   deleteComment( batch_id: Int!, applicant_id: String!, comment_id: String!): SaveFormMutationResult
+  updateStatus(batch_id: Int!, applicant_id: String!, status: String!): RateMutationResult
 }
