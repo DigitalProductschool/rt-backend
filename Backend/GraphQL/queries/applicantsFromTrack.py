@@ -1,5 +1,5 @@
 
-from Backend.Authentication.verify_token import get_user_context
+from Backend.UserManagement.context import get_user_context
 from Backend.DataTypes.Exceptions.IncorrectParameterException import IncorrectParameterException
 from Backend.DataTypes.Exceptions.AuthenticationException import AuthenticationException
 

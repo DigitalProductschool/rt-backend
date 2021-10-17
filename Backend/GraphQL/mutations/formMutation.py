@@ -2,7 +2,7 @@
 
 #from Backend.database import access_secret_version, db
 #from Backend.DataTypes.User import User
-from Backend.Authentication.verify_token import get_user_context
+from Backend.UserManagement.context import get_user_context
 from Backend.DataTypes.Exceptions.AuthenticationException import AuthenticationException
 from Backend.DataTypes.Exceptions.IncorrectParameterException import IncorrectParameterException
 from Backend.emails import Emails

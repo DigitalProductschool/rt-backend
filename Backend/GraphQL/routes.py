@@ -13,6 +13,7 @@ from Backend.GraphQL.queries.applicantsFromTrack import query
 from Backend.GraphQL.queries.applicantsFromStatus import query
 from Backend.GraphQL.queries.applicants import query
 from Backend.GraphQL.queries.currentUser import query
+from Backend.GraphQL.queries.users import query
 from Backend.GraphQL.queries.applicantComments import query
 from Backend.GraphQL.unionResolvers import ApplicantsQueryResult, BatchesQueryResult, ApplicantDetailsQueryResult, RateMutationResult, SendEmailMutationResult, SaveFormMutationResult, CommentsQueryResult
 from Backend.GraphQL.shared import query

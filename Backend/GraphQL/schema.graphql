@@ -96,6 +96,9 @@ type BatchList {
   list: [Batch!]
 }
 
+type UserList {
+  list: [User!]
+}
 
 type Status {
   code: String
@@ -120,6 +123,7 @@ type Query {
   applicantsFromTrack(batch_id_list: [Int!], track_list: [Track!]): ApplicantsQueryResult
   applicantsFromStatus(batch_id_list: [Int!], status_list: [String!]): ApplicantsQueryResult
   user: User
+  users: UserList
 }
 
 type Mutation {
