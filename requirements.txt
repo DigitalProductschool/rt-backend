@@ -8,3 +8,4 @@ ariadne
 gunicorn
 py-trello==0.18.0
 pdfkit
+aenum

@@ -10,7 +10,7 @@ coolnessThreshold = 3.5 # threshold that if exceeded changed an applicant status
 requiredVotesNo = 2 # required number of votes for the threshold to be changed
 
 
-def setApplicantStatus(ratings):
+def config_status(ratings):
     if ( len(ratings) >= requiredVotesNo ):
         filtered_vals = [v for _, v in ratings.items()]
         average = sum(filtered_vals) / len(filtered_vals)
@@ -40,7 +40,7 @@ def resolve_rate(_, info, batch_id, applicant_id, score):
             ratings[str(current_user.uid)] = score
             application.set({'ratings': ratings}, merge=True)
 
-        status = setApplicantStatus(ratings)
+        status = config_status(ratings)
         application.set({'status': status}, merge=True)
 
         return Status(0, "User voted sucessfuly")
