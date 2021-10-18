@@ -7,6 +7,7 @@ from graphql import GraphQLError
 @query.field("applicants")
 def resolve_applicants(_, info, batch_id_list):
     applicants = []
+
     for batch_id in batch_id_list:
         batch_doc = batches.document('batch-' + str(batch_id))
         incorrect_parameter(batch_doc)
