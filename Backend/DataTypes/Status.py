@@ -1,16 +1,17 @@
 import enum
 
-
 ########### STATUS #########
-# NEW - the applicant did not receive sufficient amount of votes
-# NEUTRAL - the applicant is below the threshold
-# PRETTY_COOL - the applicant is above the threshold
-# ChallengeSent - the challenge was sent to applicant
+# NEW - the applicant just applied
+# Promising Sent - the email that the application is promising is sent
+# Challenge Sent - the challenge was sent to applicant
 # Q&ASent - the q&a link was sent
-# InvitationSent - invitatin link to 1-1 sent
-# Accepted - applicant accepted 
-# DocumentSent - applicant received the documents 
+# Invitation Sent - invitation link to 1-1 sent
+# Interview Scheduled - interview was scheduled
+# Interview Done - interview was done
+# Accepted - applicant accepted
+# Document Sent - applicant received the documents
 # Rejected - applicant rejected
+# Waiting List Sent - the applicant is in waiting list
 
 
 class Status():
