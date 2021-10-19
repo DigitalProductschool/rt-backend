@@ -1,6 +1,6 @@
 
 scalar Datetime
-
+directive @isAuthenticated on OBJECT 
 
 enum TrackHandle {
   se
@@ -11,13 +11,21 @@ enum TrackHandle {
   pmc
 }
 
-type CoreTeamMember {
+type CoreTeamMember  {
   name: String!
+  email: String!
   calendly: String!
 }
 
+type Track {
+  handle: String!
+  name: String!
+  coreTeam: [CoreTeamMember!]
+  challengeLink: [String]
+  qaLink: String
+}
 
-type Document {
+type Document   {
   bucket: String
   name: String
 }
@@ -46,22 +54,47 @@ type Applicant {
   email: String!
   cv: Document! 
   consent: String!
-  scholarship: String
+  scholarship: String!
   coverLetter: Document
   source: String
   gender: String
-  status: String! 
   acceptanceFormData: Form
   project: String
   strengths: String
+  status: String! 
 }
 
-type Track {
-  handle: String!
-  name: String!
-  coreTeam: [CoreTeamMember!]
-  challengeLink: [String]
-  qaLink: String
+type ApplicantList {
+  list: [Applicant!]
+}
+
+type User {
+ uid: String!
+ name: String! 
+ email: String 
+ photo: String!
+}
+
+type UserList {
+  list: [User!]
+}
+
+type Batch {
+  batch: Int!
+  startDate: Datetime!
+  endDate: Datetime!
+  appStartDate: Datetime!
+  appEndDate: Datetime!
+  appEndDateAI: Datetime
+  appEndDateIXD: Datetime
+  appEndDatePM: Datetime
+  appEndDateSE: Datetime
+  appEndDatePMC: Datetime
+  appEndDateAC: Datetime
+}
+
+type BatchList {
+  list: [Batch!]
 }
 
 type Comment {
@@ -72,24 +105,8 @@ type Comment {
   user: User!
 }
 
-type User {
- uid: String!
- name: String! 
- email: String!
- photo: String!
-}
-
-
-type Batch {
-  batch: Int!
-  startDate: Datetime!
-  endDate: Datetime!
-  appStartDate: Datetime!
-  appEndDate: Datetime!
-  appEndDateAI: Datetime!
-  appEndDateIXD: Datetime!
-  appEndDatePM: Datetime!
-  appEndDateSE: Datetime!
+type CommentList {
+  list: [Comment!]
 }
 
 type Exception {
@@ -97,55 +114,39 @@ type Exception {
   message: String
 }
 
-type ApplicantList {
-  list: [Applicant!]
-}
-
-type CommentList {
-  list: [Comment!]
-}
-
-type BatchList {
-  list: [Batch!]
-}
-
-type UserList {
-  list: [User!]
-}
-
 type Status {
   code: String
   message: String
 }
 
-union ApplicantsQueryResult = ApplicantList | Exception
+union ApplicantsQueryResult = ApplicantList | Exception 
 union CommentsQueryResult = CommentList | Exception
 union ApplicantDetailsQueryResult = Applicant | Exception
 union BatchesQueryResult = BatchList | Exception
-union RateMutationResult = Status | Exception
-union SendEmailMutationResult = Status | Exception
-union SaveFormMutationResult = Status | Exception
-union CreateCommentMutationResult = Status | Exception
+union UserQueryResult = User | Exception 
+union UsersQueryResult = UserList | Exception 
 
-type Query {
+
+type Query{
   applicants(batch_id_list: [Int!]): ApplicantsQueryResult
   applicantComments(batch_id: Int!, applicant_id: String!): CommentsQueryResult
-  applicantsByStatus(batch_id_list: [Int!], track_list: [TrackHandle!], status_list: [String!]): ApplicantsQueryResult
   applicantDetails(batch_id: Int!, applicant_id: String!): ApplicantDetailsQueryResult
-  batches(batch_id_list: [Int!]): BatchesQueryResult
   applicantsFromTrack(batch_id_list: [Int!], track_list: [TrackHandle!]): ApplicantsQueryResult
   applicantsFromStatus(batch_id_list: [Int!], status_list: [String!]): ApplicantsQueryResult
-  user: User
-  users: UserList
+  batches(batch_id_list: [Int!]): BatchesQueryResult
+  user: UserQueryResult
+  users: UsersQueryResult
 }
 
+union MutationResult = Status | Exception
+
 type Mutation {
-  rate(batch_id: Int!, applicant_id: String!, score: Int!): RateMutationResult
-  moveTrelloCard(source_list_name: String!, dest_list_name: String!, card_name: String!): RateMutationResult
-  sendEmail(email_type:String!, applicant_id: String!, batch_id: Int): SendEmailMutationResult
-  saveForm(applicant_id: String!, batch_id: Int, location: String!, streetNumber: String!, addressSuffix: String!, postcode: String!, city: String!, country: String!, accountHolder: String!, bankName: String!, iban: String!, bic: String!, shirtSize: String!, shirtStyle: String!, foodIntolerances: String!): SaveFormMutationResult
-  createComment( batch_id: Int!, applicant_id: String!, comment_body: String!): SaveFormMutationResult
-  editComment( batch_id: Int!, applicant_id: String!, comment_body: String!, comment_id:String! ): SaveFormMutationResult
-  deleteComment( batch_id: Int!, applicant_id: String!, comment_id: String!): SaveFormMutationResult
-  updateStatus(batch_id: Int!, applicant_id: String!, status: String!): RateMutationResult
+  rate(batch_id: Int!, applicant_id: String!, score: Int!): MutationResult
+  moveTrelloCard(source_list_name: String!, dest_list_name: String!, card_name: String!): MutationResult
+  sendEmail(email_type:String!, applicant_id: String!, batch_id: Int): MutationResult
+  saveForm(applicant_id: String!, batch_id: Int, location: String!, streetNumber: String!, addressSuffix: String!, postcode: String!, city: String!, country: String!, accountHolder: String!, bankName: String!, iban: String!, bic: String!, shirtSize: String!, shirtStyle: String!, foodIntolerances: String!): MutationResult
+  createComment( batch_id: Int! , applicant_id: String!, comment_body: String!): MutationResult
+  editComment( batch_id: Int!, applicant_id: String!, comment_body: String!, comment_id:String! ): MutationResult
+  deleteComment( batch_id: Int!, applicant_id: String!, comment_id: String!): MutationResult
+  updateStatus(batch_id: Int!, applicant_id: String!, status: String!): MutationResult
 }

@@ -38,6 +38,24 @@ query {
     }
   }
 ```
+### Users
+```
+query {
+    users {
+    ... on UserList{
+	  list {
+      uid
+      name
+      email
+      photo
+    }
+	}
+	... on Exception{
+		message
+	}
+    }
+  }
+```
 
 ### Applicants from Batch 
 ```
@@ -62,29 +80,10 @@ query {
 ### Applicant details
 ```
 query {
-  applicantDetails(batch_id: 13, applicant_id: "jru16lzWvqxHiuakWN0q") {
+  applicantDetails(batch_id: 15, applicant_id: "4KHMCajcFloiX2sSOUPE") {
     ... on Applicant{
+      id
       name
-      email
-      batch
-      track {
-        name
-      }
-      scholarship
-      gender
-    }
-    ... on Exception{
-        message
-    }
-    }
-  }
-```
-```
-query {
-  applicantDetails(batch_id: 13, applicant_id: "jru16lzWvqxHiuakWN0q") {
-    ... on Applicant{
-      name
-      email
       batch
       track {
         handle
@@ -95,15 +94,32 @@ query {
         }
         qaLink
       }
+      email
+      consent
+      cv {
+          name
+          bucket
+      }
       scholarship
+      coverLetter {
+          name 
+          bucket
+      }
+      source
       gender
+      acceptanceFormData {
+          location
+      }
+      project
+      strengths
+      status
     }
     ... on Exception{
         message
     }
     }
   }
-  ```
+```
 
 ### Applicant comments 
 ```
@@ -156,7 +172,7 @@ query {
 Query applicants across multiple batches and multiple statuses
 ```
  query {
-  applicantsFromStatus(batch_id_list: [15], status_list: ["Form Filled"]) {
+  applicantsFromStatus(batch_id_list: [15], status_list: ["Rejected"]) {
 	... on ApplicantList{
 	  list {
       name
@@ -246,7 +262,7 @@ mutation {
 
 ```
  mutation {
-  createComment( batch_id: 15, applicant_id:"SYKh3tjEUpcgCoI9ennO", comment_body: "bela testing") {
+  createComment( batch_id: 15, applicant_id:"4KHMCajcFloiX2sSOUPE", comment_body: "bela testing") {
      ... on Status {
       code
       message

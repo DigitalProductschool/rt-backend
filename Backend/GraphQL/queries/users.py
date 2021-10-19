@@ -7,8 +7,7 @@ from Backend.GraphQL.shared import query, users, get_user_document
 def resolve_users(_, info):
     usersArray = []
     for user in users.stream():
-        print(user)
-        _, user_details = get_user_document(info, user.id)
+        _, user_details = get_user_document(user.id)
         usersArray.append(User(
             user.id, user_details["name"], user_details["email"], user_details["photo"]))
     return UserList(usersArray)
