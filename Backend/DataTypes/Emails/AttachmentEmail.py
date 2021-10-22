@@ -41,7 +41,7 @@ def generate_offer_letter(name, batch, batchTime, scholarship):
     pdfkit.from_string(document, "Offer.pdf", options, css=css)
 
 
-def send_email_with_attach(name, batch, batchTime, scholarship, config_email, dps_email, dps_password, email, track_handle):
+def attachment_email(name, batch, batchTime, scholarship, config_email, dps_email, dps_password, email, track_handle):
     msg = MIMEMultipart()
     msg_template = config_email
     msg['Subject'] = msg_template["subject"]

@@ -10,7 +10,10 @@ from Backend.DataTypes.Emails.FormConfirmation import send_form_confirmation
 from Backend.DataTypes.Emails.Documents import send_documents
 from Backend.DataTypes.Emails.WaitingList import send_waiting_list
 from Backend.DataTypes.Track import Track, TrackDetails
+from Backend.DataTypes.Emails.Scholarship import config_scholarship
 import random
+from Backend.DataTypes.Emails.SimpleEmail import simple_email
+from Backend.DataTypes.Emails.AttachmentEmail import attachment_email
 
 class Email:
     def __init__(self, config, applicant_details):
@@ -26,16 +29,18 @@ class Email:
 
         track_details = TrackDetails(Track[applicant_details["track"]])
         self.track = track_details.name
+        self.track_handle = track_details.handle
         self.qaLink = track_details.qaLink
         self.challengeLink = random.choice(track_details.challengeLink) if track_details.challengeLink else None
 
         coreTeam = random.choice(track_details.coreTeam)
-        self.coreTeamLink = coreTeam.coreTeamLink
-        self.coreTeamName = coreTeam.coreTeamName
-        self.batchStart = "Nov"
-        print(self.name, self. id, self.email, self.batch, self.acceptanceFormData, self.track, self.qaLink, self.challengeLink, self.coreTeamLink, self.coreTeamName)
+        self.coreTeamLink = coreTeam.calendly
+        self.coreTeamName = coreTeam.name
+        self.batchStart = "January 17, 2022"  
+        self.batchTime="January 17, 2022 to April 8, 2022"
 
-    def config_email(self):
+    # To be refactored again in the future -> to no pass so many 
+    def create_template(self):
         all_emails = {
             'sendPromising': send_promising(self.name, self.track),
             'sendChallenge': send_challenge(self.name, self.track, self.challengeLink),
@@ -44,8 +49,17 @@ class Email:
             'sendRejection': reject(self.name, self.track),
             'sendWaitingList': send_waiting_list(self.name, self.track, self.batch, self.batchStart, self.coreTeamName),
             'sendAcceptance': send_acceptance(self.name, self.track, self.batch, self.id),
-            'sendDocuments': send_documents(self.name, self.batch),
             'sendFormConfirmation': send_form_confirmation(self.name, self.track, self.batch, self.id, self.acceptanceFormData),
-        }
+            'sendDocuments': send_documents(self.name, self.batch),
+         }
         email = all_emails[self.config]
         return email
+
+
+    def send_email(self):
+        if self.config == 'sendDocuments':
+            attachment_email(self.name, self.batch, self.batchTime, config_scholarship(self.acceptanceFormData["location"],  self.acceptanceFormData["country"]),
+                             self.create_template(), self.dps_email, self.dps_password, self.email, self.track_handle)
+        else:
+            print(self.create_template())
+            simple_email(self.create_template(), self.dps_email, self.dps_password, self.email)

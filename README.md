@@ -223,6 +223,30 @@ query {
   }
 ```
 
+## Mentions for current user
+```
+query{
+    userMentions {
+    ... on MentionList{
+		  list {
+          mentioner {
+          name
+          }
+          createdAt
+          data{
+          commentId
+          applicantId
+          batchId
+          }
+        }
+    }
+    ... on Exception{
+        message
+    }
+    }
+}
+```
+
 ## Mutations 
 ### Rate applicant
 
@@ -278,7 +302,7 @@ mutation {
 
 ```
  mutation {
-  editComment( batch_id: 15, applicant_id:"SYKh3tjEUpcgCoI9ennO",comment_body: "bela again testing", comment_id: "y6wNHyjEAskHCZpzCQpY") {
+  editComment( batch_id: 15, applicant_id:"4KHMCajcFloiX2sSOUPE",comment_body: "bela again testing", comment_id: "y6wNHyjEAskHCZpzCQpY") {
      ... on Status {
       code
       message
@@ -294,7 +318,7 @@ mutation {
 
 ```
  mutation {
-  deleteComment( batch_id: 15, applicant_id:"SYKh3tjEUpcgCoI9ennO",comment_id: "y6wNHyjEAskHCZpzCQpY") {
+  deleteComment( batch_id: 15, applicant_id:"4KHMCajcFloiX2sSOUPE",comment_id: "y6wNHyjEAskHCZpzCQpY") {
      ... on Status {
       code
       message
@@ -310,7 +334,52 @@ mutation {
 
 ```
 mutation{
-    saveForm(batch_id: 15, applicant_id: "SYKh3tjEUpcgCoI9ennO", location: "Munich", streetNumber: "Feilitzstrasse", addressSuffix: "-", postcode: "80802", city: "Munich", country: "Germany", accountHolder: "Bela Sinoimeri", bankName: "N26", iban: "12345678", bic: "242426", shirtSize:"M", shirtStyle: "F", foodIntolerances: "none") {
+    saveForm(batch_id: 15, applicant_id: "4KHMCajcFloiX2sSOUPE", location: "Munich", streetNumber: "Feilitzstrasse", addressSuffix: "-", postcode: "80802", city: "Munich", country: "Germany", accountHolder: "Bela Sinoimeri", bankName: "N26", iban: "12345678", bic: "242426", shirtSize:"M", shirtStyle: "F", foodIntolerances: "none") {
+     ...on Status {
+        code
+        message
+      }
+    ...on Exception{
+        message
+      }
+    }
+}
+```
+### Change status
+
+```
+mutation{
+    updateStatus(applicant_id: "4KHMCajcFloiX2sSOUPE", batch_id: 15, status: "none") {
+     ...on Status {
+        code
+        message
+      }
+    ...on Exception{
+        message
+      }
+    }
+}
+```
+
+## Create mention
+```
+mutation{
+    createMention(batch_id: 15, applicant_id: "4KHMCajcFloiX2sSOUPE", comment_id:"CuW6VkL57rwygUqsV9VK", mentioned_id: "CXIKt8TItcc9rQU7DeiiaYDGBRf2") {
+     ...on Status {
+        code
+        message
+      }
+    ...on Exception{
+        message
+      }
+    }
+}
+```
+
+## Read mention
+```
+mutation{
+    readMention( mention_id: "bI9u3k6DtDVp0KDxHK2k") {
      ...on Status {
         code
         message

@@ -5,6 +5,7 @@ from Backend.DataTypes.User import User
 from Backend.DataTypes.UserList import UserList
 from Backend.DataTypes.BatchList import BatchList
 from Backend.DataTypes.CommentList import CommentList
+from Backend.DataTypes.MentionList import MentionList
 from Backend.DataTypes.Status import Status
 from graphql import GraphQLError
 
@@ -65,6 +66,14 @@ def resolve_users_query_result(obj, *_):
         return "Exception"
     return None
 
+UserMentionsQueryResult = UnionType("UserMentionsQueryResult")
+@UserMentionsQueryResult.type_resolver
+def resolve_user_mentions_query_result(obj, *_):
+    if isinstance(obj, MentionList):
+        return "MentionList"
+    if isinstance(obj, GraphQLError):
+        return "Exception"
+    return None
 
 # Mutation resolvers
 MutationResult = UnionType("MutationResult")

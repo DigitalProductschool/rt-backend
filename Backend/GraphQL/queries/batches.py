@@ -1,6 +1,6 @@
 from Backend.DataTypes.Batch import Batch
 from Backend.DataTypes.BatchList import BatchList
-from Backend.GraphQL.shared import query, batch_details
+from Backend.GraphQL.shared import query, batch_details, incorrect_parameter
 from graphql import GraphQLError
 
 
@@ -12,7 +12,7 @@ def resolve_batches(_, info, batch_id_list):
         ) if doc.to_dict()['batch'] in batch_id_list]
     else:
         batches_collection = [doc.to_dict()
-                              for doc in batch_details.stream()]
+                              for doc in batch_details.stream()]             
     for batch in batches_collection:
         try:
             batches.append(Batch(batch['batch'],
@@ -29,4 +29,6 @@ def resolve_batches(_, info, batch_id_list):
                                  ))
         except KeyError as err:
             return GraphQLError(message="The field" + str(err) + "does not exists in the database document")
+    if not batches: 
+          raise GraphQLError(message="Incorrect parameter")
     return BatchList(batches)

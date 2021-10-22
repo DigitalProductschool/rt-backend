@@ -2,7 +2,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
 
-def send_email(config_email, dps_email, dps_password, email):
+def simple_email(config_email, dps_email, dps_password, email):
     msg = MIMEMultipart()
     msg_template = config_email
     msg['Subject'] = msg_template["subject"]

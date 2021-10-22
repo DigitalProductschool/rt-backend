@@ -2,7 +2,9 @@ import os
 from flask import Flask, request, jsonify, Blueprint
 from ariadne import graphql_sync, make_executable_schema, gql, load_schema_from_path
 from ariadne.constants import PLAYGROUND_HTML
+from Backend.GraphQL.mutations.mentionMutation import mutation
 from Backend.GraphQL.mutations.commentMutation import mutation
+from Backend.GraphQL.mutations.statusMutation import mutation
 from Backend.GraphQL.mutations.emailMutation import mutation
 from Backend.GraphQL.mutations.formMutation import mutation
 from Backend.GraphQL.mutations.rateMutation import mutation
@@ -14,8 +16,9 @@ from Backend.GraphQL.queries.applicantsFromStatus import query
 from Backend.GraphQL.queries.applicants import query
 from Backend.GraphQL.queries.currentUser import query
 from Backend.GraphQL.queries.users import query
+from Backend.GraphQL.queries.userMentions import query
 from Backend.GraphQL.queries.applicantComments import query
-from Backend.GraphQL.unionResolvers import ApplicantsQueryResult, CommentsQueryResult, ApplicantDetailsQueryResult, BatchesQueryResult, UserQueryResult, UsersQueryResult, MutationResult
+from Backend.GraphQL.unionResolvers import ApplicantsQueryResult, CommentsQueryResult, ApplicantDetailsQueryResult, BatchesQueryResult, UserQueryResult, UsersQueryResult, UserMentionsQueryResult, MutationResult
 from Backend.GraphQL.shared import query
 from Backend.GraphQL.scalarType import datetime_scalar
 from flask_cors import CORS
@@ -37,7 +40,7 @@ type_defs = gql(load_schema_from_path("Backend/GraphQL/schema.graphql"))
 schema = make_executable_schema(type_defs, [query, 
                                             mutation,
                                             datetime_scalar,
-                                            ApplicantsQueryResult, CommentsQueryResult, ApplicantDetailsQueryResult, BatchesQueryResult, UserQueryResult, UsersQueryResult, MutationResult], directives={"isAuthenticated": IsAuthenticatedDirective})
+                                            ApplicantsQueryResult, CommentsQueryResult, ApplicantDetailsQueryResult, BatchesQueryResult, UserQueryResult, UsersQueryResult, UserMentionsQueryResult, MutationResult], directives={"isAuthenticated": IsAuthenticatedDirective})
 
 
 @graphql.route("/graphql", methods=["GET"])

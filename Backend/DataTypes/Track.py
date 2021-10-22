@@ -23,7 +23,7 @@ class Track(Enum):
 class TrackDetails():
     def __init__(self, track_handle):
         if (track_handle == Track.SE):
-            self.handle = 'se'
+            self.handle = 'SE'
             self.name = "Software Engineer"
             self.coreTeam = [CoreTeamMember("Daniel", "bedo@unternehmertum.de", "https://calendly.com/daniel-dps/dps-interview"),
                              CoreTeamMember("Bela", "bela.sinoimeri@unternehmertum.de",  "https://calendly.com/bela-sinoimeri/dps-interview")]
@@ -33,7 +33,7 @@ class TrackDetails():
             self.qaLink = "https://calendly.com/digital-product-school-team/q-a"
 
         elif (track_handle == Track.PM):
-            self.handle = 'pm'
+            self.handle = 'PM'
             self.name = "Product Manager"
             self.coreTeam = [CoreTeamMember(
                 "Steffen",  "kastner@unternehmertum.de", "https://calendly.com/kastner/30min")]
@@ -49,7 +49,7 @@ class TrackDetails():
             self.qaLink = None
 
         elif (track_handle == Track.PMC):
-            self.handle = 'pmc'
+            self.handle = 'PMC'
             self.name = "Product Marketing & Communications Manager"
             self.coreTeam = [CoreTeamMember(
                 "Bastian", "rieder@unternehmertum.de", "https://calendly.com/bastian-rieder/interview-pmc")]
@@ -57,7 +57,7 @@ class TrackDetails():
             self.qaLink = None
 
         elif (track_handle == Track.AI):
-            self.handle = 'ai'
+            self.handle = 'AI'
             self.name = "AI Engineer"
             self.coreTeam = [CoreTeamMember(
                 "Afsaneh", "asaei@unternehmertum.de", "https://calendly.com/asaei/interview-dps-ai-track")]
@@ -66,7 +66,7 @@ class TrackDetails():
             self.qaLink = "https://calendly.com/asaei/group-interview-and-q-a-dps-ai-track"
 
         elif (track_handle == Track.AC):
-            self.handle = 'ac'
+            self.handle = 'AC'
             self.name = "Agile Team Coach"
             self.coreTeam = [CoreTeamMember("Tobias", "tobias.kalkowsky@unternehmertum.de",
                                             "https://calendly.com/dps-tobias-kalkowsky/dps-agile-coaching-track-interview")]

@@ -1,4 +1,4 @@
-from Backend.GraphQL.shared import mutation, get_applicant_document
+from Backend.GraphQL.shared import mutation, get_applicant_document, get_current_user
 from Backend.DataTypes.Status import Status
 from graphql import GraphQLError
 
@@ -22,13 +22,14 @@ def config_status(ratings):
 
 @mutation.field("rate")
 def resolve_rate(_, info, batch_id, applicant_id, score):
+    current_user = get_current_user(info)
     try:
             application, application_details = get_applicant_document(batch_id, applicant_id)
     except Exception as err:
             return GraphQLError(message=err.__str__())
     try:
             ratings = application_details['ratings']
-            ratings[str(current_user.uid)] = score
+            ratings[current_user.uid] = score
             application.update({'ratings': ratings})
     except:
             ratings = {}

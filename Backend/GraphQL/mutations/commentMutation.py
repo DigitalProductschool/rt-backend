@@ -20,8 +20,9 @@ def resolve_create_comment(_, info, batch_id, applicant_id, comment_body):
 
 @mutation.field("editComment")
 def resolve_edit_comment(_, info, batch_id, applicant_id, comment_body, comment_id):
+    get_current_user(info)
     comment_doc = get_comment_document(
-        info, batch_id, applicant_id, comment_id)
+        batch_id, applicant_id, comment_id)
     comment_date = firestore.SERVER_TIMESTAMP
     comment_doc.update({'body': comment_body, 'updatedAt': comment_date})
     return Status(0, "Comment updated succesfully")
@@ -29,5 +30,6 @@ def resolve_edit_comment(_, info, batch_id, applicant_id, comment_body, comment_
 
 @mutation.field("deleteComment")
 def resolve_delete_comment(_, info, batch_id, applicant_id, comment_id):
-    get_comment_document(info, batch_id, applicant_id, comment_id).delete()
+    get_current_user(info)
+    get_comment_document(batch_id, applicant_id, comment_id).delete()
     return Status(0, "Comment deleted succesfully")

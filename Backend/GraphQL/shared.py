@@ -44,9 +44,10 @@ def get_user_document(user_id):
     user_details = user_doc.get().to_dict()
     return user_doc, user_details
 
-
 def get_current_user(info):
     user = info.context.get('user')
+    if not user: 
+         raise GraphQLError(message="User does not have permissions")
     return user
 
 
