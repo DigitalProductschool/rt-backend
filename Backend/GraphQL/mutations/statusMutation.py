@@ -23,6 +23,8 @@ def mutation_status(_, info, applicant_id, batch_id, status):
 # Interview Scheduled - interview was scheduled
 # Interview Done - interview was done
 # Accepted - applicant accepted
-# Document Sent - applicant received the documents
+# Form Filled - applicant filled the form
+# Document Sents - applicant received the documents
 # Rejected - applicant rejected
 # Waiting List Sent - the applicant is in waiting list
+# Duplicated - used to mark duplicated applications

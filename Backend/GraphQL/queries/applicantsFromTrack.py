@@ -4,7 +4,7 @@ from graphql import GraphQLError
 
 
 @query.field("applicantsFromTrack")
-def resolve_applicant_from_status(_, info, batch_id_list, track_list):
+def resolve_applicant_from_track(_, info, batch_id_list, track_list):
     applicants = []
     for batch_id in batch_id_list:
         for track in track_list:

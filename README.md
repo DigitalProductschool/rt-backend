@@ -31,10 +31,15 @@ python run.py
 ```
 query {
     user {
+    ... on User{
       uid
       name
       email
       photo
+    }
+    ... on Exception{
+		message
+	}
     }
   }
 ```
@@ -195,6 +200,27 @@ Query applicants across multiple batches and multiple statuses
           shirtStyle
           foodIntolerances
       }
+    }
+	}
+	... on Exception{
+		message
+	}
+    }
+  }
+```
+### Applicants from Track & Status
+Query applicants across multiple batches and multiple tracks and multiple statuses
+```
+query {
+  applicantsFromTrackAndStatus(batch_id_list: [15], track_list: [se, pmc, pm], status_list:["NEW"]) {
+	... on ApplicantList{
+		list {
+      name
+      track {
+        handle
+      }
+      batch
+      status
     }
 	}
 	... on Exception{

@@ -13,6 +13,7 @@ from Backend.GraphQL.queries.applicants import query
 from Backend.GraphQL.queries.batches import query
 from Backend.GraphQL.queries.applicantsFromTrack import query
 from Backend.GraphQL.queries.applicantsFromStatus import query
+from Backend.GraphQL.queries.applicantsFromTrackAndStatus import query
 from Backend.GraphQL.queries.applicants import query
 from Backend.GraphQL.queries.currentUser import query
 from Backend.GraphQL.queries.users import query
