@@ -1,7 +1,9 @@
+
 from Backend.DataTypes.Applicant import Applicant
 from Backend.DataTypes.ApplicantList import ApplicantList
 from Backend.GraphQL.shared import query, batches, incorrect_parameter, create_applicant
 from graphql import GraphQLError
+
 
 
 @query.field("applicants")

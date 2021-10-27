@@ -8,5 +8,9 @@ ariadne
 gunicorn
 py-trello==0.18.0
 pdfkit
+<<<<<<< HEAD
 aenum
 mock-firestore
+=======
+mock-firestore
+>>>>>>> 106bb32107486fd5ae35f31786c8792244a1cf3d

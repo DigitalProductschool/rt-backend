@@ -1,6 +1,5 @@
 from graphql import GraphQLError
 
-
 class Batch():
     def __init__(self, batch, startDate, endDate, appStartDate, appEndDate, appEndDateAI=None, appEndDateIXD=None,
                  appEndDatePM=None, appEndDateSE=None, appEndDatePMC=None, appEndDateAC=None):
@@ -16,6 +15,7 @@ class Batch():
         self.appEndDateSE = appEndDateSE
         self.appEndDatePMC = appEndDatePMC
         self.appEndDateAC = appEndDateAC
+
 
     @classmethod
     def from_dict(cls, b):
