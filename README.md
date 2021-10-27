@@ -31,10 +31,33 @@ python run.py
 ```
 query {
     user {
+    ... on User{
       uid
       name
       email
       photo
+    }
+    ... on Exception{
+		message
+	}
+    }
+  }
+```
+### Users
+```
+query {
+    users {
+    ... on UserList{
+	  list {
+      uid
+      name
+      email
+      photo
+    }
+	}
+	... on Exception{
+		message
+	}
     }
   }
 ```
@@ -46,7 +69,9 @@ query {
 	... on ApplicantList{
 		list {
       name
-      track
+      track {
+        handle
+      }
       batch
     }
 	}
@@ -60,14 +85,39 @@ query {
 ### Applicant details
 ```
 query {
-  applicantDetails(batch_id: 13, applicant_id: "jru16lzWvqxHiuakWN0q") {
+  applicantDetails(batch_id: 15, applicant_id: "4KHMCajcFloiX2sSOUPE") {
     ... on Applicant{
+      id
       name
-      email
       batch
-      track
+      track {
+        handle
+        name
+        coreTeam {
+          name
+          calendly
+        }
+        qaLink
+      }
+      email
+      consent
+      cv {
+          name
+          bucket
+      }
       scholarship
+      coverLetter {
+          name 
+          bucket
+      }
+      source
       gender
+      acceptanceFormData {
+          location
+      }
+      project
+      strengths
+      status
     }
     ... on Exception{
         message
@@ -105,11 +155,13 @@ query {
 Query applicants across multiple batches and multiple tracks
 ```
 query {
-  applicantsFromTrack(batch_id_list: [15], track_list: [se, pmc]) {
+  applicantsFromTrack(batch_id_list: [15], track_list: [se, pmc, pm]) {
 	... on ApplicantList{
 		list {
       name
-      track
+      track {
+        handle
+      }
       batch
       status
     }
@@ -125,11 +177,13 @@ query {
 Query applicants across multiple batches and multiple statuses
 ```
  query {
-  applicantsFromStatus(batch_id_list: [15], status_list: ["Documents Sent"]) {
+  applicantsFromStatus(batch_id_list: [15], status_list: ["Rejected"]) {
 	... on ApplicantList{
 	  list {
       name
-      track
+      track {
+        handle
+      }
       batch
       acceptanceFormData {
           location
@@ -146,6 +200,27 @@ Query applicants across multiple batches and multiple statuses
           shirtStyle
           foodIntolerances
       }
+    }
+	}
+	... on Exception{
+		message
+	}
+    }
+  }
+```
+### Applicants from Track & Status
+Query applicants across multiple batches and multiple tracks and multiple statuses
+```
+query {
+  applicantsFromTrackAndStatus(batch_id_list: [15], track_list: [se, pmc, pm], status_list:["NEW"]) {
+	... on ApplicantList{
+		list {
+      name
+      track {
+        handle
+      }
+      batch
+      status
     }
 	}
 	... on Exception{
@@ -174,6 +249,30 @@ query {
   }
 ```
 
+## Mentions for current user
+```
+query{
+    userMentions {
+    ... on MentionList{
+		  list {
+          mentioner {
+          name
+          }
+          createdAt
+          data{
+          commentId
+          applicantId
+          batchId
+          }
+        }
+    }
+    ... on Exception{
+        message
+    }
+    }
+}
+```
+
 ## Mutations 
 ### Rate applicant
 
@@ -195,7 +294,7 @@ query {
 
 ```
 mutation {
-  sendEmail(applicant_id: "jru16lzWvqxHiuakWN0q", email_type: "sendDocuments", applicant_name:"Magda", applicant_email: "ntmagda93@gmail.com", track:se, batch_id:13) {
+  sendEmail(applicant_id: "4KHMCajcFloiX2sSOUPE", email_type: "sendFormConfirmation", batch_id:15) {
      ... on Status {
       code
       message
@@ -213,7 +312,7 @@ mutation {
 
 ```
  mutation {
-  createComment( batch_id: 15, applicant_id:"SYKh3tjEUpcgCoI9ennO", comment_body: "bela testing") {
+  createComment( batch_id: 15, applicant_id:"4KHMCajcFloiX2sSOUPE", comment_body: "bela testing") {
      ... on Status {
       code
       message
@@ -229,7 +328,7 @@ mutation {
 
 ```
  mutation {
-  editComment( batch_id: 15, applicant_id:"SYKh3tjEUpcgCoI9ennO",comment_body: "bela again testing", comment_id: "y6wNHyjEAskHCZpzCQpY") {
+  editComment( batch_id: 15, applicant_id:"4KHMCajcFloiX2sSOUPE",comment_body: "bela again testing", comment_id: "y6wNHyjEAskHCZpzCQpY") {
      ... on Status {
       code
       message
@@ -245,7 +344,7 @@ mutation {
 
 ```
  mutation {
-  deleteComment( batch_id: 15, applicant_id:"SYKh3tjEUpcgCoI9ennO",comment_id: "y6wNHyjEAskHCZpzCQpY") {
+  deleteComment( batch_id: 15, applicant_id:"4KHMCajcFloiX2sSOUPE",comment_id: "y6wNHyjEAskHCZpzCQpY") {
      ... on Status {
       code
       message
@@ -261,7 +360,52 @@ mutation {
 
 ```
 mutation{
-    saveForm(batch_id: 15, applicant_id: "SYKh3tjEUpcgCoI9ennO", location: "Munich", streetNumber: "Feilitzstrasse", addressSuffix: "-", postcode: "80802", city: "Munich", country: "Germany", accountHolder: "Bela Sinoimeri", bankName: "N26", iban: "12345678", bic: "242426", shirtSize:"M", shirtStyle: "F", foodIntolerances: "none") {
+    saveForm(batch_id: 15, applicant_id: "4KHMCajcFloiX2sSOUPE", location: "Munich", streetNumber: "Feilitzstrasse", addressSuffix: "-", postcode: "80802", city: "Munich", country: "Germany", accountHolder: "Bela Sinoimeri", bankName: "N26", iban: "12345678", bic: "242426", shirtSize:"M", shirtStyle: "F", foodIntolerances: "none") {
+     ...on Status {
+        code
+        message
+      }
+    ...on Exception{
+        message
+      }
+    }
+}
+```
+### Change status
+
+```
+mutation{
+    updateStatus(applicant_id: "4KHMCajcFloiX2sSOUPE", batch_id: 15, status: "none") {
+     ...on Status {
+        code
+        message
+      }
+    ...on Exception{
+        message
+      }
+    }
+}
+```
+
+## Create mention
+```
+mutation{
+    createMention(batch_id: 15, applicant_id: "4KHMCajcFloiX2sSOUPE", comment_id:"CuW6VkL57rwygUqsV9VK", mentioned_id: "CXIKt8TItcc9rQU7DeiiaYDGBRf2") {
+     ...on Status {
+        code
+        message
+      }
+    ...on Exception{
+        message
+      }
+    }
+}
+```
+
+## Read mention
+```
+mutation{
+    readMention( mention_id: "bI9u3k6DtDVp0KDxHK2k") {
      ...on Status {
         code
         message

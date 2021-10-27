@@ -1,9 +1,7 @@
+from Backend.GraphQL.shared import query, get_current_user
 
-from Backend.Authentication.verify_token import get_user_context
-from Backend.GraphQL.shared import query
 
 @query.field("user")
 def resolve_current_user(_, info):
-     authentication = get_user_context(info)
-     return authentication
-   
+    user = get_current_user(info)
+    return user
