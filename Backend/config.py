@@ -13,18 +13,18 @@ class Config:
 class ProductionConfig(Config):
     TRELLO_BOARD_ID = access_secret_version("trello-board-id-se")
     TRELLO_NAME = access_secret_version("trello-board-name-se")
-    ACCEPTANCE_FORM = "https://rt-frontend-production-t6aaxdrofq-ey.a.run.app/form/"
+    ACCEPTANCE_FORM = "https://rt-frontend-production-w2a4py2tca-ey.a.run.app/form/"
 
 class StagingConfig(Config):
     DEBUG = True
     TRELLO_BOARD_ID = access_secret_version("trello-board-id-se-staging")
     TRELLO_NAME = access_secret_version("trello-board-name-se-staging")
-    ACCEPTANCE_FORM = "https://rt-frontend-staging-t6aaxdrofq-ey.a.run.app/form/"
+    ACCEPTANCE_FORM = "https://rt-frontend-staging-w2a4py2tca-ey.a.run.app/form/"
 
 class DevelopmentConfig(Config):
     DEBUG = True
     DEVELOPMENT = True
-    ACCEPTANCE_FORM = "https://rt-frontend-staging-t6aaxdrofq-ey.a.run.app/form/"
+    ACCEPTANCE_FORM = "https://rt-frontend-staging-w2a4py2tca-ey.a.run.app/form/"
 
 configs = {
     'production': ProductionConfig,
