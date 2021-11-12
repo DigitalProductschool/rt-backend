@@ -52,7 +52,7 @@ class TrackDetails():
             self.handle = 'PMC'
             self.name = "Product Marketing & Communications Manager"
             self.coreTeam = [CoreTeamMember(
-                "Bastian", "rieder@unternehmertum.de", "https://calendly.com/bastian-rieder/interview-pmc")]
+                "Bastian", "rieder@unternehmertum.de", "https://calendly.com/d/g8nc-zkqr/interview-pmc")]
             self.challengeLink = None
             self.qaLink = None
 
