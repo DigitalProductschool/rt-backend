@@ -24,6 +24,6 @@ class Applicant():
 class PMCApplicant(Applicant):
     def __init__(self, id, name, batch, track, email, consent, cv, scholarship, coverLetter=None, source=None, gender=None, acceptanceFormData=None, project=None, strengths=None, status="NEW"):
         super().__init__(id, name, batch, track, email, consent, cv, scholarship,
-                         coverLetter, source, gender, acceptanceFormData, status="NEW")
+                         coverLetter, source, gender, acceptanceFormData, status)
         self.project = project
         self.strengths = strengths
