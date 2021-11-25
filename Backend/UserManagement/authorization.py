@@ -14,7 +14,8 @@ def verify_email(email):
                   "asaei@unternehmertum.de",
                   "tobias.kalkowsky@unternehmertum.de",
                   "kastner@unternehmertum.de",
-                  "rieder@unternehmertum.de"]
+                  "rieder@unternehmertum.de",
+                  "natthagorn.bunnet@unternehmertum.de"]
     if email not in white_list:
         return None
     else:
