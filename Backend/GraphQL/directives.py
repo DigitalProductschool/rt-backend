@@ -11,7 +11,6 @@ class IsAuthenticatedDirective(SchemaDirectiveVisitor):
         self.ensure_fields_wrapped(object_type)
 
     def ensure_fields_wrapped(self, object_type):
-        print(object_type)
 
         def resolve_is_authenticated(_, info,f=None, o=None):
             user = info.context.get('user')

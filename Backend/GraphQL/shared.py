@@ -19,7 +19,6 @@ def incorrect_parameter(doc):
 
 
 def get_batch_document(batch_id):
-    print('batch-' + str(batch_id))
     batch_doc = batches.document('batch-' + str(batch_id))
     incorrect_parameter(batch_doc)
     return batch_doc
