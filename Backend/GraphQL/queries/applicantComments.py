@@ -17,7 +17,6 @@ def resolve_applicant_details(_, info, batch_id, applicant_id):
     commentsCollection = application.collection('comments')
     comments = [doc for doc in commentsCollection.stream()]
     for comment in comments:
-        print(comment)
         commentid = comment.id
         comment = comment.to_dict()
         try:

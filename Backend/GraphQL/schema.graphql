@@ -28,6 +28,7 @@ type Track {
 type Document   {
   bucket: String
   name: String
+  url: String
 }
 
 type Form {

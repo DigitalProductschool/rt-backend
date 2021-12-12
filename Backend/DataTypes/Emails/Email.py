@@ -61,5 +61,4 @@ class Email:
             attachment_email(self.name, self.batch, self.batchTime, config_scholarship(self.acceptanceFormData["location"],  self.acceptanceFormData["country"]),
                              self.create_template(), self.dps_email, self.dps_password, self.email, self.track_handle)
         else:
-            print(self.create_template())
             simple_email(self.create_template(), self.dps_email, self.dps_password, self.email)
