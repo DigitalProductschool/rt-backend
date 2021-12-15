@@ -8,12 +8,13 @@ from Backend.DataTypes.Emails.Reject import reject
 from Backend.DataTypes.Emails.Accept import send_acceptance
 from Backend.DataTypes.Emails.FormConfirmation import send_form_confirmation
 from Backend.DataTypes.Emails.Documents import send_documents
+from Backend.DataTypes.Emails.Agreements import send_agreements
 from Backend.DataTypes.Emails.WaitingList import send_waiting_list
 from Backend.DataTypes.Track import Track, TrackDetails
 from Backend.DataTypes.Emails.Scholarship import config_scholarship
 import random
 from Backend.DataTypes.Emails.SimpleEmail import simple_email
-from Backend.DataTypes.Emails.AttachmentEmail import attachment_email
+from Backend.DataTypes.Emails.AttachmentEmail import attachment_email, attachment_agreements_email
 
 class Email:
     def __init__(self, config, applicant_details):
@@ -51,6 +52,7 @@ class Email:
             'sendAcceptance': send_acceptance(self.name, self.track, self.batch, self.id),
             'sendFormConfirmation': send_form_confirmation(self.name, self.track, self.batch, self.id, self.acceptanceFormData),
             'sendDocuments': send_documents(self.name, self.batch),
+            'sendAgreements': send_agreements(self.name, self.batch)
          }
         email = all_emails[self.config]
         return email
@@ -58,7 +60,10 @@ class Email:
 
     def send_email(self):
         if self.config == 'sendDocuments':
-            attachment_email(self.name, self.batch, self.batchTime, config_scholarship(self.acceptanceFormData["location"],  self.acceptanceFormData["country"]),
+            attachment_email(self.name, self.batch, self.batchTime, config_scholarship(self.acceptanceFormData["location"], self.acceptanceFormData["country"]),
                              self.create_template(), self.dps_email, self.dps_password, self.email, self.track_handle)
+        elif self.config == 'sendAgreements':
+            attachment_agreements_email(self.name, self.batch, self.batchTime, config_scholarship(self.acceptanceFormData["location"], self.acceptanceFormData["country"]), self.acceptanceFormData,
+                             self.create_template(), self.dps_email, self.dps_password, self.email)
         else:
             simple_email(self.create_template(), self.dps_email, self.dps_password, self.email)

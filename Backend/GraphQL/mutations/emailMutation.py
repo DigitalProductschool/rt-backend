@@ -16,6 +16,7 @@ def config_status(email_type):
         'sendAcceptance': 'Accepted',
         'sendFormConfirmation': 'Form Filled',
         'sendDocuments': 'Documents Sent',
+        'sendAgreements': 'Agreements Sent'
     }
     status = all_emails[email_type]
     return status
