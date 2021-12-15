@@ -1,46 +1,20 @@
-@import url(https://fonts.googleapis.com/css?family=Montserrat:400,500,80);
+/* Offer Letter*/
 
 .offer-letter-container {
-  font-family: "Monserrat", sans-serif;
-  margin: 10%;
-}
-
-.offer-letter-header {
-  display: flex;
-  display: -webkit-box;
-  display: -webkit-flex;
-}
-
-.offer-letter-header > div {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  flex: 1;
-  margin-right: 10%;
-}
-.offer-letter-footer > div:last-child {
-  margin-right: 0;
-}
-
-.offer-letter-dps {
-  flex: 50%;
-}
-
-.offer-letter-utum {
-  flex: 50%;
-  text-align: right;
-}
+  font-family: Montserrat;
+  text-align: left;
+  white-space: normal;
+} 
 
 .offer-letter-title {
   margin-top: 10%;
   font-size: 35px;
-  font-weight: bolder;
   text-align: left;
   text-transform: uppercase;
 }
 .offer-letter-subtitle {
   font-size: 25px;
-  font-weight: bold;
-  margin-top: -30px;
+  margin-top: -40px;
   text-align: left;
   text-transform: uppercase;
 }
@@ -48,7 +22,6 @@
 .offer-letter-body {
   margin-top: 10%;
   font-size: 20px;
-  font-weight: lighter;
   line-height: 1.2em;
 }
 
@@ -62,70 +35,41 @@ hr.solid {
   border-top: 1px solid #bbb;
 }
 
-.offer-letter-footer {
-  display: flex;
-  display: -webkit-box;
-  display: -webkit-flex;
-  font-size: 13px;
+b {
+  font-weight: bold;
 }
-.offer-letter-footer > div {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  flex: 1;
-  margin-right: 10%;
-}
-.offer-letter-footer > div:last-child {
-  margin-right: 0;
-}
-
-.offer-letter-address {
-  flex: 33.3%;
-  text-align: left;
-}
-
-.offer-letter-email {
-  flex: 33.3%;
-  text-align: center;
-}
-
-.offer-letter-utum-address {
-  flex: 33.3%;
-  text-align: right;
-}
-
 /* Scholarship*/ /* Participation */
 
-.scholarship-container , .participation-container {
+.scholarship-container,
+.participation-container {
   line-height: 1.5;
   font-size: 16px;
-  font-family: Montserrat; 
-  font-weight: normal;
+  font-family: Montserrat;
   text-align: left;
   white-space: normal;
 }
 
-.scholarship-title , .participation-title {
- font-size: 30px; 
- font-weight: 900; 
- text-transform: uppercase;
+.scholarship-title,
+.participation-title {
+  font-size: 30px;
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
-.scholarship-subtitle , .participation-subtitle {
- font-size: 18px; 
- line-height: 2;
+.scholarship-subtitle,
+.participation-subtitle {
+  font-size: 18px;
+  line-height: 2;
 }
 
 .scholarship-type {
- font-size: 16px;
- text-align: left;
- font-weight: bold;
-}
-.scholarship-body, .participation-body {
- font-size: 16px; 
- font-weight: normal;
- text-align: left;
-}
-
-b{
+  font-size: 16px;
+  text-align: left;
   font-weight: bold;
+}
+.scholarship-body,
+.participation-body {
+  font-size: 16px;
+  font-weight: normal;
+  text-align: left;
 }

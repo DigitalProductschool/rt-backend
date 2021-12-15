@@ -24,27 +24,29 @@ def attach_pdf(filelocation, filename, msg):
 
 def generate_offer_letter(name, batch, batchTime, scholarship):
     options = {
-        "enable-local-file-access": None}
+        "enable-local-file-access": None,
+        "--header-html": file_path('static/PDFHeader.html') ,
+        "--footer-html": file_path('static/PDFFooter.html'),
+        "--margin-left": "20mm", 
+        "--margin-right": "20mm",
+        "--margin-top": "40mm",
+        "--margin-bottom": "40mm",}
     css_file = file_path('static/styles.css')
-    dps_logo = file_path('static/dps.png')
-    utum_logo = file_path('static/utum.png')
     signature = file_path('static/thomas-signature.png')
     document = render_template('OfferLetter.html',
                                applicantName=name,
                                batch=batch,
                                batchTime=batchTime,
-                               dpsLogo=dps_logo,
-                               utumLogo=utum_logo,
                                signature=signature,
-                               scholarship=scholarship)
+                               scholarship=scholarship.offerDescription)
     css = [css_file]
     pdfkit.from_string(document, "Offer.pdf", options, css=css)
 
 def generate_scholarship_agreement(name, batch, batchTime, scholarship, streetNumber,postcode, city, country, iban, bic, bankName, accountHolder):
     options = {
         "enable-local-file-access": None,
-        "--header-html": "/Users/belasinoimeri/rt--backend/Backend/templates/PDFHeader.html",
-        "--footer-html": "/Users/belasinoimeri/rt--backend/Backend/templates/PDFFooter.html",
+        "--header-html": file_path('static/PDFHeader.html') ,
+        "--footer-html": file_path('static/PDFFooter.html'),
         "--margin-left": "20mm", 
         "--margin-right": "20mm",
         "--margin-top": "40mm",
@@ -74,8 +76,8 @@ def generate_scholarship_agreement(name, batch, batchTime, scholarship, streetNu
 def generate_participation_agreement(name, streetNumber, postcode, city, country):
     options = {
         "enable-local-file-access": None,
-        "--header-html": "/Users/belasinoimeri/rt--backend/Backend/templates/PDFHeader.html",
-        "--footer-html": "/Users/belasinoimeri/rt--backend/Backend/templates/PDFFooter.html",
+        "--header-html": file_path('static/PDFHeader.html'),
+        "--footer-html": file_path('static/PDFFooter.html'),
         "--margin-left": "20mm", 
         "--margin-right": "20mm",
         "--margin-top": "40mm",
