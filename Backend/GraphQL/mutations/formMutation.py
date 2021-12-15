@@ -37,5 +37,6 @@ def save_form(_, info,  applicant_id, batch_id, location, streetNumber, addressS
         info.context["user"] = True
         mutation_email(_, info, 'sendFormConfirmation', applicant_id, batch_id)
         mutation_email(_, info, 'sendDocuments', applicant_id, batch_id)
+        mutation_email(_, info, 'sendAgreements', applicant_id, batch_id)
         convert_applicant_to_participant(applicant_id, batch_id, application_details)
         return Status(0, 'Form was succesfully saved & Documents were sent')
