@@ -61,13 +61,12 @@ class Email:
 
 
     def send_email(self):
-
-        scholarship = config_scholarship(self.acceptanceFormData["location"],self.acceptanceFormData["country"])
-
         if self.config == 'sendDocuments':
+            scholarship = config_scholarship(self.acceptanceFormData["location"],self.acceptanceFormData["country"])
             attachment_documents_email(self.program["short"], self.name, self.batch, self.batchTime, scholarship ,
                              self.create_template(), self.dps_email, self.dps_password, self.email, self.track_handle)
         elif self.config == 'sendAgreements':
+            scholarship = config_scholarship(self.acceptanceFormData["location"],self.acceptanceFormData["country"])
             attachment_agreements_email(self.program["short"], self.name, self.batch, self.batchTime, scholarship, self.acceptanceFormData,
                              self.create_template(), self.dps_email, self.dps_password, self.email)
         else:
