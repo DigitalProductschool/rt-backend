@@ -19,7 +19,7 @@ class Applicant():
         self.gender = Gender.from_str(gender)
         self.acceptanceFormData = Form(acceptanceFormData)
         self.status = status
-        self.program = Program(programDetails["id"],programDetails["short"], programDetails["title"] )
+        self.program = Program(programDetails["id"],programDetails["short"], programDetails["title"], programDetails["logo"] )
 
 
 class PMCApplicant(Applicant):

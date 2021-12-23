@@ -81,9 +81,10 @@ type UserList @isAuthenticated {
 }
 
 type Program @isAuthenticated {
-  uid: String!
+  id: String!
   short: String!
-  title: String
+  title: String!
+  logo: String!
 }
 
 type ProgramList @isAuthenticated {

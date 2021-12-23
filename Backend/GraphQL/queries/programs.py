@@ -8,5 +8,5 @@ def resolve_programs(_, info):
     for program in programs.stream():
         program_details = get_program_document(program.id)
         programsArray.append(Program(
-            program.id, program_details["short"], program_details["title"]))
+            program.id, program_details["short"], program_details["title"], program_details["logo"]))
     return ProgramList(programsArray)

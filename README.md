@@ -274,9 +274,10 @@ query {
 query {
     programDetails(program_id: "NbDjqUp8jCkbMfo0gJRk") {
     ... on Program{
-      uid
+      id
       short
       title
+      logo
     }
     ... on Exception{
 		message
@@ -292,9 +293,10 @@ query {
     programs {
     ... on ProgramList{
 	  list {
-      uid
+      id
       short
       title
+      logo
     }
 	}
 	... on Exception{
