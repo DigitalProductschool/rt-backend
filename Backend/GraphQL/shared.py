@@ -5,10 +5,12 @@ from graphql import GraphQLError
 from Backend.DataTypes.Applicant import Applicant, PMCApplicant
 from Backend.DataTypes.Track import Track
 from Backend.DataTypes.Status import Status
+from Backend.DataTypes.Program import Program
 
 batch_details = db.collection('batch-details')
 batches = db.collection('batches')
 users = db.collection('users')
+programs = db.collection('programs')
 mutation = MutationType()
 query = QueryType()
 
@@ -43,6 +45,12 @@ def get_user_document(user_id):
     user_details = user_doc.get().to_dict()
     return user_doc, user_details
 
+def get_program_document(program_id):
+    program_doc = programs.document(program_id)
+    incorrect_parameter(program_doc)
+    program_details = program_doc.get().to_dict()
+    return program_details
+
 def get_current_user(info):
     user = info.context.get('user')
     if not user: 
@@ -56,6 +64,7 @@ def update_status(application, status):
 
 
 def create_applicant(applicant):
+    _, program_details = get_program_document(applicant['program'])
     try:
         if Track[applicant["track"]].__str__() == "PMC":
             return PMCApplicant(applicant['id'],
@@ -72,7 +81,8 @@ def create_applicant(applicant):
                                 applicant['acceptanceFormData'] if 'acceptanceFormData' in applicant else None,
                                 applicant['project'] if 'project' in applicant else None,
                                 applicant['strengths'] if 'strengths' in applicant else None,
-                                applicant['status']
+                                applicant['status'], 
+                                program_details
                                 )
         else:
             return Applicant(applicant['id'],
@@ -87,7 +97,8 @@ def create_applicant(applicant):
                              applicant['source'],
                              applicant['gender'],
                              applicant['acceptanceFormData'] if 'acceptanceFormData' in applicant else None,
-                             applicant['status']
+                             applicant['status'], 
+                             program_details
                              )
     except KeyError as err:
         return GraphQLError(message="The field" + str(err) + "does not exists in the database document")

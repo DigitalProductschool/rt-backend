@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+        <title>OfferLetter-{{applicantName}}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,
+                        initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&family=Work+Sans:wght@900&display=swap"
+                rel="stylesheet">
+        <link rel="stylesheet" href="{{ url_for('static',
+                        filename='styles.css') }}">
+</head>
+
+<body>
+        <div class="offer-letter-container">
+                <p class="offer-letter-title"><b>Welcome, {{applicantName}},</b><br></p>
+                <p class="offer-letter-subtitle"><b>To Digitalschmiede Bayern Batch#{{batch}}!</b></p>
+                <p class="offer-letter-body">
+                        Digitalschmiede Bayern offers the unique opportunity to develop state of the art digital
+                        products in interdisciplinary
+                        teams within a three month timeframe. Participants range from employees of Bavarian Ministries
+                        to highly motivated and
+                        skilled university students and recent graduates. Together you will tackle real-world problems
+                        from the Bavarian
+                        Ministries and shape the digitalization of the Bavarian government.<br><br>
+                        Digitalschmiede Bayern is a program of the Bavarian State Ministry for Digital Affairs in
+                        cooperation with Digital
+                        Product School. Digital Product School is a program provided by UnternehmerTUM GmbH. <br><br>
+                        UnternehmerTUM, a non-profit company, was founded in 2002. With more than 50 high-growth
+                        technology startups each year it is the leading center for business creation in Germany.
+                        <br><br>
+                        The program takes place in the Munich Urban Colab
+                        (Freddie-Mercury-Straße 5, 80797 München) and
+                        runs from {{batchTime}}. The expected workload is 40
+                        hours per week. {{scholarship}}
+                </p>
+                <p class="offer-letter-signature"><img src={{signature}} alt="utum" width="100"><br>Thomas Zeller
+                        <br>
+                        Managing Director UnternehmerTUM</p>
+</body>
+
+</html>

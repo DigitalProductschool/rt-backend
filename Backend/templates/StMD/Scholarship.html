@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+        <title>Scholarship-{{applicantName}}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,
+                        initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&family=Work+Sans:wght@600&display=swap"
+                rel="stylesheet">
+        <link rel="stylesheet" href="{{ url_for('static',
+                        filename='styles.css') }}">
+</head>
+
+<body>
+        <div class="scholarship-container">
+                <p class="scholarship-title">
+                        <b>Scholarship Agreement</b><br></p>
+                <p class="scholarship-type">{{type}}<br></p>
+                <p class="scholarship-body">
+                        between<br><br>
+                        UnternehmerTUM GmbH<br>
+                        Lichtenbergstraße 6<br>
+                        85748 Garching<br>
+                        Germany<br><br>
+                        - hereinafter referred to as "UnternehmerTUM" - <br><br>
+                        and<br><br>
+                        {{applicantName}}<br>
+                        {{streetNumber}},<br>
+                        {{postcode}}, {{city}}, {{country}}<br><br>
+                        - hereinafter referred to as the "Participant" - <br><br>
+
+                        According its corporate charter UnternehmerTUM is permitted to grant scholarships.<br><br>
+
+                        <br><br><b class="scholarship-subtitle">PREAMBLE:</b><br>
+                        This agreement applies to the participation in an innovation format which is associated with the
+                        Digital Product School
+                        entity by UnternehmerTUM. This includes the:
+                        <ul>
+                                <li>Digital Product School offer itself, where talents work on challenges in
+                                        collaboration with industry partners or TUM
+                                        Venture Labs Star-tups or</li>
+                                <li>Digitalschmiede Bayern offer, where talents work on challenges that are provided by
+                                        the Bavarian State Ministry for Digital Affairs.</li>
+                        </ul>
+                        Both offers are hereafter referred to as “DPS programme”.<br><br>
+
+                        <div style="page-break-before:always;"></div>
+                        <b class="scholarship-subtitle">§ 1 Duration</b><br>
+                        The Participant will receive a scholarship for the time from {{batchTime}} as support during
+                        their participation in the DPS programme. The purpose of the grant is a monthly
+                        financial support in the amount of {{monthlyAmount}}.<br><br>
+
+                        <b class="scholarship-subtitle">§ 2 Obligations</b><br>
+                        The Student will participate in the DPS programme at the UnternehmerTUM GmbH and undertakes to
+                        complete it successfully. The Student is not employed by the company at the time of the program.
+                        The Participant is not participating in the DPS programme as a freelancer to use UnternehmerTUM
+                        as regular occupation but rather takes part at for education reasons. The Student has to ensure
+                        a proper internet connection with at least a real bandwidth of 10 Mbit/s in download and 2
+                        Mbit/s upload.<br><br>
+
+                        <b class="scholarship-subtitle">§ 3 Total sum granted/Procedure for payments</b><br>
+                        (1) The student will be granted a scholarship amounting to a total of {{totalAmount}}.<br><br>
+
+                        (2) Payment will be effected in three monthly rates of {{monthlyAmount}} at the end of each
+                        month of participation (latest at the second workday of the following month) to the following
+                        bank account:<br><br>
+
+                        IBAN: <b>{{iban}}</b><br>
+                        BIC: <b>{{bic}}</b><br>
+                        Name of bank: <b>{{bankName}}</b><br>
+                        Name of account holder: <b>{{accountHolder}}</b><br><br>
+
+                        (3) For bank transfers to banks or bank accounts outside the European Union, UnternehmerTUM has
+                        to charge the participant a transfer fee of 15.00 euros per transfer (which means
+                        for 3 transfers 45.00 euros in total). The transfer fee will be directly subtracted from the
+                        monthly scholarship before the payment is transferred. This fee reduces the effective payment
+                        to {{bankAmount}} per transaction.<br>
+                        Be aware that your bank might apply transfer fees, too, that will further decrease your
+                        available amount.<br><br>
+
+                        <b class="scholarship-subtitle">§ 4 Taxes/Social security contributions</b><br>
+                        The Participant is solely responsible for adherence to regulations regarding the tax law and the
+                        social security system in their current place of residence. It is the Participant's
+                        responsibility to ensure they have adequate health insurance.<br><br>
+
+                        <b class="scholarship-subtitle">§ 5 Obligation regarding notification of sponsorship through
+                                UnternehmerTUM</b><br>
+                        In the event of publication of papers, conference agendas, contributions to conferences, essays
+                        etc, the Participant is obliged to quote, orally and in writing, Digital Product School as their
+                        sponsor.<br><br>
+
+                        <b class="scholarship-subtitle"> § 6 Liability</b><br>
+                        The Participant is liable for any damage due to negligence: They are responsible for the
+                        necessary insurance cover.<br><br>
+
+                        <b class="scholarship-subtitle">§ 7 Termination</b><br>
+                        (1) This contract can be terminated for good cause. This includes among other things:<br>
+                        - if one of the decisive requirements for the granting of the scholarship no longer applies,<br>
+                        - major breach of contract,<br>
+                        - if the Participant obviously fails to commit themselves to achieving the agreed target, e.g.
+                        absence without valid excuse, lack of active participation during tuition or in project
+                        work.<br>
+                        - if the Participant can’t ensure a sufficient internet connection for a trouble-free
+                        communication, e.g. essential video calls without any stocking, interruptions, and
+                        latency.<br><br>
+
+                        (2) In the event that the agreement is terminated on the grounds of the Participant’s conduct,
+                        then payments that have already been granted are to be reimbursed.<br><br>
+
+                        <b class="scholarship-subtitle">§ 8 Amendments and supplements to the agreement</b><br>
+                        All amendments and supplements to this agreement must be made in written form.<br><br><br>
+
+                        <table class="scholarship-body" style="width:100%">
+                                <tr>
+                                        <td>
+                                                . . . . . . . . . . . . . . . . . . . . . . , <br>
+                                                Place
+                                        </td>
+                                        <td style="text-align: left;">
+                                                . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . <br />
+                                                Date
+                                        </td>
+                                </tr>
+                                <tr>
+                                        <td>
+                                                <br>Thomas Zeller <br>
+                                                . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<br>
+                                                name in block letter
+                                        </td>
+                                        <td style="text-align: left;">
+                                                <br>{{applicantName}}<br>
+                                                . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<br>
+                                                name in block letters
+                                        </td>
+                                </tr>
+                                <tr>
+                                        <td>
+                                                <br><br>
+                                                . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<br>
+                                                signature
+                                        </td>
+                                        <td style="text-align: left;">
+                                                <br><br>
+                                                . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .<br>
+                                                signature
+                                        </td>
+                                </tr>
+                        </table>
+
+                </p>
+
+</body>
+
+</html>

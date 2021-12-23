@@ -1,5 +1,5 @@
 from Backend.database import access_secret_version
-from Backend.GraphQL.shared import get_applicant_document
+from Backend.GraphQL.shared import get_applicant_document, get_program_document
 from Backend.DataTypes.Emails.Promising import send_promising
 from Backend.DataTypes.Emails.Challenge import send_challenge
 from Backend.DataTypes.Emails.QA import send_qa
@@ -14,7 +14,8 @@ from Backend.DataTypes.Track import Track, TrackDetails
 from Backend.DataTypes.Emails.Scholarship import config_scholarship
 import random
 from Backend.DataTypes.Emails.SimpleEmail import simple_email
-from Backend.DataTypes.Emails.AttachmentEmail import attachment_email, attachment_agreements_email
+from Backend.DataTypes.Emails.GenerateDocs.AttachmentDocuments import attachment_documents_email
+from Backend.DataTypes.Emails.GenerateDocs.AttachmentAgreements import attachment_agreements_email
 
 class Email:
     def __init__(self, config, applicant_details):
@@ -26,6 +27,7 @@ class Email:
         self.id = applicant_details["id"]
         self.email = applicant_details["email"]
         self.batch = applicant_details["batch"]
+        self.program = get_program_document(applicant_details["program"])
         self.acceptanceFormData = applicant_details["acceptanceFormData"] if "acceptanceFormData" in applicant_details else None
 
         track_details = TrackDetails(Track[applicant_details["track"]])
@@ -52,18 +54,21 @@ class Email:
             'sendAcceptance': send_acceptance(self.name, self.track, self.batch, self.id),
             'sendFormConfirmation': send_form_confirmation(self.name, self.track, self.batch, self.id, self.acceptanceFormData),
             'sendDocuments': send_documents(self.name, self.batch),
-            'sendAgreements': send_agreements(self.name, self.batch)
+            'sendAgreements': send_agreements(self.name, self.batch, self.batchStart)
          }
         email = all_emails[self.config]
         return email
 
 
     def send_email(self):
+
+        scholarship = config_scholarship(self.acceptanceFormData["location"],self.acceptanceFormData["country"])
+
         if self.config == 'sendDocuments':
-            attachment_email(self.name, self.batch, self.batchTime, config_scholarship(self.acceptanceFormData["location"], self.acceptanceFormData["country"]),
+            attachment_documents_email(self.program["short"], self.name, self.batch, self.batchTime, scholarship ,
                              self.create_template(), self.dps_email, self.dps_password, self.email, self.track_handle)
         elif self.config == 'sendAgreements':
-            attachment_agreements_email(self.name, self.batch, self.batchTime, config_scholarship(self.acceptanceFormData["location"], self.acceptanceFormData["country"]), self.acceptanceFormData,
+            attachment_agreements_email(self.program["short"], self.name, self.batch, self.batchTime, scholarship, self.acceptanceFormData,
                              self.create_template(), self.dps_email, self.dps_password, self.email)
         else:
             simple_email(self.create_template(), self.dps_email, self.dps_password, self.email)

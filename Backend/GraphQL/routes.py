@@ -17,9 +17,11 @@ from Backend.GraphQL.queries.applicantsFromTrackAndStatus import query
 from Backend.GraphQL.queries.applicants import query
 from Backend.GraphQL.queries.currentUser import query
 from Backend.GraphQL.queries.users import query
+from Backend.GraphQL.queries.programs import query
+from Backend.GraphQL.queries.programDetails import query
 from Backend.GraphQL.queries.userMentions import query
 from Backend.GraphQL.queries.applicantComments import query
-from Backend.GraphQL.unionResolvers import ApplicantsQueryResult, CommentsQueryResult, ApplicantDetailsQueryResult, BatchesQueryResult, UserQueryResult, UsersQueryResult, UserMentionsQueryResult, MutationResult
+from Backend.GraphQL.unionResolvers import ApplicantsQueryResult, CommentsQueryResult, ApplicantDetailsQueryResult, BatchesQueryResult, UserQueryResult, UsersQueryResult, UserMentionsQueryResult, ProgramsQueryResult, ProgramDetailsQueryResult, MutationResult
 from Backend.GraphQL.shared import query
 from Backend.GraphQL.scalarType import datetime_scalar
 from flask_cors import CORS
@@ -41,7 +43,7 @@ type_defs = gql(load_schema_from_path("Backend/GraphQL/schema.graphql"))
 schema = make_executable_schema(type_defs, [query, 
                                             mutation,
                                             datetime_scalar,
-                                            ApplicantsQueryResult, CommentsQueryResult, ApplicantDetailsQueryResult, BatchesQueryResult, UserQueryResult, UsersQueryResult, UserMentionsQueryResult, MutationResult], directives={"isAuthenticated": IsAuthenticatedDirective})
+                                            ApplicantsQueryResult, CommentsQueryResult, ApplicantDetailsQueryResult, BatchesQueryResult, UserQueryResult, UsersQueryResult, UserMentionsQueryResult, ProgramsQueryResult, ProgramDetailsQueryResult, MutationResult], directives={"isAuthenticated": IsAuthenticatedDirective})
 
 
 @graphql.route("/graphql", methods=["GET"])

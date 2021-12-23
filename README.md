@@ -268,6 +268,42 @@ query {
   }
 ```
 
+### ProgramDetails
+
+```
+query {
+    programDetails(program_id: "NbDjqUp8jCkbMfo0gJRk") {
+    ... on Program{
+      uid
+      short
+      title
+    }
+    ... on Exception{
+		message
+	}
+    }
+  }
+```
+
+### Programs
+
+```
+query {
+    programs {
+    ... on ProgramList{
+	  list {
+      uid
+      short
+      title
+    }
+	}
+	... on Exception{
+		message
+	}
+    }
+  }
+```
+
 ## Mentions for current user
 
 ```

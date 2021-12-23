@@ -6,6 +6,9 @@ from Backend.DataTypes.UserList import UserList
 from Backend.DataTypes.BatchList import BatchList
 from Backend.DataTypes.CommentList import CommentList
 from Backend.DataTypes.MentionList import MentionList
+from Backend.DataTypes.Program import Program
+
+from Backend.DataTypes.ProgramList import ProgramList
 from Backend.DataTypes.Status import Status
 from graphql import GraphQLError
 
@@ -71,6 +74,24 @@ UserMentionsQueryResult = UnionType("UserMentionsQueryResult")
 def resolve_user_mentions_query_result(obj, *_):
     if isinstance(obj, MentionList):
         return "MentionList"
+    if isinstance(obj, GraphQLError):
+        return "Exception"
+    return None
+
+ProgramsQueryResult = UnionType("ProgramsQueryResult")
+@ProgramsQueryResult.type_resolver
+def resolve_programs_query_result(obj, *_):
+    if isinstance(obj, ProgramList):
+        return "ProgramList"
+    if isinstance(obj, GraphQLError):
+        return "Exception"
+    return None
+
+ProgramDetailsQueryResult = UnionType("ProgramDetailsQueryResult")
+@ProgramDetailsQueryResult.type_resolver
+def resolve_program_details_query_result(obj, *_):
+    if isinstance(obj, Program):
+        return "Program"
     if isinstance(obj, GraphQLError):
         return "Exception"
     return None
