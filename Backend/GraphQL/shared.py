@@ -64,7 +64,7 @@ def update_status(application, status):
 
 
 def create_applicant(applicant):
-    _, program_details = get_program_document(applicant['program'])
+    program_details = get_program_document(applicant['program'])
     try:
         if Track[applicant["track"]].__str__() == "PMC":
             return PMCApplicant(applicant['id'],
