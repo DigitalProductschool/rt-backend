@@ -25,7 +25,10 @@ def get_user_context():
     context['user'] = None
     if "Authorization" in request.headers:
         auth = request.headers["Authorization"]
-        scheme, token = auth.split()
+        split = auth.split()
+        if len(split) != 2: 
+            return context
+        scheme, token = split
         if scheme.lower() != 'bearer':
             return context
         uid = verify_token(token)
