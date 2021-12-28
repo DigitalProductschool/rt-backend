@@ -65,7 +65,7 @@ def update_status(application, status):
         return Status(0, 'Status was updated succesfuly')
 
 
-def create_applicant(applicant, generate):
+def create_applicant(applicant, generate=True):
     program_details = get_program_document(applicant['program'])
     try:
         if Track[applicant["track"]].__str__() == "PMC":

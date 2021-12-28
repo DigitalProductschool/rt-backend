@@ -14,5 +14,5 @@ def resolve_applicant_from_status(_, info, batch_id_list, status_list):
             applicationsFromStatus = [doc.to_dict() for doc in batch_doc.collection(
                 'applications').where('status', '==', status).stream()]
             for application in applicationsFromStatus:
-                applicants.append(create_applicant(application))
+                applicants.append(create_applicant(application, False))
     return ApplicantList(applicants)
