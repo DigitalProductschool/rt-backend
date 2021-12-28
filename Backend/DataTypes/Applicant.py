@@ -5,15 +5,15 @@ from Backend.DataTypes.Track import Track, TrackDetails
 from Backend.DataTypes.Program import Program
 
 class Applicant():
-    def __init__(self, id, name, batch, track, email, consent, cv=None, scholarship=None, coverLetter=None, source=None, gender=None, acceptanceFormData=None, status="NEW", programDetails=None):
+    def __init__(self, id, name, batch, track, email, consent, cv=None, scholarship=None, coverLetter=None, source=None, gender=None, acceptanceFormData=None, status="NEW", programDetails=None, generate=True):
         self.id = id
         self.name = name
         self.batch = batch
         self.track = TrackDetails(Track[track])
         self.email = email
         self.consent = consent
-        self.coverLetter = Document(coverLetter) if coverLetter is not None else None
-        self.cv = Document(cv) if cv is not None else None
+        self.coverLetter = Document(coverLetter, generate)
+        self.cv = Document(cv, generate)
         self.scholarship = scholarship
         self.source = source
         self.gender = Gender.from_str(gender)

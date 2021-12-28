@@ -65,7 +65,7 @@ def update_status(application, status):
         return Status(0, 'Status was updated succesfuly')
 
 
-def create_applicant(applicant):
+def create_applicant(applicant, generate):
     program_details = get_program_document(applicant['program'])
     try:
         if Track[applicant["track"]].__str__() == "PMC":
@@ -100,7 +100,8 @@ def create_applicant(applicant):
                              applicant['gender'],
                              applicant['acceptanceFormData'] if 'acceptanceFormData' in applicant else None,
                              applicant['status'], 
-                             program_details
+                             program_details,
+                             generate
                              )
     except KeyError as err:
         return GraphQLError(message="The field" + str(err) + "does not exists in the database document")

@@ -20,7 +20,7 @@ def resolve_applicant_from_track(_, info, batch_id_list, track_list):
                 # ugly hack to speed up the application, should respect graphql query instead
                 application['cv'] = None
                 application['coverLetter'] = None
-                applicants.append(create_applicant(application))
+                applicants.append(create_applicant(application, False))
             end = time.time()
 
             print(end-start)
