@@ -6,6 +6,7 @@ from Backend.DataTypes.Applicant import Applicant, PMCApplicant
 from Backend.DataTypes.Track import Track
 from Backend.DataTypes.Status import Status
 from Backend.DataTypes.Program import Program
+from functools import lru_cache
 
 batch_details = db.collection('batch-details')
 batches = db.collection('batches')
@@ -45,6 +46,7 @@ def get_user_document(user_id):
     user_details = user_doc.get().to_dict()
     return user_doc, user_details
 
+@lru_cache()
 def get_program_document(program_id):
     program_doc = programs.document(program_id)
     incorrect_parameter(program_doc)
