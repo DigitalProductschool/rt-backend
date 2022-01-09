@@ -1,4 +1,5 @@
 scalar Datetime
+scalar Upload
 directive @isAuthenticated on OBJECT | FIELD_DEFINITION
 
 enum TrackHandle {
@@ -191,11 +192,13 @@ union MutationResult = Status | Exception
 
 type Mutation {
   rate(batch_id: Int!, applicant_id: String!, score: Int!): MutationResult
+
   sendEmail(
     email_type: String!
     applicant_id: String!
     batch_id: Int
   ): MutationResult
+
   saveForm(
     applicant_id: String!
     batch_id: Int
@@ -213,6 +216,37 @@ type Mutation {
     shirtStyle: String!
     foodIntolerances: String!
   ): MutationResult
+
+   addApplicant(  
+    name: String!
+    batch: Int!
+    track: String!
+    email: String!
+    cv: Upload!
+    consent: String!
+    scholarship: String!
+    coverLetter: Upload
+    source: String
+    gender: String
+    status: String!
+    program: String!
+  ): MutationResult
+
+   editApplicant(  
+    name: String!
+    batch: Int!
+    track: String!
+    email: String!
+    cv: String!
+    consent: String!
+    scholarship: String!
+    coverLetter: String
+    source: String
+    gender: String
+    status: String!
+    program: String!
+  ): MutationResult
+
   createComment(
     batch_id: Int!
     applicant_id: String!

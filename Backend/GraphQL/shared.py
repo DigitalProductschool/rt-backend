@@ -7,6 +7,8 @@ from Backend.DataTypes.Track import Track
 from Backend.DataTypes.Status import Status
 from Backend.DataTypes.Program import Program
 from functools import lru_cache
+from firebase_admin import storage
+from Backend.config import config
 
 batch_details = db.collection('batch-details')
 batches = db.collection('batches')
@@ -20,6 +22,12 @@ def incorrect_parameter(doc):
     if not doc.get().exists:
         raise GraphQLError(message='Incorrect parameter')
 
+def upload_to_bucket(blob_name, file):
+    bucket_name = config.BUCKET_NAME
+    bucket = storage.bucket(bucket_name)
+    blob = bucket.blob(blob_name + file.filename)
+    blob.upload_from_file(file,content_type='application/pdf')
+    return bucket_name, blob_name + file.filename
 
 def get_batch_document(batch_id):
     batch_doc = batches.document('batch-' + str(batch_id))

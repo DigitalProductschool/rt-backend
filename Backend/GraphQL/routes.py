@@ -1,6 +1,7 @@
 import os
+import json
 from flask import Flask, request, jsonify, Blueprint
-from ariadne import graphql_sync, make_executable_schema, gql, load_schema_from_path
+from ariadne import graphql_sync, make_executable_schema, gql, load_schema_from_path, upload_scalar, combine_multipart_data
 from ariadne.constants import PLAYGROUND_HTML
 from Backend.GraphQL.mutations.mentionMutation import mutation
 from Backend.GraphQL.mutations.commentMutation import mutation
@@ -8,6 +9,7 @@ from Backend.GraphQL.mutations.statusMutation import mutation
 from Backend.GraphQL.mutations.emailMutation import mutation
 from Backend.GraphQL.mutations.formMutation import mutation
 from Backend.GraphQL.mutations.rateMutation import mutation
+from Backend.GraphQL.mutations.applicantMutation import mutation
 from Backend.GraphQL.queries.applicantDetails import query
 from Backend.GraphQL.queries.applicants import query
 from Backend.GraphQL.queries.batches import query
@@ -43,7 +45,7 @@ type_defs = gql(load_schema_from_path("Backend/GraphQL/schema.graphql"))
 schema = make_executable_schema(type_defs, [query, 
                                             mutation,
                                             datetime_scalar,
-                                            ApplicantsQueryResult, CommentsQueryResult, ApplicantDetailsQueryResult, BatchesQueryResult, UserQueryResult, UsersQueryResult, UserMentionsQueryResult, ProgramsQueryResult, ProgramDetailsQueryResult, MutationResult], directives={"isAuthenticated": IsAuthenticatedDirective})
+                                            ApplicantsQueryResult, CommentsQueryResult, ApplicantDetailsQueryResult, BatchesQueryResult, UserQueryResult, UsersQueryResult, UserMentionsQueryResult, ProgramsQueryResult, ProgramDetailsQueryResult, MutationResult, upload_scalar], directives={"isAuthenticated": IsAuthenticatedDirective})
 
 
 @graphql.route("/graphql", methods=["GET"])
@@ -53,7 +55,14 @@ def graphql_playground():
 
 @graphql.route("/graphql", methods=["POST"])
 def graphql_server():
-    data = request.get_json()
+    if request.content_type.startswith("multipart/form-data"):
+        data = combine_multipart_data(
+            json.loads(request.form.get("operations")),
+            json.loads(request.form.get("map")),
+            dict(request.files)
+        )
+    else:
+        data = request.get_json()
     success, result = graphql_sync(
         schema,
         data,

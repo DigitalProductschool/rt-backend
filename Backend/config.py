@@ -7,24 +7,21 @@ class Config:
     DEBUG = False
     DEVELOPMENT = False
     SECRET_KEY = "hiringtool"
-    TRELLO_API_KEY = access_secret_version("trello-api-key")
-    TRELLO_API_SECRET = access_secret_version("trello-api-secret")
 
 class ProductionConfig(Config):
-    TRELLO_BOARD_ID = access_secret_version("trello-board-id-se")
-    TRELLO_NAME = access_secret_version("trello-board-name-se")
     ACCEPTANCE_FORM = "https://rt-frontend-production-w2a4py2tca-ey.a.run.app/form/"
+    BUCKET_NAME = "dps-website-244212.appspot.com"
 
 class StagingConfig(Config):
     DEBUG = True
-    TRELLO_BOARD_ID = access_secret_version("trello-board-id-se-staging")
-    TRELLO_NAME = access_secret_version("trello-board-name-se-staging")
     ACCEPTANCE_FORM = "https://rt-frontend-staging-w2a4py2tca-ey.a.run.app/form/"
+    BUCKET_NAME = "dps-website-staging-0.appspot.com"
 
 class DevelopmentConfig(Config):
     DEBUG = True
     DEVELOPMENT = True
     ACCEPTANCE_FORM = "https://rt-frontend-staging-w2a4py2tca-ey.a.run.app/form/"
+    BUCKET_NAME = "dps-website-staging-0.appspot.com"
 
 configs = {
     'production': ProductionConfig,
