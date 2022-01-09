@@ -7,7 +7,7 @@ from google.cloud import storage
 import datetime
 
 @mutation.field("addApplicant")
-def add_applicant(_, info, name, batch, track, email, consent, cv, scholarship, coverLetter, source, gender, status, program):
+def add_applicant(_, info, name, batch, track, email, cv, scholarship, coverLetter, source, gender, status, program):
         document = batches.document('batch-' + str(batch)).collection("applicants").document()
         blob_time = int(datetime.datetime.today().timestamp())
         blob_name = "batch-" + str(batch)+"/applications/"+ name +"/"+ email + "/" + str(blob_time) + "_" 

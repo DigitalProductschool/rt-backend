@@ -223,7 +223,6 @@ type Mutation {
     track: String!
     email: String!
     cv: Upload!
-    consent: String!
     scholarship: String!
     coverLetter: Upload
     source: String
