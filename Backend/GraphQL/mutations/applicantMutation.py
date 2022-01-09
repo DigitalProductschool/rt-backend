@@ -15,6 +15,7 @@ def add_applicant(_, info, name, batch, track, email, cv, scholarship, coverLett
         coverBucket, coverName = upload_to_bucket(blob_name, coverLetter)
         applicantData = {
             "id": document.id,
+            "batch": str(batch),
             "name": name, 
             "track": track, 
             "email": email, 
