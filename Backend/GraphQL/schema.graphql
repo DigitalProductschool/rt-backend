@@ -227,7 +227,6 @@ type Mutation {
     coverLetter: Upload
     source: String
     gender: String
-    status: String!
     program: String!
   ): MutationResult
 
