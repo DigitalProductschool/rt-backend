@@ -222,7 +222,7 @@ type Mutation {
     batch: Int!
     track: String!
     email: String!
-    cv: Upload!
+    cv: Upload
     scholarship: String!
     coverLetter: Upload
     source: String
