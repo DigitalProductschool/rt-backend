@@ -1,5 +1,6 @@
 scalar Datetime
 scalar Upload
+scalar JSON
 directive @isAuthenticated on OBJECT | FIELD_DEFINITION
 
 enum TrackHandle {
@@ -230,19 +231,10 @@ type Mutation {
     program: String!
   ): MutationResult
 
-   editApplicant(  
-    name: String!
-    batch: Int!
-    track: String!
-    email: String!
-    cv: String!
-    consent: String!
-    scholarship: String!
-    coverLetter: String
-    source: String
-    gender: String
-    status: String!
-    program: String!
+   editApplicant( 
+    applicant_id: String!
+    batch_id: Int!
+    updated_data: JSON!
   ): MutationResult
 
   createComment(

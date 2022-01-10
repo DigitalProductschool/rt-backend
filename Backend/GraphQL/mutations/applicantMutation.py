@@ -38,21 +38,7 @@ def add_applicant(_, info, name, batch, track, email, cv, scholarship, coverLett
         return Status(0, 'Applicant was succesfully added')
 
 @mutation.field("editApplicant")
-def edit_applicant(_, info, name, batch, track, email, consent, cv, scholarship, coverLetter, source, gender, status, program):
-        uid = batches.document('batch-' + str(batch_id)).collection("applicants").document().getId()
-        applicantData = {
-            "id": uid,
-            "name": name, 
-            "track": track, 
-            "email": email, 
-            "consent": "true",
-            "cv": True, 
-            "scholarship": scholarship,
-            "coverLetter": True, 
-            "source": source, 
-            "gender": gender, 
-            "status": status,
-            "program": program, 
-        }
-        batches.document('batch-' + str(batch_id)).collection("applicants").document(uid).set(applicantData)
-        return Status(0, 'Applicant was succesfully added')
+def edit_applicant(_, info, batch_id, applicant_id, updated_data):
+        application, _ = get_applicant_document(batch_id, applicant_id)
+        application.update(updated_data)
+        return Status(0, 'Applicant was succesfully edited')
