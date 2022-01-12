@@ -69,6 +69,25 @@ query {
   }
 ```
 
+### Companies
+
+```
+query {
+    companies {
+    ... on CompanyList{
+	  list {
+      id
+      name
+      logo
+    }
+	}
+	... on Exception{
+		message
+	}
+    }
+  }
+```
+
 ### Applicants from Batch
 
 ```

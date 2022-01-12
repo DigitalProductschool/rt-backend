@@ -14,6 +14,7 @@ batch_details = db.collection('batch-details')
 batches = db.collection('batches')
 users = db.collection('users')
 programs = db.collection('programs')
+companies =  db.collection('companies')
 mutation = MutationType()
 query = QueryType()
 

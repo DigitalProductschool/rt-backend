@@ -21,11 +21,12 @@ from Backend.GraphQL.queries.applicantsFromTrackAndStatus import query
 from Backend.GraphQL.queries.applicants import query
 from Backend.GraphQL.queries.currentUser import query
 from Backend.GraphQL.queries.users import query
+from Backend.GraphQL.queries.companies import query
 from Backend.GraphQL.queries.programs import query
 from Backend.GraphQL.queries.programDetails import query
 from Backend.GraphQL.queries.userMentions import query
 from Backend.GraphQL.queries.applicantComments import query
-from Backend.GraphQL.unionResolvers import ApplicantsQueryResult, CommentsQueryResult, ApplicantDetailsQueryResult, BatchesQueryResult, TeamsQueryResult, UserQueryResult, UsersQueryResult, UserMentionsQueryResult, ProgramsQueryResult, ProgramDetailsQueryResult, MutationResult
+from Backend.GraphQL.unionResolvers import ApplicantsQueryResult, CommentsQueryResult, ApplicantDetailsQueryResult, BatchesQueryResult, TeamsQueryResult, UserQueryResult, UsersQueryResult, UserMentionsQueryResult, ProgramsQueryResult, ProgramDetailsQueryResult, CompaniesQueryResult, MutationResult
 from Backend.GraphQL.shared import query
 from Backend.GraphQL.scalarType import datetime_scalar
 from flask_cors import CORS
@@ -57,6 +58,7 @@ schema = make_executable_schema(type_defs, [query,
                                             ProgramsQueryResult, 
                                             ProgramDetailsQueryResult, 
                                             TeamsQueryResult, 
+                                            CompaniesQueryResult,
                                             MutationResult, 
                                             upload_scalar], 
                                             directives={"isAuthenticated": IsAuthenticatedDirective})

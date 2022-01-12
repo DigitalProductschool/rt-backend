@@ -83,6 +83,15 @@ type TeamList @isAuthenticated {
   list: [Team!]
 }
 
+type Company {
+  id: String!
+  name: String!
+}
+
+type CompanyList @isAuthenticated {
+  list: [Company!]
+}
+
 type User @isAuthenticated {
   uid: String!
   name: String!
@@ -163,6 +172,7 @@ type Status {
   message: String
 }
 
+union CompaniesQueryResult = CompanyList | Exception
 union TeamsQueryResult = TeamList | Exception
 union ApplicantsQueryResult = ApplicantList | Exception
 union CommentsQueryResult = CommentList | Exception
@@ -201,6 +211,7 @@ type Query {
   programs: ProgramsQueryResult
   programDetails(program_id: String!): ProgramDetailsQueryResult
   teams(batch_id_list: [Int!]): TeamsQueryResult
+  companies: CompaniesQueryResult
 }
 
 union MutationResult = Status | Exception
@@ -251,12 +262,7 @@ type Mutation {
     updated_data: JSON!
   ): MutationResult
 
-
-  editTeam(
-    team_id: String!
-    batch: Int!
-    updated_data: JSON!  
-  ): MutationResult
+  editTeam(team_id: String!, batch: Int!, updated_data: JSON!): MutationResult
 
   addTeam(
     name: String!

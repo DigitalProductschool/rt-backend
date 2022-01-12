@@ -6,6 +6,7 @@ from Backend.DataTypes.User import User
 from Backend.DataTypes.UserList import UserList
 from Backend.DataTypes.BatchList import BatchList
 from Backend.DataTypes.CommentList import CommentList
+from Backend.DataTypes.CompanyList import CompanyList
 from Backend.DataTypes.MentionList import MentionList
 from Backend.DataTypes.Program import Program
 
@@ -28,6 +29,15 @@ TeamsQueryResult = UnionType("TeamsQueryResult")
 def resolve_teams_query_result(obj, *_):
     if isinstance(obj, TeamList):
         return "TeamList"
+    if isinstance(obj, GraphQLError):
+        return "Exception"
+    return None
+
+CompaniesQueryResult = UnionType("CompaniesQueryResult")
+@CompaniesQueryResult.type_resolver
+def resolve_companies_query_result(obj, *_):
+    if isinstance(obj, CompanyList):
+        return "CompanyList"
     if isinstance(obj, GraphQLError):
         return "Exception"
     return None
