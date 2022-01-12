@@ -310,7 +310,7 @@ query {
 
 ```
 query {
-  teams(batch_id: 13) {
+  teams(batch_id_list: [13,14]) {
     ... on TeamList{
 				list {
           name
