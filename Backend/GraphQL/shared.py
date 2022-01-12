@@ -43,6 +43,14 @@ def get_applicant_document(batch_id, applicant_id):
     application_details = application_doc.get().to_dict()
     return application_doc, application_details
 
+def get_team_document(batch_id, team_id):
+    batch_doc = get_batch_document(batch_id)
+    teams = batch_doc.collection('teams')
+    team_doc = teams.document(str(team_id))
+    incorrect_parameter(team_doc)
+    team_details = team_doc.get().to_dict()
+    return team_doc, team_details
+
 def get_comment_document(batch_id, applicant_id, document_id = None):
     applicant_doc, _ = get_applicant_document(batch_id, applicant_id)
     comment_doc = applicant_doc.collection('comments').document(document_id)
