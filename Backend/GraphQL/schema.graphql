@@ -86,6 +86,7 @@ type TeamList @isAuthenticated {
 type Company {
   id: String!
   name: String!
+  logo: String
 }
 
 type CompanyList @isAuthenticated {
