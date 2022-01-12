@@ -306,7 +306,7 @@ query {
   }
 ```
 
-### Teams from one batch
+### Teams from batch list
 
 ```
 query {
@@ -358,7 +358,7 @@ query{
 
 ```
   mutation {
-  addTeam( batch_id: 15, name: "Mosa", members:["4KHMCajcFloiX2sSOUPE", "4KHMCajcFloiX2sSOUPE"], companies: ["4KHMCajcFloiX2sSOUPE", "4KHMCajcFloiX2sSOUPE"]) {
+  addTeam( batch: 15, name: "Mosa", members:["4KHMCajcFloiX2sSOUPE", "4KHMCajcFloiX2sSOUPE"], companies: ["4KHMCajcFloiX2sSOUPE", "4KHMCajcFloiX2sSOUPE"]) {
     ... on Status {
       code
       message
@@ -375,7 +375,7 @@ query{
 ```
 
   mutation {
-  editTeam( batch_id: 15, team_id:"14rOg3NhLCeDY8qQvLhr",updated_data: {name:" updated Name hello"}) {
+  editTeam( batch: 15, team_id:"14rOg3NhLCeDY8qQvLhr",updated_data: {name:" updated Name hello"}) {
      ... on Status {
       code
       message
