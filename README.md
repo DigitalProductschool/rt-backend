@@ -370,6 +370,24 @@ query{
   }
 ```
 
+### Edit team
+
+```
+
+  mutation {
+  editTeam( batch_id: 15, team_id:"14rOg3NhLCeDY8qQvLhr",updated_data: {name:" updated Name hello"}) {
+     ... on Status {
+      code
+      message
+    }
+    ... on Exception{
+        message
+    }
+}
+}
+
+```
+
 ### Rate applicant
 
 ```
