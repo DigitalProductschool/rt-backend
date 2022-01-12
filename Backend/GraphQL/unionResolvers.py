@@ -1,6 +1,7 @@
 from ariadne import UnionType
 from Backend.DataTypes.Applicant import Applicant
 from Backend.DataTypes.ApplicantList import ApplicantList
+from Backend.DataTypes.TeamList import TeamList
 from Backend.DataTypes.User import User
 from Backend.DataTypes.UserList import UserList
 from Backend.DataTypes.BatchList import BatchList
@@ -18,6 +19,15 @@ ApplicantsQueryResult = UnionType("ApplicantsQueryResult")
 def resolve_applicants_query_result(obj, *_):
     if isinstance(obj, ApplicantList):
         return "ApplicantList"
+    if isinstance(obj, GraphQLError):
+        return "Exception"
+    return None
+
+TeamsQueryResult = UnionType("TeamsQueryResult")
+@TeamsQueryResult.type_resolver
+def resolve_teams_query_result(obj, *_):
+    if isinstance(obj, TeamList):
+        return "TeamList"
     if isinstance(obj, GraphQLError):
         return "Exception"
     return None

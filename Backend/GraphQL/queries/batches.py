@@ -1,6 +1,5 @@
 from Backend.DataTypes.Batch import Batch
 from Backend.DataTypes.BatchList import BatchList
-from Backend.GraphQL.shared import query, batch_details, incorrect_parameter
 from graphql import GraphQLError
 from Backend.GraphQL.shared import query
 from Backend.repositories.batch.FirestoreBatchRepository import FirestoreBatchRepository

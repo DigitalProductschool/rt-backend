@@ -306,6 +306,27 @@ query {
   }
 ```
 
+### Teams from one batch
+
+```
+query {
+  teams(batch_id_list: [13,14]) {
+    ... on TeamList{
+				list {
+          name
+          id
+          companies
+          members
+        }
+    }
+    ... on Exception{
+        message
+    }
+    }
+  }
+
+```
+
 ## Mentions for current user
 
 ```
