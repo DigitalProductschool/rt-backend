@@ -354,6 +354,22 @@ query{
 
 ## Mutations
 
+### Add team
+
+```
+  mutation {
+  addTeam( batch: 15, name: "Mosa", members:["4KHMCajcFloiX2sSOUPE", "4KHMCajcFloiX2sSOUPE"], companies: ["4KHMCajcFloiX2sSOUPE", "4KHMCajcFloiX2sSOUPE"]) {
+    ... on Status {
+      code
+      message
+    }
+    ... on Exception {
+      message
+    }
+  }
+  }
+```
+
 ### Rate applicant
 
 ```

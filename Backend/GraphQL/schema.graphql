@@ -70,8 +70,9 @@ type Applicant @isAuthenticated {
 type Team @isAuthenticated {
   id: String!
   name: String!
-  companies: [String]
+  batch: Int!
   members: [String]
+  companies: [String]
 }
 
 type ApplicantList @isAuthenticated {
@@ -248,6 +249,13 @@ type Mutation {
     applicant_id: String!
     batch_id: Int!
     updated_data: JSON!
+  ): MutationResult
+
+  addTeam(
+    name: String!
+    batch: Int!
+    members: [String!]
+    companies: [String!]
   ): MutationResult
 
   createComment(

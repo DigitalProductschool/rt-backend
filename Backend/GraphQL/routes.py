@@ -10,6 +10,7 @@ from Backend.GraphQL.mutations.emailMutation import mutation
 from Backend.GraphQL.mutations.formMutation import mutation
 from Backend.GraphQL.mutations.rateMutation import mutation
 from Backend.GraphQL.mutations.applicantMutation import mutation
+from Backend.GraphQL.mutations.teamMutation import mutation
 from Backend.GraphQL.queries.applicantDetails import query
 from Backend.GraphQL.queries.applicants import query
 from Backend.GraphQL.queries.batches import query
