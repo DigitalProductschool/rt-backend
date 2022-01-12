@@ -199,7 +199,7 @@ type Query {
   userMentions: UserMentionsQueryResult
   programs: ProgramsQueryResult
   programDetails(program_id: String!): ProgramDetailsQueryResult
-  teams(batch_id: Int!): TeamsQueryResult
+  teams(batch_id_list: [Int!]): TeamsQueryResult
 }
 
 union MutationResult = Status | Exception
@@ -244,8 +244,7 @@ type Mutation {
     program: String!
   ): MutationResult
 
-
-   editApplicant( 
+  editApplicant(
     applicant_id: String!
     batch_id: Int!
     updated_data: JSON!
