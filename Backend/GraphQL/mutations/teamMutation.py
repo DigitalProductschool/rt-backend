@@ -11,15 +11,15 @@ from Backend.GraphQL.shared import mutation, get_team_document
 
 
 @mutation.field("addTeam")
-def add_team(_, info, name, batch_id, members, companies):
+def add_team(_, info, name, batch, members, companies):
         teamsRepository = FirestoreTeamRepository(db)
-        t = Team(_, name, batch_id, members, companies)
-        status = teamsRepository.add(t, batch_id)
+        t = Team(_, name, batch, members, companies)
+        status = teamsRepository.add(t, batch)
         return status
 
 
 @mutation.field("editTeam")
-def edit_team(_, info, batch_id, team_id, updated_data):
-        team, _ = get_team_document(batch_id, team_id)
+def edit_team(_, info, batch, team_id, updated_data):
+        team, _ = get_team_document(batch, team_id)
         team.update(updated_data)
         return Status(0, 'Team was succesfully edited')

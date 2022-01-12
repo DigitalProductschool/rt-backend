@@ -70,7 +70,7 @@ type Applicant @isAuthenticated {
 type Team @isAuthenticated {
   id: String!
   name: String!
-  batch_id: Int!
+  batch: Int!
   members: [String]
   companies: [String]
 }
@@ -251,15 +251,16 @@ type Mutation {
     updated_data: JSON!
   ): MutationResult
 
+
   editTeam(
     team_id: String!
-    batch_id: Int!
-    updated_data: JSON!
+    batch: Int!
+    updated_data: JSON!  
   ): MutationResult
 
   addTeam(
     name: String!
-    batch_id: Int!
+    batch: Int!
     members: [String!]
     companies: [String!]
   ): MutationResult
