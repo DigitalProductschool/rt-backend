@@ -1,9 +1,9 @@
-from Backend.repositories.batch.AbstractBatchRepository import AbstractBatchRepository
+from Backend.repositories.AbstractRepository import AbstractRepository
 from Backend.DataTypes.Batch import Batch
 from Backend.DataTypes.BatchList import BatchList
 
 
-class FirestoreBatchRepository(AbstractBatchRepository):
+class FirestoreBatchRepository(AbstractRepository):
 
     def __init__(self, db):
         self.batch_details = db.collection("batch-details")

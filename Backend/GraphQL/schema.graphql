@@ -66,8 +66,19 @@ type Applicant @isAuthenticated {
   program: Program!
 }
 
+type Team @isAuthenticated {
+  id: String!
+  name: String!
+  companies: [String]
+  members: [String]
+}
+
 type ApplicantList @isAuthenticated {
   list: [Applicant!]
+}
+
+type TeamList @isAuthenticated {
+  list: [Team!]
 }
 
 type User @isAuthenticated {
@@ -150,6 +161,7 @@ type Status {
   message: String
 }
 
+union TeamsQueryResult = TeamList | Exception
 union ApplicantsQueryResult = ApplicantList | Exception
 union CommentsQueryResult = CommentList | Exception
 union ApplicantDetailsQueryResult = Applicant | Exception
@@ -186,6 +198,7 @@ type Query {
   userMentions: UserMentionsQueryResult
   programs: ProgramsQueryResult
   programDetails(program_id: String!): ProgramDetailsQueryResult
+  teams(batch_id: Int!): TeamsQueryResult
 }
 
 union MutationResult = Status | Exception
@@ -217,7 +230,7 @@ type Mutation {
     foodIntolerances: String!
   ): MutationResult
 
-   addApplicant(  
+  addApplicant(
     name: String!
     batch: Int!
     track: String!
@@ -230,7 +243,7 @@ type Mutation {
     program: String!
   ): MutationResult
 
-   editApplicant(  
+  editApplicant(
     name: String!
     batch: Int!
     track: String!

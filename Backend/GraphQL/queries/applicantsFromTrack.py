@@ -7,9 +7,7 @@ import time
 def resolve_applicant_from_track(_, info, batch_id_list, track_list):
     applicants = []
     for batch_id in batch_id_list:
-        print(batch_id)
         for track in track_list:
-            print(track)
             batch_doc = batches.document('batch-' + str(batch_id))
             incorrect_parameter(batch_doc)
             applicationsFromStatus = [doc.to_dict() for doc in batch_doc.collection(
