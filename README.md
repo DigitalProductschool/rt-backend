@@ -358,7 +358,7 @@ query{
 
 ```
   mutation {
-  addTeam( batch: 15, name: "Mosa", members:["4KHMCajcFloiX2sSOUPE", "4KHMCajcFloiX2sSOUPE"], companies: ["4KHMCajcFloiX2sSOUPE", "4KHMCajcFloiX2sSOUPE"]) {
+  addTeam( batch_id: 15, name: "Mosa", members:["4KHMCajcFloiX2sSOUPE", "4KHMCajcFloiX2sSOUPE"], companies: ["4KHMCajcFloiX2sSOUPE", "4KHMCajcFloiX2sSOUPE"]) {
     ... on Status {
       code
       message
