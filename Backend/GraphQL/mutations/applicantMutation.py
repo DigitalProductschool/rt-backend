@@ -12,7 +12,13 @@ def add_applicant(_, info, name, batch, track, email, cv, scholarship, coverLett
         blob_time = int(datetime.datetime.today().timestamp())
         blob_name = "batch-" + str(batch)+"/applications/"+ name +"/"+ email + "/" + str(blob_time) + "_" 
         cvBucket, cvName = upload_to_bucket(blob_name, cv)
-        coverBucket, coverName = upload_to_bucket(blob_name, coverLetter)
+        coverLetterDict = "null"
+        if coverLetter:
+            coverBucket, coverName = upload_to_bucket(blob_name, coverLetter)
+            coverLetterDict = { 
+                "bucket": coverBucket, 
+                "name": coverName,
+                }
         applicantData = {
             "id": document.id,
             "batch": str(batch),
@@ -25,10 +31,7 @@ def add_applicant(_, info, name, batch, track, email, cv, scholarship, coverLett
                 "name": cvName
                 },
             "scholarship": scholarship,
-            "coverLetter": { 
-                "bucket": coverBucket, 
-                "name": coverName
-                },
+            "coverLetter": coverLetterDict,
             "source": source, 
             "gender": gender, 
             "status": "NEW",
