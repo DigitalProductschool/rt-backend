@@ -5,7 +5,7 @@ from Backend.DataTypes.User import User
 
 
 def verify_email(email):
-    white_list = ["stockerl@unternehmertum.de","marcus.paeschke@unternehmertum.de",
+    white_list = ["roland.hummel@qaware.de", "stockerl@unternehmertum.de","marcus.paeschke@unternehmertum.de",
                   "philip.prestele@unternehmertum.de", 
                   "samreen.azam@unternehmertum.de",
                   "bela.sinoimeri@unternehmertum.de",
