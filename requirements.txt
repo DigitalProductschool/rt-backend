@@ -4,7 +4,7 @@ firebase_admin
 google-cloud-secret-manager==2.0.0
 python-dotenv
 flask-cors
-ariadne
+ariadne==0.13.0
 gunicorn
 py-trello==0.18.0
 pdfkit
