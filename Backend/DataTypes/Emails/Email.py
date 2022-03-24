@@ -38,9 +38,10 @@ class Email:
 
         coreTeam = random.choice(track_details.coreTeam)
         self.coreTeamLink = coreTeam.calendly
-        self.coreTeamName = coreTeam.name
-        self.batchStart = "January 17, 2022"  
-        self.batchTime="January 17, 2022 to April 8, 2022"
+        self.coreTeamName = coreTeam.name        
+        self.batchStart = "May 9, 2022"  
+        self.batchTime="May 9, 2022 to July 29, 2022"
+
 
     # To be refactored again in the future -> to no pass so many 
     def create_template(self):
